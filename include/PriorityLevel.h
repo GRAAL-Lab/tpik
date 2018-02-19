@@ -25,22 +25,23 @@ public:
     std::string GetID();
     void UpdateAll();
     void UpdateJacobian();
-    void UpdateActivationFunction();
+    void UpdateInternalActivationFunction();
     void UpdateReference();
-    void SetExternalActivationFunction(Eigen::MatrixXd Ae);
+    void SetExternalActivationFunction(double Ae);
     void SetSVDParameters(SVDParameters svdParameters);
     const Eigen::MatrixXd& GetJacobian()const;
-    const Eigen::MatrixXd& GetActivationFunction() const;
+    Eigen::MatrixXd GetActivationFunction();
     const Eigen::MatrixXd& GetInternalActivationFunction() const;
-    const Eigen::MatrixXd& GetExternalActivationFunction() const;
+    double GetExternalActivationFunction();
     const Eigen::VectorXd& GetReference() const;
     int GetNumberOfTask();
     const std::vector<std::shared_ptr<Task> > GetLevel() const;
 private:
     std::vector<std::shared_ptr<Task> > level_;
 	std::string ID_;
-    Eigen::MatrixXd Ai_,Ae_,J_,A_;
+    Eigen::MatrixXd Ai_,J_;
     Eigen::VectorXd x_dot_;
+    double Ae_;
     int taskNumber_;
     SVDParameters svdParameters_;
 };

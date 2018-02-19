@@ -1,11 +1,10 @@
 #include "PriorityLevel.h"
-
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <rml/RML.h>
 
-PriorityLevel::PriorityLevel(std::string ID):taskNumber_(0){
+PriorityLevel::PriorityLevel(std::string ID):taskNumber_(0),Ae_(0){
 	ID_=ID;
 }
 
@@ -26,7 +25,7 @@ const std::vector<std::shared_ptr<Task> > PriorityLevel:: GetLevel() const{
 	return level_;
 }
 
-void PriorityLevel::SetExternalActivationFunction(Eigen::MatrixXd Ae){
+void PriorityLevel::SetExternalActivationFunction(double Ae){
 	Ae_=Ae;
 }
 
@@ -45,15 +44,17 @@ const Eigen::MatrixXd& PriorityLevel::GetJacobian() const{
 	return J_;
 };
 
-const Eigen::MatrixXd& PriorityLevel::GetActivationFunction() const{
-	return A_;
+//it is not const because it does not belong to the class (A_is not in the class)
+Eigen::MatrixXd PriorityLevel::GetActivationFunction(){
+
+	return Ae_*Ai_;
 };
 
 const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const{
 	return Ai_;
 };
 
-const Eigen::MatrixXd& PriorityLevel::GetExternalActivationFunction() const{
+double PriorityLevel::GetExternalActivationFunction(){
 	return Ae_;
 };
 
@@ -69,13 +70,13 @@ void PriorityLevel::UpdateJacobian(){
 
 };
 
-void PriorityLevel::UpdateActivationFunction(){
-	A_=level_.at(0)->GetInternalActivationFunction();
+void PriorityLevel::UpdateInternalActivationFunction(){
+	Ai_=level_.at(0)->GetInternalActivationFunction();
 	for (auto& task: std::vector<std::shared_ptr<Task>> (level_.begin()+1,level_.end())){
 		Eigen::MatrixXd ANewTask= task->GetInternalActivationFunction();
-		Eigen::MatrixXd Anew=rml::RightJuxtapose(A_,Eigen::MatrixXd::Zero(A_.rows(),ANewTask.cols()));
-		A_=rml::UnderJuxtapose(Anew,rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows()
-				,A_.cols()),ANewTask));
+		Eigen::MatrixXd Anew=rml::RightJuxtapose(Ai_,Eigen::MatrixXd::Zero(Ai_.rows(),ANewTask.cols()));
+		Ai_=rml::UnderJuxtapose(Anew,rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows()
+				,Ai_.cols()),ANewTask));
 	}
 
 
@@ -90,7 +91,7 @@ void PriorityLevel::UpdateReference(){
 
 void  PriorityLevel::UpdateAll(){
 	PriorityLevel::UpdateJacobian();
-	PriorityLevel::UpdateActivationFunction();
+	PriorityLevel::UpdateInternalActivationFunction();
 	PriorityLevel::UpdateReference();
 
 };

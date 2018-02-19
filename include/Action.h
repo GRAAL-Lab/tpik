@@ -11,9 +11,15 @@
 
 class Action{
 public:
+
+	void SetID(std::string ID);
 	bool FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
-	std::vector<std::shared_ptr<PriorityLevel> > priorityLevels;
-	std::string ID;
+	void AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
+	const std::vector<std::shared_ptr<PriorityLevel> > GetPriorityLevels() const;
+	std::string GetID();
+private:
+	std::vector<std::shared_ptr<PriorityLevel> > priorityLevels_;
+	std::string ID_;
 };
 
 #endif
