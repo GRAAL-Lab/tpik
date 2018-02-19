@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
+#include <rml/RML.h>
 
 PriorityLevel::PriorityLevel(std::string ID):taskNumber_(0){
 	ID_=ID;
@@ -61,26 +62,29 @@ const Eigen::VectorXd& PriorityLevel::GetReference() const{
 };
 
 void PriorityLevel::UpdateJacobian(){
-	for (auto& task:level_){
-		Eigen::MatrixXd J=task->GetJacobian();
-		//Juxtaposition
+	J_=level_.at(0)->GetJacobian();
+	for (auto& task: std::vector<std::shared_ptr<Task>> (level_.begin()+1,level_.end())){
+		J_= rml::UnderJuxtapose(J_,task->GetJacobian());
 }
 
 };
 
 void PriorityLevel::UpdateActivationFunction(){
-	for (auto& task:level_){
-		Eigen::MatrixXd Ai= task->GetInternalActivationFunction();
-	//Juxtaposition
-	// multiply A_*Ae_
-		}
+	A_=level_.at(0)->GetInternalActivationFunction();
+	for (auto& task: std::vector<std::shared_ptr<Task>> (level_.begin()+1,level_.end())){
+		Eigen::MatrixXd ANewTask= task->GetInternalActivationFunction();
+		Eigen::MatrixXd Anew=rml::RightJuxtapose(A_,Eigen::MatrixXd::Zero(A_.rows(),ANewTask.cols()));
+		A_=rml::UnderJuxtapose(Anew,rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows()
+				,A_.cols()),ANewTask));
+	}
+
 
 };
 
 void PriorityLevel::UpdateReference(){
-	for (auto& task:level_){
-		Eigen::MatrixXd x_dot= task->GetReference();
-		//Juxtaposition
+	x_dot_=level_.at(0)->GetReference();
+	for (auto& task:std::vector<std::shared_ptr<Task>> (level_.begin()+1,level_.end())){
+		x_dot_=rml::UnderJuxtapose(x_dot_,task->GetReference());
 	}
 };
 

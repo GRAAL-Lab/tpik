@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
-project (tpiklib)
 include(GNUInstallDirs)
+project (tpiklib)
 #include_directories(src)
 #include_directories(include)
 set (CMAKE_CXX_STANDARD 11)
@@ -13,7 +13,8 @@ add_library(tpiklib SHARED
 	src/Action.cpp
 	src/iCAT.cpp
 )
-
+target_link_libraries(tpiklib rml)
+set_target_properties(tpiklib PROPERTIES LINKER_LANGUAGE CXX)
 # Define headers for this library. PUBLIC headers are used for
 # compiling the library, and will be added to consumers' build
 # paths.
@@ -26,7 +27,7 @@ install(TARGETS tpiklib EXPORT tpiklibConfig
     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})  # This is for Windows
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tpiklib)
 # This makes the project importable from the install directory
 # Put config file in per-project dir (name MUST match), can also
 # just go into 'cmake'.
