@@ -96,3 +96,7 @@ void  PriorityLevel::UpdateAll(){
 
 };
 
+SVDParameters PriorityLevel::GetSVDParameter(){
+	return svdParameters_;
+
+};

@@ -11,12 +11,14 @@ class TPIK{
 public:
 	TPIK(int DoF);
 	virtual ~TPIK();
-	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot) {};
+	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,SVDParameters svd) {};
 	const Eigen::VectorXd& GetY()const ;
+	void Reset();
 
 protected:
 	Eigen::VectorXd y_;
 	Eigen::MatrixXd Q_;
+	Eigen::MatrixXd I_;
 	int DoF_;
 };
 
