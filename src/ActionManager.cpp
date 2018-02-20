@@ -41,10 +41,12 @@ void ActionManager::ComputeExternalActivation(){
 		bool isInNewAction=currentAction_->FindPriorityLevel(priorityLevel);
 		//TODO delete used only to debug
 		double Ae=0.2;
+		/*
 		std::cout<<"oldActID "<<oldAction_->GetID()<<std::endl;
 		std::cout<<"newActID "<<currentAction_->GetID()<<std::endl;
 		std::cout<<"isInOldAction "<<isInOldAction<<std::endl;
 		std::cout<<"isInNewAction  "<<isInNewAction<<std::endl;
+		*/
 		//TODO find delete
 		if(isInOldAction&&isInNewAction){
 			// The PL is already active :identity
