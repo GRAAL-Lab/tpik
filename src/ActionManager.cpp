@@ -13,7 +13,14 @@ ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierar
 	actions_.push_back(oldAction_);
 
 }
-
+ActionManager::ActionManager(){
+	time_=0;
+	auto defaultAct= std::make_shared<Action>(Action());
+	defaultAct->SetID("DEFAULT_ACTION");
+	oldAction_=defaultAct;
+	currentAction_=defaultAct;
+	actions_.push_back(oldAction_);
+}
 void ActionManager::AddAction(std::shared_ptr<Action> action){
 	actions_.push_back(action);
 };
@@ -27,15 +34,18 @@ std::shared_ptr<Action>  ActionManager::FindAction(std::vector<std::shared_ptr<A
 	return nullptr;
 };
 
-void ActionManager::SetAction(std::string newAction){
+void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException){
 	oldAction_=currentAction_;
 	currentAction_=FindAction(actions_,newAction);
 	if(currentAction_==nullptr){
-		//WARNING
+		throw(ActionManagerNullActionException());
 	}
 };
 
-void ActionManager::ComputeExternalActivation(){
+void ActionManager::ComputeExternalActivation() const throw (ActionManagerHierarchyException){
+	if(hierarchy_.empty()){
+		throw (ActionManagerHierarchyException());
+	}
 	for(auto& priorityLevel:hierarchy_){
 		bool isInOldAction=oldAction_->FindPriorityLevel(priorityLevel);
 		bool isInNewAction=currentAction_->FindPriorityLevel(priorityLevel);
@@ -68,6 +78,13 @@ void ActionManager::ComputeExternalActivation(){
 
 }
 
-const std::vector<std::shared_ptr<PriorityLevel> >& ActionManager::GetHierarchy() const{
+const std::vector<std::shared_ptr<PriorityLevel> >& ActionManager::GetHierarchy() const throw (ActionManagerHierarchyException){
+	if (hierarchy_.empty()){
+		throw ActionManagerHierarchyException();
+	}
 	return hierarchy_;
+};
+
+void ActionManager::SetHierarchy(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
+	hierarchy_=hierarchy;
 };

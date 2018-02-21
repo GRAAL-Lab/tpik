@@ -7,6 +7,7 @@
 #include "PriorityLevel.h"
 #include "PriorityLevel.h"
 #include "Solver.h"
+#include "tpikExceptions.h"
 #include "Task.h"
 #include "TPIK.h"
 

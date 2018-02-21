@@ -16,6 +16,7 @@ struct TaskParameter{
 	BellShapedFunction min,max;
 	bool TaskEnable;
 };
+
 class Task {
 public:
     Task(TaskType type,const std::string ID); // ID is set by the user in order to uniquely identify the task

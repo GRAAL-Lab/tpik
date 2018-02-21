@@ -10,6 +10,9 @@ TPIK::TPIK(int DoF){
 	y_=Eigen::VectorXd::Zero(DoF_);
 	Q_=I_;
 }
+TPIK::TPIK(){
+	DoF_=0;
+}
 TPIK::~TPIK(){};
 const Eigen::VectorXd& TPIK::GetY() const {
 	return y_;

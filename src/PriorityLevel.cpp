@@ -7,7 +7,8 @@
 PriorityLevel::PriorityLevel(std::string ID):taskNumber_(0),Ae_(0){
 	ID_=ID;
 }
-
+PriorityLevel::PriorityLevel():taskNumber_(0),Ae_(0){
+};
 PriorityLevel::~PriorityLevel(){};
 
 void PriorityLevel::AddTask(std::shared_ptr<Task> task){
@@ -16,11 +17,18 @@ void PriorityLevel::AddTask(std::shared_ptr<Task> task){
 
 }
 
-std::string PriorityLevel::GetID(){
+
+std::string PriorityLevel::GetID() const throw (PriorityLevelIndexException){
+	if(ID_.empty()){
+		throw PriorityLevelIndexException();
+	}
+
 	return ID_;
 
 }
-
+void PriorityLevel::SetID(std::string ID){
+	ID_=ID;
+};
 const std::vector<std::shared_ptr<Task> > PriorityLevel:: GetLevel() const{
 	return level_;
 }

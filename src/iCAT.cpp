@@ -6,10 +6,22 @@
 #include <eigen3/Eigen/Dense>
 
 iCAT::iCAT(int DoF):TPIK(DoF){
-
 };
+iCAT::iCAT():TPIK(){
+};
+void iCAT::SetDoF(int DoF){
+	DoF_=DoF;
+	I_=Eigen::MatrixXd::Identity(DoF_,DoF_);
+	y_=Eigen::VectorXd::Zero(DoF_);
+	Q_=I_;
+
+}
+
 iCAT::~iCAT(){};
-void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,SVDParameters svd){
+void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,SVDParameters svd) throw (TPIKMissingDoFInitializationException){
+	if (DoF_==0){
+		throw TPIKMissingDoFInitializationException();
+	}
 	Eigen::MatrixXd barG = J * Q_;
 	Eigen::MatrixXd barGtraspAA = barG.transpose() * Alpha * Alpha;
 	// same regularization matrices, see above

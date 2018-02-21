@@ -7,18 +7,19 @@
 #include <memory>
 #include "Action.h"
 #include "PriorityLevel.h"
-
+#include "tpikExceptions.h"
 
 
 class ActionManager{
 public:
 	ActionManager( std::vector<std::shared_ptr<PriorityLevel> > hierarchy);
+	ActionManager();
 	void AddAction(std::shared_ptr<Action> action);
 	std::shared_ptr<Action> FindAction(std::vector<std::shared_ptr<Action> > actions, std::string ID);
-	void SetAction(std::string newAction);
-	void ComputeExternalActivation();
-    const std::vector<std::shared_ptr<PriorityLevel> >& GetHierarchy()const;
-
+	void SetAction(std::string newAction) throw (ActionManagerNullActionException);
+	void ComputeExternalActivation() const throw (ActionManagerHierarchyException);
+    const std::vector<std::shared_ptr<PriorityLevel> >& GetHierarchy() const throw (ActionManagerHierarchyException);
+    void SetHierarchy(std::vector<std::shared_ptr<PriorityLevel> > hierarchy);
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchy_;

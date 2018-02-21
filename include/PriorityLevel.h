@@ -7,6 +7,7 @@
 #include <eigen3/Eigen/Dense>
 #include <memory>
 
+#include "tpikExceptions.h"
 #include "Task.h"
 
 
@@ -21,9 +22,11 @@ struct SVDParameters
 class PriorityLevel {
 public:
 	PriorityLevel(std::string ID);
+	PriorityLevel();
 	~PriorityLevel();
     void AddTask(std::shared_ptr<Task> task);
-    std::string GetID();
+    std::string GetID() const throw (PriorityLevelIndexException);
+    void SetID(std::string ID);
     void UpdateAll();
     void UpdateJacobian();
     void UpdateInternalActivationFunction();
@@ -47,4 +50,7 @@ private:
     int taskNumber_;
     SVDParameters svdParameters_;
 };
+
+
+
 #endif
