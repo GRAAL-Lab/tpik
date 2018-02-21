@@ -20,7 +20,9 @@ struct TaskParameter{
 class Task {
 public:
     Task(TaskType type,const std::string ID); // ID is set by the user in order to uniquely identify the task
-	virtual ~Task();
+	Task(TaskType type);
+    virtual ~Task();
+    void SetID(const std::string ID);
 	void SetMinBound(double minBound);
 	void SetMaxBound(double  maxBound);
 	const Eigen::MatrixXd& GetJacobian() const;// in this way from the main it will be not possible to change both the pointer and the matrix

@@ -9,7 +9,13 @@ Task::Task(TaskType taskType,const std::string ID):minBound_(0),maxBound_(0){
 	ID_=ID;
 };
 Task::~Task(){};
+Task::Task(TaskType type){
+	type_=type;
+};
 
+void Task::SetID(const std::string ID){
+	ID_=ID;
+};
 void Task::SetMinBound(double minBound){
 	minBound_=minBound;
 
