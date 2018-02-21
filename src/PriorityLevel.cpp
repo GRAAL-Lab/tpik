@@ -40,7 +40,7 @@ void PriorityLevel::SetExternalActivationFunction(double Ae){
 	Ae_=Ae;
 }
 
-void PriorityLevel::SetSVDParameters(SVDParameters svdParameters){
+void PriorityLevel::SetSVDParameters(rml::SVDParameters svdParameters){
 	svdParameters_.lambda=svdParameters.lambda;
 	svdParameters_.mu=svdParameters.mu;
 	svdParameters_.threshold=svdParameters.threshold;
@@ -107,7 +107,7 @@ void  PriorityLevel::UpdateAll(){
 
 };
 
-SVDParameters PriorityLevel::GetSVDParameter(){
+rml::SVDParameters PriorityLevel::GetSVDParameter(){
 	return svdParameters_;
 
 };

@@ -11,7 +11,7 @@ public:
 	TPIK(int DoF);
 	TPIK();
 	virtual ~TPIK();
-	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,SVDParameters svd) {};
+	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,rml::SVDParameters svd) {};
 	const Eigen::VectorXd& GetY()const ;
 	void Reset();
 

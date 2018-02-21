@@ -14,6 +14,6 @@ public:
 	iCAT();
 	void SetDoF(int DoF);
 	virtual ~iCAT();
-	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,SVDParameters svd) throw (TPIKMissingDoFInitializationException);
+	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,rml::SVDParameters svd) throw (TPIKMissingDoFInitializationException);
 };
 #endif

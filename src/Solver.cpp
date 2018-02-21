@@ -40,7 +40,7 @@ const Eigen::VectorXd Solver::ComputeVelocities()throw (SolverNotInitializationE
 		Eigen::MatrixXd J=priorityLevel->GetJacobian();
 		Eigen::MatrixXd A=priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot=priorityLevel->GetReference();
-		SVDParameters svd=priorityLevel->GetSVDParameter();
+		rml::SVDParameters svd=priorityLevel->GetSVDParameter();
 		//rml::PrintMatrix(A,"Act Func");
 		tpik_->ComputeYStep(J,A,x_dot,svd);
 		futils::PrettyPrint(tpik_->GetY(),"Y Step");

@@ -21,7 +21,7 @@ void iCAT::SetDoF(int DoF){
 
 iCAT::~iCAT(){};
 
-void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,SVDParameters svd) throw (TPIKMissingDoFInitializationException){
+void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,rml::SVDParameters svd) throw (TPIKMissingDoFInitializationException){
 	if (DoF_==0){
 		throw TPIKMissingDoFInitializationException();
 	}

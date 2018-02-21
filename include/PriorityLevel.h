@@ -4,18 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
+#include <rml/RML.h>
 #include <memory>
 #include "Task.h"
 #include "tpikExceptions.h"
 
 
-struct SVDParameters
-{
-	double threshold; 	// the value below which the raised cosine becomes > 0
-	double lambda;    	// the maximum value of the raised cosine
-	double mu;
-	bool flag;
-};
+
 
 class PriorityLevel {
 public:
@@ -30,7 +25,7 @@ public:
     void UpdateInternalActivationFunction();
     void UpdateReference();
     void SetExternalActivationFunction(double Ae);
-    void SetSVDParameters(SVDParameters svdParameters);
+    void SetSVDParameters(rml::SVDParameters svdParameters);
     const Eigen::MatrixXd& GetJacobian()const;
     Eigen::MatrixXd GetActivationFunction();
     const Eigen::MatrixXd& GetInternalActivationFunction() const;
@@ -38,7 +33,7 @@ public:
     const Eigen::VectorXd& GetReference() const;
     int GetNumberOfTask();
     const std::vector<std::shared_ptr<Task> > GetLevel() const;
-    SVDParameters GetSVDParameter();
+    rml::SVDParameters GetSVDParameter();
 private:
     std::vector<std::shared_ptr<Task> > level_;
 	std::string ID_;
@@ -46,7 +41,7 @@ private:
     Eigen::VectorXd x_dot_;
     double Ae_;
     int taskNumber_;
-    SVDParameters svdParameters_;
+    rml::SVDParameters svdParameters_;
 };
 
 

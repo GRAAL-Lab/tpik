@@ -60,7 +60,7 @@ void ActionManager::ComputeExternalActivation() const throw (ActionManagerHierar
 		std::cout<<"isInOldAction "<<isInOldAction<<std::endl;
 		std::cout<<"isInNewAction  "<<isInNewAction<<std::endl;
 		*/
-		//TODO find delete
+		//TODO fine delete
 		if(isInOldAction&&isInNewAction){
 			// The PL is already active :identity
 			priorityLevel->SetExternalActivationFunction(1.0);
