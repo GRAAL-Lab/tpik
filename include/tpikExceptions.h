@@ -46,5 +46,16 @@ class TPIKMissingDoFInitializationException: public std::exception
     return "Degrees of Freedom not specified, use SetDoF";
   }
 };
+/**
+ * @brief Exception to be thrown when Degrees of Freedom have not been initialized
+ */
+class SolverNotInitializationException: public std::exception
+{
+  virtual const char* what() const throw () {
+
+	  return "TPIK and/or Action Manager are not initialized, use SetTPIK and/or SetActionManager";
+  }
+};
+;
 
 #endif

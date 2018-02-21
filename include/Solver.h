@@ -8,12 +8,16 @@
 
 #include "ActionManager.h"
 #include "TPIK.h"
+#include "tpikExceptions.h"
 
 class Solver{
 public:
+	Solver();
 	Solver( std::shared_ptr<ActionManager> actionManager,std::shared_ptr<TPIK> tpik );//,
-	void SetAction(std::string action);
-	const Eigen::VectorXd ComputeVelocities();
+	void SetActionManager(std::shared_ptr<ActionManager> actionManager);
+	void SetTPIK(std::shared_ptr<TPIK> tpik);
+	void SetAction(std::string action)throw (SolverNotInitializationException);
+	const Eigen::VectorXd ComputeVelocities()throw (SolverNotInitializationException);
 private :
 	std::shared_ptr<ActionManager> actionManager_;
 	std::shared_ptr<TPIK> tpik_;
