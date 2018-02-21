@@ -11,21 +11,25 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager,std::shared_ptr<TPIK
 	    hierarchy_=actionManager_->GetHierarchy();
 		tpik_=tpik;
 };
+
 Solver::Solver(){};
 
 void Solver::SetActionManager(std::shared_ptr<ActionManager> actionManager){
 	actionManager_=actionManager;
     hierarchy_=actionManager_->GetHierarchy();
 };
+
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik){
 	tpik_=tpik;
 };
+
 void  Solver::SetAction(std::string action)throw (SolverNotInitializationException){
 	if(actionManager_==nullptr){
 		throw (SolverNotInitializationException());
 	}
 		actionManager_->SetAction(action);
 };
+
 const Eigen::VectorXd Solver::ComputeVelocities()throw (SolverNotInitializationException){
 	if(actionManager_==nullptr || tpik_==nullptr){
 		throw SolverNotInitializationException();
@@ -39,7 +43,7 @@ const Eigen::VectorXd Solver::ComputeVelocities()throw (SolverNotInitializationE
 		SVDParameters svd=priorityLevel->GetSVDParameter();
 		//rml::PrintMatrix(A,"Act Func");
 		tpik_->ComputeYStep(J,A,x_dot,svd);
-		rml::PrintMatrix(tpik_->GetY(),"Y Step");
+		futils::PrettyPrint(tpik_->GetY(),"Y Step");
 	}
 	return tpik_->GetY();
 };

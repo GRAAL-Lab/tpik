@@ -1,11 +1,9 @@
 #ifndef __SOLVER_H__
 #define __SOLVER_H__
 
-
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
-
 #include "ActionManager.h"
 #include "TPIK.h"
 #include "tpikExceptions.h"

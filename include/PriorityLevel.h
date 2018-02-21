@@ -1,14 +1,12 @@
 #ifndef __PRIORITYLEVEL_H__
 #define __PRIORITYLEVEL_H__
 
-
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <memory>
-
-#include "tpikExceptions.h"
 #include "Task.h"
+#include "tpikExceptions.h"
 
 
 struct SVDParameters

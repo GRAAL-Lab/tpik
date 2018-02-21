@@ -1,14 +1,16 @@
 #include "iCAT.h"
-
 #include <iostream>
 #include <vector>
 #include <rml/RML.h>
 #include <eigen3/Eigen/Dense>
 
+
 iCAT::iCAT(int DoF):TPIK(DoF){
 };
+
 iCAT::iCAT():TPIK(){
 };
+
 void iCAT::SetDoF(int DoF){
 	DoF_=DoF;
 	I_=Eigen::MatrixXd::Identity(DoF_,DoF_);
@@ -18,6 +20,7 @@ void iCAT::SetDoF(int DoF){
 }
 
 iCAT::~iCAT(){};
+
 void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,SVDParameters svd) throw (TPIKMissingDoFInitializationException){
 	if (DoF_==0){
 		throw TPIKMissingDoFInitializationException();

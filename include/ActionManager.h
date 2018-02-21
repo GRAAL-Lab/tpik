@@ -10,6 +10,7 @@
 #include "tpikExceptions.h"
 
 
+
 class ActionManager{
 public:
 	ActionManager( std::vector<std::shared_ptr<PriorityLevel> > hierarchy);

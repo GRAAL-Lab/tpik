@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
+#include "tpikExceptions.h"
 
 ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
 	hierarchy_=hierarchy;
@@ -13,6 +14,7 @@ ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierar
 	actions_.push_back(oldAction_);
 
 }
+
 ActionManager::ActionManager(){
 	time_=0;
 	auto defaultAct= std::make_shared<Action>(Action());
@@ -21,6 +23,7 @@ ActionManager::ActionManager(){
 	currentAction_=defaultAct;
 	actions_.push_back(oldAction_);
 }
+
 void ActionManager::AddAction(std::shared_ptr<Action> action){
 	actions_.push_back(action);
 };

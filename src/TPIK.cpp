@@ -1,5 +1,4 @@
 #include "TPIK.h"
-
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
@@ -10,18 +9,19 @@ TPIK::TPIK(int DoF){
 	y_=Eigen::VectorXd::Zero(DoF_);
 	Q_=I_;
 }
+
 TPIK::TPIK(){
 	DoF_=0;
 }
+
 TPIK::~TPIK(){};
+
 const Eigen::VectorXd& TPIK::GetY() const {
 	return y_;
 };
+
 void TPIK::Reset(){
 	y_.setZero();
 	Q_.setIdentity();
 
 }
-
-
-

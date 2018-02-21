@@ -14,6 +14,7 @@ struct BellShapedFunction{
 
 struct TaskParameter{
 	BellShapedFunction min,max;
+	double gain;
 	bool TaskEnable;
 };
 

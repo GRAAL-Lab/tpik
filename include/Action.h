@@ -5,7 +5,6 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <memory>
-
 #include "PriorityLevel.h"
 
 

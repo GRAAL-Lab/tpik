@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
-
 #include "PriorityLevel.h"
 
 class TPIK{
