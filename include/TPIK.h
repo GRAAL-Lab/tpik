@@ -5,7 +5,7 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include "PriorityLevel.h"
-
+//TODO remove DoF, does not depend on it
 class TPIK{
 public:
 	TPIK(int DoF);
@@ -14,6 +14,8 @@ public:
 	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,rml::SVDParameters svd) {};
 	const Eigen::VectorXd& GetY()const ;
 	void Reset();
+	void SetDoF(int DoF);
+	int GetDoF();
 
 protected:
 	Eigen::VectorXd y_;

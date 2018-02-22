@@ -25,3 +25,11 @@ void TPIK::Reset(){
 	Q_.setIdentity();
 
 }
+
+void TPIK::SetDoF(int DoF){
+	DoF_=DoF;
+};
+
+int TPIK::GetDoF(){
+	return DoF_;
+};
