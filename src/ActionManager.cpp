@@ -4,7 +4,7 @@
 #include <eigen3/Eigen/Dense>
 #include "tpikExceptions.h"
 
-ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
+tpik::ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
 	hierarchy_=hierarchy;
 	time_=0;
 	auto defaultAct= std::make_shared<Action>(Action());
@@ -15,7 +15,7 @@ ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierar
 
 }
 
-ActionManager::ActionManager(){
+tpik::ActionManager::ActionManager(){
 	time_=0;
 	auto defaultAct= std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
@@ -24,11 +24,11 @@ ActionManager::ActionManager(){
 	actions_.push_back(oldAction_);
 }
 
-void ActionManager::AddAction(std::shared_ptr<Action> action){
+void tpik::ActionManager::AddAction(std::shared_ptr<Action> action){
 	actions_.push_back(action);
 };
 
-std::shared_ptr<Action>  ActionManager::FindAction(std::vector<std::shared_ptr<Action> > actions, std::string ID){
+std::shared_ptr<tpik::Action>  tpik::ActionManager::FindAction(std::vector<std::shared_ptr<Action> > actions, std::string ID){
 	for(auto& act:actions){
 		if (act->GetID()==ID){
 			return act;
@@ -37,7 +37,7 @@ std::shared_ptr<Action>  ActionManager::FindAction(std::vector<std::shared_ptr<A
 	return nullptr;
 };
 
-void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException){
+void tpik::ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException){
 	oldAction_=currentAction_;
 	currentAction_=FindAction(actions_,newAction);
 	if(currentAction_==nullptr){
@@ -45,7 +45,7 @@ void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullAct
 	}
 };
 
-void ActionManager::ComputeExternalActivation() const throw (ActionManagerHierarchyException){
+void tpik::ActionManager::ComputeExternalActivation() const throw (ActionManagerHierarchyException){
 	if(hierarchy_.empty()){
 		throw (ActionManagerHierarchyException());
 	}
@@ -81,13 +81,13 @@ void ActionManager::ComputeExternalActivation() const throw (ActionManagerHierar
 
 }
 
-const std::vector<std::shared_ptr<PriorityLevel> >& ActionManager::GetHierarchy() const throw (ActionManagerHierarchyException){
+const std::vector<std::shared_ptr<tpik::PriorityLevel> >& tpik::ActionManager::GetHierarchy() const throw (ActionManagerHierarchyException){
 	if (hierarchy_.empty()){
 		throw ActionManagerHierarchyException();
 	}
 	return hierarchy_;
 };
 
-void ActionManager::SetHierarchy(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
+void tpik::ActionManager::SetHierarchy(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
 	hierarchy_=hierarchy;
 };

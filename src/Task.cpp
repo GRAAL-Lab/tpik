@@ -3,40 +3,34 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 
-Task::Task(TaskType taskType,const std::string ID):minBound_(0),maxBound_(0){
+tpik::Task::Task(TaskType taskType,const std::string ID):minBound_(0),maxBound_(0){
 	type_=taskType;
 	ID_=ID;
 };
 
-Task::~Task(){};
+tpik::Task::~Task(){};
 
-Task::Task(TaskType type):minBound_(0), maxBound_(0){
+tpik::Task::Task(TaskType type):minBound_(0), maxBound_(0){
 	type_=type;
 };
 
-void Task::SetID(const std::string ID){
+void tpik::Task::SetID(const std::string ID){
 	ID_=ID;
 };
 
-void Task::SetMinBound(double minBound){
+void tpik::Task::SetMinBound(double minBound){
 	minBound_=minBound;
 
 };
 
-void Task::SetMaxBound(double maxBound){
+void tpik::Task::SetMaxBound(double maxBound){
 	maxBound_=maxBound;
 
 };
 
-void Task::UpdateAll(){
-	//Task::UpdateInternalActivationFunction();
-	//Task::UpdateReference();
-	//Task::UpdateJacobian();
-
-};
-
-void Task::SetTaskParameter(TaskParameter taskParameter){
+void tpik::Task::SetTaskParameter(TaskParameter taskParameter){
 	taskParameter_.TaskEnable=taskParameter.TaskEnable;
+	taskParameter_.gain=taskParameter.gain;
 	if(type_==TaskType::InequalityLessThan|| type_==TaskType::InequalityInBetween){
 		taskParameter_.max=taskParameter.max;
 	}
@@ -45,16 +39,20 @@ void Task::SetTaskParameter(TaskParameter taskParameter){
 	}
 }
 
-const Eigen::MatrixXd& Task::GetJacobian() const {
+const Eigen::MatrixXd& tpik::Task::GetJacobian() const {
 	return J_;
 
 }
 
-const Eigen::MatrixXd& Task::GetInternalActivationFunction() const{
+const Eigen::MatrixXd& tpik::Task::GetInternalActivationFunction() const{
 	return Ai_;
 }
 
-const Eigen::VectorXd& Task::GetReference() const{
+const Eigen::VectorXd& tpik::Task::GetReference() const{
 	return x_dot_ ;
 
 }
+
+
+
+

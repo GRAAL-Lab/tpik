@@ -8,6 +8,7 @@
 #include "tpikExceptions.h"
 #include "TPIK.h"
 
+namespace tpik{
 class iCAT : public TPIK {
 public:
 	iCAT(int DoF);
@@ -16,4 +17,5 @@ public:
 	virtual ~iCAT();
 	virtual void ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd x_dot,rml::SVDParameters svd) throw (TPIKMissingDoFInitializationException);
 };
+}
 #endif

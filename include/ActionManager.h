@@ -10,7 +10,7 @@
 #include "tpikExceptions.h"
 
 
-
+namespace tpik{
 class ActionManager{
 public:
 	ActionManager( std::vector<std::shared_ptr<PriorityLevel> > hierarchy);
@@ -21,6 +21,12 @@ public:
 	void ComputeExternalActivation() const throw (ActionManagerHierarchyException);
     const std::vector<std::shared_ptr<PriorityLevel> >& GetHierarchy() const throw (ActionManagerHierarchyException);
     void SetHierarchy(std::vector<std::shared_ptr<PriorityLevel> > hierarchy);
+	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager){
+		return os<< "\033[1;37m"<<"ActionManager \n"<<std::setprecision(2)
+		<<"Current Action "<<"\033[0m"<<*actionManager.currentAction_
+		<<"\033[1;37m"<<"OldAction "<<"\033[0m"<<*actionManager.oldAction_
+		<<"\033[1;37m"<<"Time Elapsed "<<"\033[0m"<<actionManager.time_;};
+private:
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchy_;
@@ -30,6 +36,7 @@ protected:
 
 
 };
+}
 
 #endif
 

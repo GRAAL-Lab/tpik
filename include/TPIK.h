@@ -6,6 +6,7 @@
 #include <eigen3/Eigen/Dense>
 #include "PriorityLevel.h"
 //TODO remove DoF, does not depend on it
+namespace tpik{
 class TPIK{
 public:
 	TPIK(int DoF);
@@ -16,6 +17,11 @@ public:
 	void Reset();
 	void SetDoF(int DoF);
 	int GetDoF();
+	friend std::ostream& operator <<(std::ostream& os, TPIK const& tpik){
+			return os<< "\033[1;37m"<<"TPIK"<<"\n"<<std::setprecision(2)
+					  << "\033[1;37m"<<"Y \n"<<"\033[0m"<<tpik.y_<<"\n"
+					  << "\033[1;37m"<<"Q \n"<<"\033[0m"<<tpik.Q_<<"\n";};
+
 
 protected:
 	Eigen::VectorXd y_;
@@ -23,5 +29,6 @@ protected:
 	Eigen::MatrixXd I_;
 	int DoF_;
 };
+}
 
 #endif

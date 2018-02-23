@@ -6,31 +6,31 @@
 #include <eigen3/Eigen/Dense>
 
 
-Solver::Solver(std::shared_ptr<ActionManager> actionManager,std::shared_ptr<TPIK> tpik){
+tpik::Solver::Solver(std::shared_ptr<ActionManager> actionManager,std::shared_ptr<TPIK> tpik){
 		actionManager_=actionManager;
 	    hierarchy_=actionManager_->GetHierarchy();
 		tpik_=tpik;
 };
 
-Solver::Solver(){};
+tpik::Solver::Solver(){};
 
-void Solver::SetActionManager(std::shared_ptr<ActionManager> actionManager){
+void tpik::Solver::SetActionManager(std::shared_ptr<ActionManager> actionManager){
 	actionManager_=actionManager;
     hierarchy_=actionManager_->GetHierarchy();
 };
 
-void Solver::SetTPIK(std::shared_ptr<TPIK> tpik){
+void tpik::Solver::SetTPIK(std::shared_ptr<TPIK> tpik){
 	tpik_=tpik;
 };
 
-void  Solver::SetAction(std::string action)throw (SolverNotInitializationException){
+void tpik::Solver::SetAction(std::string action)throw (SolverNotInitializationException){
 	if(actionManager_==nullptr){
 		throw (SolverNotInitializationException());
 	}
 		actionManager_->SetAction(action);
 };
 
-const Eigen::VectorXd Solver::ComputeVelocities()throw (SolverNotInitializationException){
+const Eigen::VectorXd tpik::Solver::ComputeVelocities()throw (SolverNotInitializationException){
 	if(actionManager_==nullptr || tpik_==nullptr){
 		throw SolverNotInitializationException();
 	}

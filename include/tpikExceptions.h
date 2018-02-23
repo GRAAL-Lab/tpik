@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+namespace tpik{
 /**
  * @brief Exception to be thrown when ID has not been initialized
  */
@@ -56,5 +57,6 @@ class SolverNotInitializationException: public std::exception
 	  return "TPIK and/or Action Manager are not initialized, use SetTPIK and/or SetActionManager";
   }
 };
+}
 
 #endif

@@ -5,13 +5,13 @@
 #include <eigen3/Eigen/Dense>
 
 
-iCAT::iCAT(int DoF):TPIK(DoF){
+tpik::iCAT::iCAT(int DoF):TPIK(DoF){
 };
 
-iCAT::iCAT():TPIK(){
+tpik::iCAT::iCAT():TPIK(){
 };
 
-void iCAT::SetDoF(int DoF){
+void tpik::iCAT::SetDoF(int DoF){
 	DoF_=DoF;
 	I_=Eigen::MatrixXd::Identity(DoF_,DoF_);
 	y_=Eigen::VectorXd::Zero(DoF_);
@@ -19,9 +19,9 @@ void iCAT::SetDoF(int DoF){
 
 }
 
-iCAT::~iCAT(){};
+tpik::iCAT::~iCAT(){};
 
-void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,rml::SVDParameters svd) throw (TPIKMissingDoFInitializationException){
+void tpik::iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd xdot,rml::SVDParameters svd) throw (TPIKMissingDoFInitializationException){
 	if (DoF_==0){
 		throw TPIKMissingDoFInitializationException();
 	}
@@ -32,8 +32,8 @@ void iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::VectorXd 
 	Eigen::MatrixXd H = barG.transpose() * (Eigen::MatrixXd::Identity(J.rows(),J.rows()) - Alpha) * Alpha * barG;
 
 	Eigen::MatrixXd W = barG
-				* rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + T + H),svd.threshold,svd.lambda)* barGtraspAA;
-	Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H),svd.threshold,svd.lambda);
+				* rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + T + H),svd)* barGtraspAA;
+	Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H),svd);
 	y_ = y_ + Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
 			//dout << tc::redL << "4.3" << std::endl;
 	Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
