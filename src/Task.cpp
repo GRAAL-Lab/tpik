@@ -3,7 +3,7 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 
-tpik::Task::Task(TaskType taskType,const std::string ID):minBound_(0),maxBound_(0){
+tpik::Task::Task(TaskType taskType, const std::string ID):minBound_(0),maxBound_(0){
 	type_=taskType;
 	ID_=ID;
 };

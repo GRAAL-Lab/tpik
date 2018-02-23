@@ -5,7 +5,7 @@
 #include <eigen3/Eigen/Dense>
 
 
-tpik::Solver::Solver(std::shared_ptr<ActionManager> actionManager,std::shared_ptr<TPIK> tpik){
+tpik::Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik){
 		actionManager_=actionManager;
 	    hierarchy_=actionManager_->GetHierarchy();
 		tpik_=tpik;

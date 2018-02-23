@@ -9,6 +9,7 @@
 #include "PriorityLevel.h"
 #include <chrono>
 #include "TPIKExceptions.h"
+#include "TPIKDefines.h"
 
 
 namespace tpik{
@@ -25,10 +26,10 @@ public:
 	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager){
 		std::time_t ttp = std::chrono::system_clock::to_time_t(actionManager.time_);
 
-		return os<< "\033[1;37m"<<"ActionManager \n"<<std::setprecision(2)
-		<<"Current Action "<<"\033[0m"<<*actionManager.currentAction_
-		<<"\033[1;37m"<<"OldAction "<<"\033[0m"<<*actionManager.oldAction_
-		<<"\033[1;37m"<<"Time Elapsed "<<"\033[0m"<<std::put_time(std::localtime(&ttp), "%F %T");
+		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2)
+		<< "Current Action " << "\033[0m" << *actionManager.currentAction_
+		<< "\033[1;37m" << "OldAction " << "\033[0m" << *actionManager.oldAction_
+		<< "\033[1;37m" << "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
 	};
 
 protected:
@@ -37,7 +38,6 @@ protected:
 	std::shared_ptr<Action> currentAction_;
 	std::shared_ptr<Action> oldAction_;
 	std::chrono::system_clock::time_point time_;
-
 
 };
 }

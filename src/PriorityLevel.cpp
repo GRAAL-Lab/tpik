@@ -54,7 +54,6 @@ const Eigen::MatrixXd& tpik::PriorityLevel::GetJacobian() const{
 	return J_;
 };
 
-//it is not const because it does not belong to the class (A_is not in the class)
 Eigen::MatrixXd tpik::PriorityLevel::GetActivationFunction(){
 
 	return Ae_*Ai_;

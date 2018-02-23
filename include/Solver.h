@@ -18,8 +18,8 @@ public:
 	void SetAction(std::string action)throw (SolverNotInitializationException);
 	const Eigen::VectorXd ComputeVelocities()throw (SolverNotInitializationException);
 	friend std::ostream& operator <<(std::ostream& os, Solver const& solver){
-		return os<< "\033[1;37m"<<"Solver \n"<<std::setprecision(2)
-		<<*solver.actionManager_<<"\n"<<*solver.tpik_;
+		return os << "\033[1;37m" << "Solver \n" << std::setprecision(2)
+		<< *solver.actionManager_ << "\n" << *solver.tpik_;
 	}
 private :
 	std::shared_ptr<ActionManager> actionManager_;
