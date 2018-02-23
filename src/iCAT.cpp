@@ -27,7 +27,6 @@ void tpik::iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::Vec
 	}
 	Eigen::MatrixXd barG = J * Q_;
 	Eigen::MatrixXd barGtraspAA = barG.transpose() * Alpha * Alpha;
-	// same regularization matrices, see above
 	Eigen::MatrixXd T = (I_ - Q_).transpose() * (I_ - Q_);
 	Eigen::MatrixXd H = barG.transpose() * (Eigen::MatrixXd::Identity(J.rows(),J.rows()) - Alpha) * Alpha * barG;
 
@@ -35,7 +34,6 @@ void tpik::iCAT::ComputeYStep(Eigen::MatrixXd J,Eigen::MatrixXd Alpha,Eigen::Vec
 				* rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + T + H),svd)* barGtraspAA;
 	Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H),svd);
 	y_ = y_ + Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
-			//dout << tc::redL << "4.3" << std::endl;
 	Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
 
 };

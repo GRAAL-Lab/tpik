@@ -8,19 +8,9 @@
 #include <iostream>
 #include <iomanip>
 
+#include "TPIKDefines.h"
+
 namespace tpik{
-enum class TaskType{Equality, InequalityLessThan, InequalityGreaterThan, InequalityInBetween}; 
-struct BellShapedFunction{
-	double sigma1;
-	double sigma2;
-};
-
-struct TaskParameter{
-	BellShapedFunction min,max;
-	double gain;
-	bool TaskEnable;
-};
-
 class Task {
 public:
     Task(TaskType type,const std::string ID); // ID is set by the user in order to uniquely identify the task

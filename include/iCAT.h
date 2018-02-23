@@ -4,9 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
-#include "PriorityLevel.h" //to be deleted used only for svd param
-#include "tpikExceptions.h"
 #include "TPIK.h"
+#include "TPIKExceptions.h"
 
 namespace tpik{
 class iCAT : public TPIK {

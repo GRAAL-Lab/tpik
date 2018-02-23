@@ -7,8 +7,8 @@
 #include <memory>
 #include "Action.h"
 #include "PriorityLevel.h"
-#include "tpikExceptions.h"
 #include <chrono>
+#include "TPIKExceptions.h"
 
 
 namespace tpik{

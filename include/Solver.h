@@ -6,7 +6,7 @@
 #include <eigen3/Eigen/Dense>
 #include "ActionManager.h"
 #include "TPIK.h"
-#include "tpikExceptions.h"
+#include "TPIKExceptions.h"
 
 namespace tpik{
 class Solver{

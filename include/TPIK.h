@@ -5,7 +5,7 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include "PriorityLevel.h"
-//TODO remove DoF, does not depend on it
+
 namespace tpik{
 class TPIK{
 public:

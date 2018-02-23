@@ -1,5 +1,4 @@
 #include "Solver.h"
-
 #include <iostream>
 #include <vector>
 #include <rml/RML.h>

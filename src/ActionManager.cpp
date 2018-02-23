@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
-#include "tpikExceptions.h"
 
 
 tpik::ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){

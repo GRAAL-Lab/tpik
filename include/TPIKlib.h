@@ -1,5 +1,5 @@
-#ifndef __TPIKLIBHEADER_H__
-#define __TPIKLIBHEADER_H__
+#ifndef __TPIKLIB_H__
+#define __TPIKLIB_H__
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -7,8 +7,9 @@
 #include "PriorityLevel.h"
 #include "PriorityLevel.h"
 #include "Solver.h"
-#include "tpikExceptions.h"
 #include "Task.h"
 #include "TPIK.h"
+#include "TPIKDefines.h"
+#include "TPIKExceptions.h"
 
 #endif
