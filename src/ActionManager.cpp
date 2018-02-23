@@ -4,19 +4,17 @@
 #include <eigen3/Eigen/Dense>
 #include "tpikExceptions.h"
 
+
 tpik::ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy){
 	hierarchy_=hierarchy;
-	time_=0;
 	auto defaultAct= std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
 	oldAction_=defaultAct;
 	currentAction_=defaultAct;
 	actions_.push_back(oldAction_);
-
 }
 
 tpik::ActionManager::ActionManager(){
-	time_=0;
 	auto defaultAct= std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
 	oldAction_=defaultAct;
@@ -43,6 +41,7 @@ void tpik::ActionManager::SetAction(std::string newAction) throw (ActionManagerN
 	if(currentAction_==nullptr){
 		throw(ActionManagerNullActionException());
 	}
+	time_=std::chrono::system_clock::now();
 };
 
 void tpik::ActionManager::ComputeExternalActivation() const throw (ActionManagerHierarchyException){
@@ -52,26 +51,27 @@ void tpik::ActionManager::ComputeExternalActivation() const throw (ActionManager
 	for(auto& priorityLevel:hierarchy_){
 		bool isInOldAction=oldAction_->FindPriorityLevel(priorityLevel);
 		bool isInNewAction=currentAction_->FindPriorityLevel(priorityLevel);
-		//TODO delete used only to debug
-		double Ae=0.2;
-		/*
-		std::cout<<"oldActID "<<oldAction_->GetID()<<std::endl;
-		std::cout<<"newActID "<<currentAction_->GetID()<<std::endl;
-		std::cout<<"isInOldAction "<<isInOldAction<<std::endl;
-		std::cout<<"isInNewAction  "<<isInNewAction<<std::endl;
-		*/
-		//TODO fine delete
+		double Ae;
 		if(isInOldAction&&isInNewAction){
 			// The PL is already active :identity
 			priorityLevel->SetExternalActivationFunction(1.0);
 		}
 		else if(!isInOldAction&&isInNewAction){
-			// The PL is to be activated :increasing
+			//increasing
+			std::chrono::duration<double,std::milli> diff = std::chrono::system_clock::now()-time_;
+			std::cout<<diff.count()<<" DIFF"<<std::endl;
+			Ae=rml::IncreasingBellShapedFunction(0.00,500,0,1,diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
+			std::cout<<Ae<<" AE"<<std::endl;
 		}
 		else if (isInOldAction&&!isInNewAction){
+			std::chrono::duration<double,std::milli> diff = std::chrono::system_clock::now()-time_;
 			//The PL must be deactivated: decreasing
+			std::cout<<diff.count()<<" DIFF"<<std::endl;
+			Ae=rml::DecreasingBellShapedFunction(0.00,500,0,1,diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
+			std::cout<<Ae<<" AE"<<std::endl;
+
 		}
 		else {
 			//The PL is already deactivated:zeros
