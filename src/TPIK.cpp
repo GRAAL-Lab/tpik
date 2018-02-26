@@ -31,6 +31,9 @@ void tpik::TPIK::Reset() {
 
 void tpik::TPIK::SetDoF(int DoF) {
 	DoF_ = DoF;
+	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
+	y_ = Eigen::VectorXd::Zero(DoF_);
+	Q_ = I_;
 }
 ;
 

@@ -26,9 +26,8 @@ void tpik::ActionManager::AddAction(std::shared_ptr<Action> action) {
 }
 ;
 
-std::shared_ptr<tpik::Action> tpik::ActionManager::FindAction(
-		std::vector<std::shared_ptr<Action> > actions, std::string ID) {
-	for (auto& act : actions) {
+std::shared_ptr<tpik::Action> tpik::ActionManager::FindAction(std::string ID) {
+	for (auto& act : actions_) {
 		if (act->GetID() == ID) {
 			return act;
 		}
@@ -40,7 +39,7 @@ std::shared_ptr<tpik::Action> tpik::ActionManager::FindAction(
 void tpik::ActionManager::SetAction(std::string newAction)
 		throw (ActionManagerNullActionException) {
 	oldAction_ = currentAction_;
-	currentAction_ = FindAction(actions_, newAction);
+	currentAction_ = FindAction(newAction);
 	if (currentAction_ == nullptr) {
 		throw(ActionManagerNullActionException());
 	}

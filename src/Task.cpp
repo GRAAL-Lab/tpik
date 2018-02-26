@@ -3,39 +3,50 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 
-tpik::Task::Task(TaskType taskType, const std::string ID):minBound_(0),maxBound_(0){
-	type_=taskType;
-	ID_=ID;
-};
+tpik::Task::Task(TaskType taskType, const std::string ID) :
+		minBound_(0), maxBound_(0) {
+	type_ = taskType;
+	ID_ = ID;
+}
+;
 
-tpik::Task::~Task(){};
+tpik::Task::~Task() {
+}
+;
 
-tpik::Task::Task(TaskType type):minBound_(0), maxBound_(0){
-	type_=type;
-};
+tpik::Task::Task(TaskType type) :
+		minBound_(0), maxBound_(0) {
+	type_ = type;
+}
+;
 
-void tpik::Task::SetID(const std::string ID){
-	ID_=ID;
-};
+void tpik::Task::SetID(const std::string ID) {
+	ID_ = ID;
+}
+;
 
-void tpik::Task::SetMinBound(double minBound){
-	minBound_=minBound;
+void tpik::Task::SetMinBound(double minBound) {
+	minBound_ = minBound;
 
-};
+}
+;
 
-void tpik::Task::SetMaxBound(double maxBound){
-	maxBound_=maxBound;
+void tpik::Task::SetMaxBound(double maxBound) {
+	maxBound_ = maxBound;
 
-};
+}
+;
 
-void tpik::Task::SetTaskParameter(TaskParameter taskParameter){
-	taskParameter_.TaskEnable=taskParameter.TaskEnable;
-	taskParameter_.gain=taskParameter.gain;
-	if(type_==TaskType::InequalityLessThan|| type_==TaskType::InequalityInBetween){
-		taskParameter_.max=taskParameter.max;
+void tpik::Task::SetTaskParameter(TaskParameter taskParameter) {
+	taskParameter_.TaskEnable = taskParameter.TaskEnable;
+	taskParameter_.gain = taskParameter.gain;
+	if (type_ == TaskType::InequalityLessThan
+			|| type_ == TaskType::InequalityInBetween) {
+		taskParameter_.max = taskParameter.max;
 	}
-	if(type_==TaskType::InequalityGreaterThan||type_==TaskType::InequalityInBetween){
-		taskParameter_.min=taskParameter.min;
+	if (type_ == TaskType::InequalityGreaterThan
+			|| type_ == TaskType::InequalityInBetween) {
+		taskParameter_.min = taskParameter.min;
 	}
 }
 
@@ -44,15 +55,12 @@ const Eigen::MatrixXd& tpik::Task::GetJacobian() const {
 
 }
 
-const Eigen::MatrixXd& tpik::Task::GetInternalActivationFunction() const{
+const Eigen::MatrixXd& tpik::Task::GetInternalActivationFunction() const {
 	return Ai_;
 }
 
-const Eigen::VectorXd& tpik::Task::GetReference() const{
-	return x_dot_ ;
+const Eigen::VectorXd& tpik::Task::GetReference() const {
+	return x_dot_;
 
 }
-
-
-
 

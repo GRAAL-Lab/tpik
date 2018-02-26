@@ -169,6 +169,9 @@ msg/_*.py
 # Ignore generated docs
 *.dox
 *.wikidoc
+latex
+html
+doxygen_sqlite3.db
 
 # eclipse stuff
 .project
