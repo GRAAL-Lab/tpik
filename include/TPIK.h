@@ -7,6 +7,11 @@
 #include "PriorityLevel.h"
 
 namespace tpik {
+/**
+ * @brief TPIK class
+ * Implementation of the TPIK (Task Priority Inverse Kinematic) Abstract class containing the pure virtual method ComputeYStep
+ * to compute the inverse kinematic control for a single priority level
+ *  */
 class TPIK {
 public:
 	/**
@@ -24,12 +29,17 @@ public:
 	virtual ~TPIK();
 	/**
 	 * @brief Pure virtual function that computes the kinematic control for a single priority level.
-	 * To be implemented in the derived classes
+	 * To be implemented in the derived classes.
+	 * @param[in] J: Jacobian Matrix;
+	 * @param[in] Alpha: Activation Function;
+	 * @param[in] x_dot: Reference;
+	 * @param[in] svd: svd Parameters
 	 *  */
 	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha,
 			Eigen::VectorXd x_dot, rml::SVDParameters svd)=0;
 	/**
 	 * @brief Function which return the computed velocity
+	 * @return Inverse Kinematic Velocity
 	 *  */
 	const Eigen::VectorXd& GetY() const;
 	/**
@@ -43,6 +53,7 @@ public:
 	void SetDoF(int DoF);
 	/**
 	 * @brief Function which returns the system Degrees of Freedom
+	 * @return Degrees of Freedom
 	 *  */
 	int GetDoF();
 	/**

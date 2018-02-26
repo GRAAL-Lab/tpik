@@ -16,7 +16,7 @@ class PriorityLevelIndexException: public std::exception {
 };
 
 /**
- * @brief Exception to be thrown when Ithe unified heirarchy has not been specified
+ * @brief Exception to be thrown when the unified hierarchy has not been specified
  */
 class ActionManagerHierarchyException: public std::exception {
 	virtual const char* what() const throw () {

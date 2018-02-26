@@ -12,47 +12,53 @@
 #include "TPIKDefines.h"
 
 namespace tpik {
+/**
+ * @brief Action Manager Class
+ * Implementation of the Action Manager class. Such class, starting from a vector of tpik::Action and a unified hierarhcy can set
+ * the current action, computing and setting the priority level external activation function.
+ */
 class ActionManager {
 public:
 	/**
-	 * @brief Action Manager constructor .
-	 * @parma[in] hierarchy: Unified Hierarchy
+	 * @brief Action Manager constructor.
+	 * @param[in] hierarchy : unified hierarchy.
 	 *  */
 	ActionManager(Hierarchy hierarchy);
 	/**
-	 * @brief Action Manager Default constructor .
+	 * @brief Action Manager Default constructor.
 	 *  */
 	ActionManager();
 	/**
-	 * @brief Function to add an Action.
-	 * @input[in] action: shared_ptr to the action
+	 * @brief Method that adds a tpik::Action to the ActionManager vector of action.
+	 * @param[in] action : shared_ptr to the tpik::Action.
 	 *  */
 	void AddAction(std::shared_ptr<Action> action);
 	/**
-	 * @brief Function that finds an action in the actionManager vector of actions.
-	 * @input[in] ID: action ID
-	 * @
+	 * @brief Method that finds an tpik::Action in the actionManager vector of actions.
+	 * @param[in] ID: action ID.
+	 * @return shared ptr to the found tpik::Action.
 	 *  */
 	std::shared_ptr<Action> FindAction(std::string ID);
 	/**
-	 * @brief Set the current Action
-	 * @input[in] ID: newAction: new current action ID
+	 * @brief Method that sets the current Action
+	 * @param[in] newAction: new current action ID
 	 *  */
 	void SetAction(std::string newAction)
 			throw (ActionManagerNullActionException);
 	/**
-	 * @brief Function which computes and set the external activation function of the unified hierarhcy priority Level
-	 * The external activation functions depend on the current action, the past action and the time elapsed in between.
+	 * @brief Method which computes and sets the external activation function in the unified hierarchy priority Levels
+	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
 	 *  */
 	void ComputeExternalActivation() const
 			throw (ActionManagerHierarchyException);
 	/**
-	 * @brief Function which returns the unified hierarchy
+	 * @brief Method which returns the unified hierarchy.
+	 * @return Unified Hierarchy .
 	 *  */
 	const Hierarchy& GetHierarchy() const
 			throw (ActionManagerHierarchyException);
 	/**
-	 * @brief Function which sets the unified hierarchy
+	 * @brief Method which sets the unified hierarchy
 	 *  */
 	void SetHierarchy(Hierarchy hierarchy);
 	/**
@@ -62,13 +68,10 @@ public:
 			ActionManager const& actionManager) {
 		std::time_t ttp = std::chrono::system_clock::to_time_t(
 				actionManager.time_);
-
 		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2)
-				<< "Current Action " << "\033[0m"
-				<< *actionManager.currentAction_ << "\033[1;37m" << "OldAction "
-				<< "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
-				<< "Time Elapsed " << "\033[0m"
-				<< std::put_time(std::localtime(&ttp), "%F %T");
+				<< "Current Action " << "\033[0m" << *actionManager.currentAction_ << "\033[1;37m"
+				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
+				<< "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
 	}
 	;
 

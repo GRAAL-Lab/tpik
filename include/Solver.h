@@ -9,6 +9,11 @@
 #include "TPIKExceptions.h"
 
 namespace tpik {
+/**
+ * @brief Solver class.
+ * Implementation of the Solver class. Using the tpik::ActionManager and tpik::TPIK, it computes the inverse kinematic control for all the priorityLevels
+ * taking into account the current action compared to the unified hierarchy where all the priorityLevels are ordered with repsect to their priority.
+ *  */
 class Solver {
 
 public:
@@ -24,22 +29,23 @@ public:
 	Solver(std::shared_ptr<ActionManager> actionManager,
 			std::shared_ptr<TPIK> tpik);
 	/**
-	 * @brief Function which sets the action Manager
+	 * @brief Method which sets the action Manager.
 	 * @param[in] actionManger: shared_ptr to the action manager.
 	 *  */
 	void SetActionManager(std::shared_ptr<ActionManager> actionManager);
 	/**
-	 * @brief Function which sets the tpik
+	 * @brief Method which sets the tpik.
 	 * @param[in] tpik: shared_ptr to tpik.
 	 *  */
 	void SetTPIK(std::shared_ptr<TPIK> tpik);
 	/**
-	 * @brief Function which sets the current action
+	 * @brief Method which sets the current action.
 	 * @param[in] action: current action ID.
 	 *  */
 	void SetAction(std::string action) throw (SolverNotInitializationException);
 	/**
-	 * @brief Function which implements the kinematic control by computing and returning the desired velocities.
+	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.ù
+	 * @return Computed Velocity Vector
 	 *  */
 	const Eigen::VectorXd ComputeVelocities()
 			throw (SolverNotInitializationException);

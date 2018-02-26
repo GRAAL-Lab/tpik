@@ -8,6 +8,11 @@
 #include "TPIKExceptions.h"
 
 namespace tpik {
+/**
+ * @brief iCAT Class derived from TPIK
+ * Implementation of the iCAT(inequality constraints activation and task) algorithm. It implements the pure virtual method ComputeYStep of
+ * the tpik::TPIK class to compute the inverse kinematic of a single task level.
+ */
 class iCAT: public TPIK {
 public:
 	/**
@@ -24,17 +29,12 @@ public:
 	 *  */
 	virtual ~iCAT();
 	/**
-	 * @brief Implementation of the pure virtual method  that computes the kinematic control for a single priority level.
+	 * @brief Implementation of the pure virtual method that computes the inverse kinematic control for a single priority level.
 	 * To be implemented in the derived classes.
-	 * @param[in]
-	 **/
-
-	/**
-	 *
-	 * @param J
-	 * @param Alpha
-	 * @param x_dot
-	 * @param svd
+	 * @param[in] J: Jacobian Matrix;
+	 * @param[in] Alpha: Activation Function;
+	 * @param[in] x_dot: Reference;
+	 * @param[in] svd: svd Parameters
 	 */
 	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha,
 			Eigen::VectorXd x_dot, rml::SVDParameters svd)
