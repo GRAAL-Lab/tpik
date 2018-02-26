@@ -7,20 +7,22 @@
 #include <memory>
 #include "PriorityLevel.h"
 
-namespace tpik{
-class Action{
+namespace tpik {
+typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
+class Action {
 public:
 
 	void SetID(std::string ID);
 	bool FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
 	void AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
-	const std::vector<std::shared_ptr<PriorityLevel> > GetPriorityLevels() const;
+	const Hierarchy GetPriorityLevels() const;
 	std::string GetID();
-	friend std::ostream& operator <<(std::ostream& os, Action const& action){
+	friend std::ostream& operator <<(std::ostream& os, Action const& action) {
 		return os << "\033[1;37m" << "Action ID " << action.ID_ << "\n" << std::setprecision(2);
-	};
+	}
+	;
 private:
-	std::vector<std::shared_ptr<PriorityLevel> > priorityLevels_;
+	Hierarchy priorityLevels_;
 	std::string ID_;
 };
 }
