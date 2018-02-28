@@ -20,15 +20,10 @@ class Task {
 public:
 	/**
 	 * @brief Constructor of Task Class.
-	 * @param[in] type: Task type: {Equality, InequalityLessThan, InequalityGreaterThan, InequalityInBetween};
-	 * @param[in] ID: Task ID.
+	* @param[in] ID: Task ID.
 	 *  */
-	Task(TaskType type, const std::string ID); // ID is set by the user in order to uniquely identify the task
-	/**
-	 * @brief Constructor of Task Class.
-	 * @param[in] type: Task type: {Equality, InequalityLessThan, InequalityGreaterThan, InequalityInBetween}.
-	 *  */
-	Task(TaskType type);
+	Task(const std::string ID); // ID is set by the user in order to uniquely identify the task
+
 	/**
 	 * @brief Default De-constructor of Task Class.
 	 *  */
@@ -38,17 +33,7 @@ public:
 	 * @param[in] ID : Task ID.
 	 *  */
 	void SetID(const std::string ID);
-	/**
-	 * @brief Method that sets the Task Minimum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] minBound: minimum interval value.
-	 *  */
-	void SetMinBound(double minBound);
 
-	/**
-	 * @brief Method that sets the Task Maximum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] maxBound: maximum interval value.
-	 *  */
-	void SetMaxBound(double maxBound);
 	/**
 	 * @brief Method returning the Jacobian Matrix of the Task.
 	 * @return Jacobian Matrix.
@@ -64,11 +49,7 @@ public:
 	 * @return Task Reference.
 	 *  */
 	const Eigen::VectorXd& GetReference() const;
-	/**
-	 * @brief Method that sets the Task Parameter (gain, bell shaped function parameter, Task enable boolean).
-	 * @param[in] TaskParameter: Task Parameter struct.
-	 *  */
-	void SetTaskParameter(TaskParameter taskParameter);
+
 	/**
 	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task internal activation function.
 	 *  */
@@ -88,19 +69,14 @@ public:
 		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
 				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m"
 				<< "Jacobian \n" << "\033[0m" << task.J_ << "\n" << "\033[1;37m"
-				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n"
-				<< "\033[1;37m" << "minBound \n" << "\033[0m" << task.minBound_ << "\n" << "\033[1;37m"
-				<< "maxBound \n" << "\033[0m" << task.maxBound_ << "\n" << "\033[1;37m"
-				<< "TaskParameter (Gain TaskEnable) \n" << "\033[0m" << task.taskParameter_.gain << "	" << task.taskParameter_.TaskEnable << "\n";
+				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
 	}
 
 protected:
-	TaskType type_;
 	std::string ID_;
-	double minBound_, maxBound_;
 	Eigen::MatrixXd Ai_, J_;
 	Eigen::VectorXd x_dot_;
-	TaskParameter taskParameter_;
+
 
 };
 }

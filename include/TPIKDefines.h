@@ -7,13 +7,14 @@ enum class TaskType {
 	Equality, InequalityLessThan, InequalityGreaterThan, InequalityInBetween
 };
 
-struct BellShapedFunction {
-	double sigma1;
-	double sigma2;
+struct BellShapedParameter {
+	double sigma1Max;
+	double sigma2Max;
+	double sigma1Min;
+	double sigma3Min;
 };
 
 struct TaskParameter {
-	BellShapedFunction min, max;
 	double gain;
 	bool TaskEnable;
 };
