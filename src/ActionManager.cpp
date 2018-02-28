@@ -3,8 +3,8 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 
-tpik::ActionManager::ActionManager(
-		std::vector<std::shared_ptr<PriorityLevel> > hierarchy) {
+namespace tpik {
+ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy) {
 	hierarchy_ = hierarchy;
 	auto defaultAct = std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
@@ -13,7 +13,7 @@ tpik::ActionManager::ActionManager(
 	actions_.push_back(oldAction_);
 }
 
-tpik::ActionManager::ActionManager() {
+ActionManager::ActionManager() {
 	auto defaultAct = std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
 	oldAction_ = defaultAct;
@@ -21,12 +21,11 @@ tpik::ActionManager::ActionManager() {
 	actions_.push_back(oldAction_);
 }
 
-void tpik::ActionManager::AddAction(std::shared_ptr<Action> action) {
+void ActionManager::AddAction(std::shared_ptr<Action> action) {
 	actions_.push_back(action);
 }
-;
 
-std::shared_ptr<tpik::Action> tpik::ActionManager::FindAction(std::string ID) {
+std::shared_ptr<Action> ActionManager::FindAction(std::string ID) {
 	for (auto& act : actions_) {
 		if (act->GetID() == ID) {
 			return act;
@@ -34,10 +33,8 @@ std::shared_ptr<tpik::Action> tpik::ActionManager::FindAction(std::string ID) {
 	}
 	return nullptr;
 }
-;
 
-void tpik::ActionManager::SetAction(std::string newAction)
-		throw (ActionManagerNullActionException) {
+void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException) {
 	oldAction_ = currentAction_;
 	currentAction_ = FindAction(newAction);
 	if (currentAction_ == nullptr) {
@@ -45,10 +42,8 @@ void tpik::ActionManager::SetAction(std::string newAction)
 	}
 	time_ = std::chrono::system_clock::now();
 }
-;
 
-void tpik::ActionManager::ComputeExternalActivation() const
-		throw (ActionManagerHierarchyException) {
+void ActionManager::ComputeExternalActivation() const throw (ActionManagerHierarchyException) {
 	if (hierarchy_.empty()) {
 		throw(ActionManagerHierarchyException());
 	}
@@ -61,20 +56,16 @@ void tpik::ActionManager::ComputeExternalActivation() const
 			priorityLevel->SetExternalActivationFunction(1.0);
 		} else if (!isInOldAction && isInNewAction) {
 			//increasing
-			std::chrono::duration<double, std::milli> diff =
-					std::chrono::system_clock::now() - time_;
+			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
 			std::cout << diff.count() << " DIFF" << std::endl;
-			Ae = rml::IncreasingBellShapedFunction(0.00, 500, 0, 1,
-					diff.count());
+			Ae = rml::IncreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
 			std::cout << Ae << " AE" << std::endl;
 		} else if (isInOldAction && !isInNewAction) {
-			std::chrono::duration<double, std::milli> diff =
-					std::chrono::system_clock::now() - time_;
+			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
 			//The PL must be deactivated: decreasing
 			std::cout << diff.count() << " DIFF" << std::endl;
-			Ae = rml::DecreasingBellShapedFunction(0.00, 500, 0, 1,
-					diff.count());
+			Ae = rml::DecreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
 			std::cout << Ae << " AE" << std::endl;
 
@@ -86,16 +77,15 @@ void tpik::ActionManager::ComputeExternalActivation() const
 
 }
 
-const Hierarchy& tpik::ActionManager::GetHierarchy() const
-		throw (ActionManagerHierarchyException) {
+const Hierarchy& ActionManager::GetHierarchy() const throw (ActionManagerHierarchyException) {
 	if (hierarchy_.empty()) {
 		throw ActionManagerHierarchyException();
 	}
 	return hierarchy_;
 }
-;
 
-void tpik::ActionManager::SetHierarchy(Hierarchy hierarchy) {
+void ActionManager::SetHierarchy(Hierarchy hierarchy) {
 	hierarchy_ = hierarchy;
 }
-;
+
+}

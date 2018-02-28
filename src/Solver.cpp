@@ -4,41 +4,33 @@
 #include <rml/RML.h>
 #include <eigen3/Eigen/Dense>
 
-tpik::Solver::Solver(std::shared_ptr<ActionManager> actionManager,
-		std::shared_ptr<TPIK> tpik) {
+namespace tpik {
+Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik) {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
 	tpik_ = tpik;
 }
-;
 
-tpik::Solver::Solver() {
+Solver::Solver() {
 }
-;
 
-void tpik::Solver::SetActionManager(
-		std::shared_ptr<ActionManager> actionManager) {
+void Solver::SetActionManager(std::shared_ptr<ActionManager> actionManager) {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
 }
-;
 
-void tpik::Solver::SetTPIK(std::shared_ptr<TPIK> tpik) {
+void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) {
 	tpik_ = tpik;
 }
-;
 
-void tpik::Solver::SetAction(std::string action)
-		throw (SolverNotInitializationException) {
+void Solver::SetAction(std::string action) throw (SolverNotInitializationException) {
 	if (actionManager_ == nullptr) {
 		throw(SolverNotInitializationException());
 	}
 	actionManager_->SetAction(action);
 }
-;
 
-const Eigen::VectorXd tpik::Solver::ComputeVelocities()
-		throw (SolverNotInitializationException) {
+const Eigen::VectorXd Solver::ComputeVelocities() throw (SolverNotInitializationException) {
 	if (actionManager_ == nullptr || tpik_ == nullptr) {
 		throw SolverNotInitializationException();
 	}
@@ -55,4 +47,5 @@ const Eigen::VectorXd tpik::Solver::ComputeVelocities()
 	}
 	return tpik_->GetY();
 }
-;
+
+}

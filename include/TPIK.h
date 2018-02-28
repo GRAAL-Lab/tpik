@@ -35,8 +35,8 @@ public:
 	 * @param[in] x_dot: Reference;
 	 * @param[in] svd: svd Parameters
 	 *  */
-	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha,
-			Eigen::VectorXd x_dot, rml::SVDParameters svd)=0;
+	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot,
+			rml::SVDParameters svd)=0;
 	/**
 	 * @brief Function which return the computed velocity
 	 * @return Inverse Kinematic Velocity
@@ -61,10 +61,10 @@ public:
 	 *  */
 	friend std::ostream& operator <<(std::ostream& os, TPIK const& tpik) {
 		return os << "\033[1;37m" << "TPIK" << "\n" << std::setprecision(2)
-				<< "\033[1;37m" << "Y \n" << "\033[0m" << tpik.y_ << "\n"
-				<< "\033[1;37m" << "Q \n" << "\033[0m" << tpik.Q_ << "\n";
+				<< "\033[1;37m" << "Y \n" << "\033[0m" << tpik.y_ << "\n" << "\033[1;37m"
+				<< "Q \n" << "\033[0m" << tpik.Q_ << "\n";
 	}
-	;
+
 
 protected:
 	Eigen::VectorXd y_;

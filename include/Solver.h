@@ -26,8 +26,7 @@ public:
 	 * @param[in] actionManger: shared_ptr to the action manager;
 	 * @param[in] tpik: shared_ptr to tpik.
 	 *  */
-	Solver(std::shared_ptr<ActionManager> actionManager,
-			std::shared_ptr<TPIK> tpik);
+	Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik);
 	/**
 	 * @brief Method which sets the action Manager.
 	 * @param[in] actionManger: shared_ptr to the action manager.
@@ -47,8 +46,7 @@ public:
 	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.ù
 	 * @return Computed Velocity Vector
 	 *  */
-	const Eigen::VectorXd ComputeVelocities()
-			throw (SolverNotInitializationException);
+	const Eigen::VectorXd ComputeVelocities() throw (SolverNotInitializationException);
 	/**
 	 * @brief Overloading of the cout operator
 	 *  */

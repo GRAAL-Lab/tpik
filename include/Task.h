@@ -88,14 +88,11 @@ public:
 		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
 				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m"
 				<< "Jacobian \n" << "\033[0m" << task.J_ << "\n" << "\033[1;37m"
-				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n" << "\033[1;37m"
-				<< "minBound \n" << "\033[0m" << task.minBound_ << "\n" << "\033[1;37m"
+				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n"
+				<< "\033[1;37m" << "minBound \n" << "\033[0m" << task.minBound_ << "\n" << "\033[1;37m"
 				<< "maxBound \n" << "\033[0m" << task.maxBound_ << "\n" << "\033[1;37m"
-				<< "TaskParameter (Gain TaskEnable) \n"
-				<< "\033[0m" << task.taskParameter_.gain << "	"
-				<< task.taskParameter_.TaskEnable << "\n";
+				<< "TaskParameter (Gain TaskEnable) \n" << "\033[0m" << task.taskParameter_.gain << "	" << task.taskParameter_.TaskEnable << "\n";
 	}
-	;
 
 protected:
 	TaskType type_;

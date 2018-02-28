@@ -4,12 +4,12 @@
 #include <eigen3/Eigen/Dense>
 #include <memory>
 
-void tpik::Action::SetID(std::string ID) {
+namespace tpik {
+void Action::SetID(std::string ID) {
 	ID_ = ID;
 }
 
-bool tpik::Action::FindPriorityLevel(
-		std::shared_ptr<PriorityLevel> priorityLevel) {
+bool Action::FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel) {
 	for (auto& priorityLevelHierarhcy : priorityLevels_) {
 		if (priorityLevelHierarhcy->GetID() == (priorityLevel->GetID())) {
 			return true;
@@ -17,20 +17,17 @@ bool tpik::Action::FindPriorityLevel(
 	}
 	return false;
 }
-;
 
-void tpik::Action::AddPriorityLevel(
-		std::shared_ptr<PriorityLevel> priorityLevel) {
+void Action::AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel) {
 	priorityLevels_.push_back(priorityLevel);
 }
-;
 
-const Hierarchy tpik::Action::GetPriorityLevels() const {
+const Hierarchy Action::GetPriorityLevels() const {
 	return priorityLevels_;
 }
-;
 
-std::string tpik::Action::GetID() {
+std::string Action::GetID() {
 	return ID_;
 }
-;
+
+}

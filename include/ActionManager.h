@@ -43,20 +43,17 @@ public:
 	 * @brief Method that sets the current Action
 	 * @param[in] newAction: new current action ID
 	 *  */
-	void SetAction(std::string newAction)
-			throw (ActionManagerNullActionException);
+	void SetAction(std::string newAction) throw (ActionManagerNullActionException);
 	/**
 	 * @brief Method which computes and sets the external activation function in the unified hierarchy priority Levels
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
 	 *  */
-	void ComputeExternalActivation() const
-			throw (ActionManagerHierarchyException);
+	void ComputeExternalActivation() const throw (ActionManagerHierarchyException);
 	/**
 	 * @brief Method which returns the unified hierarchy.
 	 * @return Unified Hierarchy .
 	 *  */
-	const Hierarchy& GetHierarchy() const
-			throw (ActionManagerHierarchyException);
+	const Hierarchy& GetHierarchy() const throw (ActionManagerHierarchyException);
 	/**
 	 * @brief Method which sets the unified hierarchy
 	 *  */
@@ -64,16 +61,14 @@ public:
 	/**
 	 * @brief Overload of the cout operator
 	 *  */
-	friend std::ostream& operator <<(std::ostream& os,
-			ActionManager const& actionManager) {
-		std::time_t ttp = std::chrono::system_clock::to_time_t(
-				actionManager.time_);
+	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager) {
+		std::time_t ttp = std::chrono::system_clock::to_time_t(actionManager.time_);
 		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2)
-				<< "Current Action " << "\033[0m" << *actionManager.currentAction_ << "\033[1;37m"
+				<< "Current Action " << "\033[0m"<< *actionManager.currentAction_ << "\033[1;37m"
 				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
 				<< "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
 	}
-	;
+
 
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;

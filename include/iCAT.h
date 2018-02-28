@@ -10,7 +10,7 @@
 namespace tpik {
 /**
  * @brief iCAT Class derived from TPIK
- * Implementation of the iCAT(inequality constraints activation and task) algorithm. It implements the pure virtual method ComputeYStep of
+ * Implementation of the iCAT(Inequality Constraints Activation and Task) algorithm. It implements the pure virtual method ComputeYStep of
  * the tpik::TPIK class to compute the inverse kinematic of a single task level.
  */
 class iCAT: public TPIK {
@@ -36,9 +36,8 @@ public:
 	 * @param[in] x_dot: Reference;
 	 * @param[in] svd: svd Parameters
 	 */
-	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha,
-			Eigen::VectorXd x_dot, rml::SVDParameters svd)
-					throw (TPIKMissingDoFInitializationException);
+	virtual void ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot, rml::SVDParameters svd)
+			throw (TPIKMissingDoFInitializationException);
 };
 }
 #endif

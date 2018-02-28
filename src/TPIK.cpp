@@ -3,41 +3,40 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 
-tpik::TPIK::TPIK(int DoF) {
+namespace tpik {
+TPIK::TPIK(int DoF) {
 	DoF_ = DoF;
 	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
 	y_ = Eigen::VectorXd::Zero(DoF_);
 	Q_ = I_;
 }
 
-tpik::TPIK::TPIK() {
+TPIK::TPIK() {
 	DoF_ = 0;
 }
 
-tpik::TPIK::~TPIK() {
+TPIK::~TPIK() {
 }
-;
 
-const Eigen::VectorXd& tpik::TPIK::GetY() const {
+const Eigen::VectorXd& TPIK::GetY() const {
 	return y_;
 }
-;
 
-void tpik::TPIK::Reset() {
+void TPIK::Reset() {
 	y_.setZero();
 	Q_.setIdentity();
 
 }
 
-void tpik::TPIK::SetDoF(int DoF) {
+void TPIK::SetDoF(int DoF) {
 	DoF_ = DoF;
 	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
 	y_ = Eigen::VectorXd::Zero(DoF_);
 	Q_ = I_;
 }
-;
 
-int tpik::TPIK::GetDoF() {
+int TPIK::GetDoF() {
 	return DoF_;
 }
-;
+
+}
