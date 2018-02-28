@@ -6,8 +6,8 @@ project (tpik)
 set (CMAKE_CXX_STANDARD 11)
 add_library(tpik SHARED
 	src/Task.cpp
-	src/EqualityTask.cpp
-	src/InequalityTask.cpp
+	#src/EqualityTask.cpp
+	#src/InequalityTask.cpp
 	src/PriorityLevel.cpp
 	src/TPIK.cpp
 	src/ActionManager.cpp

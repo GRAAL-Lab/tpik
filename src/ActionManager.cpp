@@ -1,18 +1,11 @@
 #include "ActionManager.h"
 #include <iostream>
+#include <memory>
 #include <vector>
 #include <eigen3/Eigen/Dense>
 
-namespace tpik {
-ActionManager::ActionManager(std::vector<std::shared_ptr<PriorityLevel> > hierarchy) {
-	hierarchy_ = hierarchy;
-	auto defaultAct = std::make_shared<Action>(Action());
-	defaultAct->SetID("DEFAULT_ACTION");
-	oldAction_ = defaultAct;
-	currentAction_ = defaultAct;
-	actions_.push_back(oldAction_);
-}
 
+namespace tpik {
 ActionManager::ActionManager() {
 	auto defaultAct = std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
@@ -21,8 +14,22 @@ ActionManager::ActionManager() {
 	actions_.push_back(oldAction_);
 }
 
-void ActionManager::AddAction(std::shared_ptr<Action> action) {
-	actions_.push_back(action);
+void ActionManager::AddPriorityLevelToHierarchy(const std::string plID){
+	hierarchy_.push_back(std::make_shared<PriorityLevel> (PriorityLevel(plID)));
+}
+
+void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID){
+	std::shared_ptr<PriorityLevel> pl=FindPriorityLevelInHierarchy(plID);
+	pl->AddTask(task);
+}
+
+void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevels){
+	auto newAction= std::make_shared<Action> (Action());
+	newAction->SetID(actionID);
+	for(auto& pl:priorityLevels){
+		newAction->AddPriorityLevel(FindPriorityLevelInHierarchy(pl));
+	}
+	actions_.push_back(newAction);
 }
 
 std::shared_ptr<Action> ActionManager::FindAction(std::string ID) {
@@ -34,6 +41,16 @@ std::shared_ptr<Action> ActionManager::FindAction(std::string ID) {
 	return nullptr;
 }
 
+std::shared_ptr<PriorityLevel> ActionManager::FindPriorityLevelInHierarchy(std::string priorityLevelID){
+
+	for(auto& priorityLevel:hierarchy_){
+		if(priorityLevel->GetID()==priorityLevelID){
+			return priorityLevel;
+		}
+	}
+	return nullptr;
+
+}
 void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException) {
 	oldAction_ = currentAction_;
 	currentAction_ = FindAction(newAction);
@@ -84,8 +101,5 @@ const Hierarchy& ActionManager::GetHierarchy() const throw (ActionManagerHierarc
 	return hierarchy_;
 }
 
-void ActionManager::SetHierarchy(Hierarchy hierarchy) {
-	hierarchy_ = hierarchy;
-}
 
 }

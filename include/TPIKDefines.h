@@ -3,9 +3,7 @@
 
 namespace tpik {
 
-enum class TaskType {
-	Equality, InequalityLessThan, InequalityGreaterThan, InequalityInBetween
-};
+
 
 struct BellShapedParameter {
 	double sigma1Max;

@@ -20,25 +20,29 @@ namespace tpik {
 class ActionManager {
 public:
 	/**
-	 * @brief Action Manager constructor.
-	 * @param[in] hierarchy : unified hierarchy.
-	 *  */
-	ActionManager(Hierarchy hierarchy);
-	/**
 	 * @brief Action Manager Default constructor.
 	 *  */
 	ActionManager();
+
 	/**
-	 * @brief Method that adds a tpik::Action to the ActionManager vector of action.
-	 * @param[in] action : shared_ptr to the tpik::Action.
-	 *  */
-	void AddAction(std::shared_ptr<Action> action);
+	 * @brief Method creating a new PriorityLevel in the hierarchy, the user must create the priorityLevel taking into account their priority
+	 * Hence creating the priorityLevel by ordering them wrt their priority
+	 * @param[in] plID priority level id.
+	 */
+	void AddPriorityLevelToHierarchy(const std::string plID);
 	/**
-	 * @brief Method that finds an tpik::Action in the actionManager vector of actions.
-	 * @param[in] ID: action ID.
-	 * @return shared ptr to the found tpik::Action.
-	 *  */
-	std::shared_ptr<Action> FindAction(std::string ID);
+	 * @brief Method adding a task to a priorityLevel.
+	 * @param[in] task: shared pointer to the task.
+	 * @param[in] plID: priorityLevel ID
+	 */
+	void AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID);
+	/**
+	 * @brief Adding an action to the action list
+	 * @param[in] ActionID: Action ID.
+	 * @param[in] priorityLevels: std::vector containing the IDs of the priorityLevels composing the Action
+	 */
+	void AddAction(std::string actionID, std::vector<std::string> priorityLevels);
+
 	/**
 	 * @brief Method that sets the current Action
 	 * @param[in] newAction: new current action ID
@@ -55,10 +59,6 @@ public:
 	 *  */
 	const Hierarchy& GetHierarchy() const throw (ActionManagerHierarchyException);
 	/**
-	 * @brief Method which sets the unified hierarchy
-	 *  */
-	void SetHierarchy(Hierarchy hierarchy);
-	/**
 	 * @brief Overload of the cout operator
 	 *  */
 	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager) {
@@ -68,7 +68,19 @@ public:
 				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
 				<< "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
 	}
-
+private:
+	/**
+	 * @brief Method that finds an tpik::Action in the actionManager vector of actions.
+	 * @param[in] ID: action ID.
+	 * @return shared ptr to the found tpik::Action.
+	 *  */
+	std::shared_ptr<Action> FindAction(std::string ID);
+	/**
+	 * @brief Method which finds a priority level in the unified hierarchy.
+	 * @param[in] priorityLevelID: ID of the priority level to find.
+	 * @return shared pointer to the found priorityLevel.
+	 */
+	std::shared_ptr<PriorityLevel> FindPriorityLevelInHierarchy(std::string priorityLevelID);
 
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;
