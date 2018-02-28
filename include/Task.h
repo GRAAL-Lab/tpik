@@ -13,14 +13,12 @@ namespace tpik {
  * @brief Task class
  * Implementation of the Task base class. The derived classes must implement the pure virtual methods: UpdateJacobian, UpdateInternalActivationFunction
  * and UpdateReference.
- * The derived class can implement either an Equality and Inequality Task by specifing it in the type attribute.
- * If the derived class implements an Inequality Task, also the minimum and/or the maximum bound must be set.
  *  */
 class Task {
 public:
 	/**
 	 * @brief Constructor of Task Class.
-	* @param[in] ID: Task ID.
+	 * @param[in] ID: Task ID.
 	 *  */
 	Task(const std::string ID); // ID is set by the user in order to uniquely identify the task
 
@@ -67,16 +65,14 @@ public:
 	 *  */
 	friend std::ostream& operator <<(std::ostream& os, Task const& task) {
 		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
-				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m"
-				<< "Jacobian \n" << "\033[0m" << task.J_ << "\n" << "\033[1;37m"
-				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
+				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m" << "Jacobian \n"
+				<< "\033[0m" << task.J_ << "\n" << "\033[1;37m" << "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
 	}
 
 protected:
 	std::string ID_;
 	Eigen::MatrixXd Ai_, J_;
 	Eigen::VectorXd x_dot_;
-
 
 };
 }

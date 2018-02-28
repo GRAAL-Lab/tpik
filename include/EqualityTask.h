@@ -11,12 +11,12 @@
 
 namespace tpik {
 /**
- * @brief Task class
- * Implementation of the Task base class. The derived classes must implement the pure virtual methods: UpdateJacobian, UpdateInternalActivationFunction
- * and UpdateReference.
- * The derived class can implement either an Equality and Inequality Task by specifying it in the type attribute.
- * If the derived class implements an Inequality Task, also the minimum and/or the maximum bound must be set.
- *  */
+ * @brief EqualityTask class derived from the Abstract class Task.
+ * Abstract base EqualityTask class to implement the Equality tasks, the derived classes must implement the pure virtual methods UpdateActivationFunction,
+ * UpdateJacobian and UpdateReference.
+ * Furthermore it is also possible to set and get the task parameter, composed by gain and a boolean stating whether the task is enabled
+ * *  */
+
 class EqualityTask : public Task {
 
 public:
