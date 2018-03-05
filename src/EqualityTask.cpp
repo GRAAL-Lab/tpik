@@ -12,4 +12,7 @@ void EqualityTask::SetTaskParameter(TaskParameter taskParameter) {
 TaskParameter EqualityTask::GetTaskParameter() {
 	return taskParameter_;
 }
+EqualityTask::~EqualityTask(){
+
+}
 }

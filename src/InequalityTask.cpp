@@ -5,6 +5,8 @@ namespace tpik {
 
 InequalityTask::InequalityTask(const std::string ID):Task(ID),minBound_(0),maxBound_(0){}
 
+InequalityTask::~InequalityTask(){
+}
 void InequalityTask::SetMinBound(double minBound) {
 	minBound_ = minBound;
 

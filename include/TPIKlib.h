@@ -11,5 +11,7 @@
 #include "TPIK.h"
 #include "TPIKDefines.h"
 #include "TPIKExceptions.h"
+#include "InequalityTask.h"
+#include "EqualityTask.h"
 
 #endif
