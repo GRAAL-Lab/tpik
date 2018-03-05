@@ -1,4 +1,4 @@
-# tpik: Task Priority Inverse Kinematic Library
+# TPIKlib: Task Priority Inverse Kinematic Library
 
 ## Description
 Its major features are:
