@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <eigen3/Eigen/Dense>
 #include <memory>
 #include "Action.h"
 #include "PriorityLevel.h"
