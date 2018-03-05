@@ -30,18 +30,26 @@ public:
 	 * @param[in] plID priority level id.
 	 */
 	void AddPriorityLevelToHierarchy(const std::string plID);
+
+	/**
+	 * @brief Method creating a new PriorityLevel in the hierarchy, the user must create the priorityLevel taking into account their priority
+	 * Hence creating the priorityLevel by ordering them wrt their priority
+	 * @param[in] plID priority level id.
+	 * @param[in] svdParameter of the PriorityLevel
+	 */
+	void AddPriorityLevelToHierarchyWithSVD(const std::string plID,rml::SVDParameters svdParameter);
 	/**
 	 * @brief Method adding a task to a priorityLevel.
 	 * @param[in] task: shared pointer to the task.
 	 * @param[in] plID: priorityLevel ID
 	 */
-	void AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID);
+	void AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID) throw (ActionManagerMissingPriorityLevel);
 	/**
 	 * @brief Adding an action to the action list
 	 * @param[in] ActionID: Action ID.
 	 * @param[in] priorityLevels: std::vector containing the IDs of the priorityLevels composing the Action
 	 */
-	void AddAction(std::string actionID, std::vector<std::string> priorityLevels);
+	void AddAction(std::string actionID, std::vector<std::string> priorityLevels) throw (ActionManagerMissingActionPriorityLevel);
 
 	/**
 	 * @brief Method that sets the current Action

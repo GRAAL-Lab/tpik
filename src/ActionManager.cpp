@@ -4,7 +4,6 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 
-
 namespace tpik {
 ActionManager::ActionManager() {
 	auto defaultAct = std::make_shared<Action>(Action());
@@ -14,20 +13,35 @@ ActionManager::ActionManager() {
 	actions_.push_back(oldAction_);
 }
 
-void ActionManager::AddPriorityLevelToHierarchy(const std::string plID){
-	hierarchy_.push_back(std::make_shared<PriorityLevel> (PriorityLevel(plID)));
+void ActionManager::AddPriorityLevelToHierarchy(const std::string plID) {
+	hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(plID)));
 }
 
-void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID){
-	std::shared_ptr<PriorityLevel> pl=FindPriorityLevelInHierarchy(plID);
+void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string plID, rml::SVDParameters svdParameter) {
+	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(plID));
+	pl->SetSVDParameters(svdParameter);
+	hierarchy_.push_back(pl);
+}
+
+void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string plID)
+		throw (ActionManagerMissingPriorityLevel) {
+	std::shared_ptr<PriorityLevel> pl = FindPriorityLevelInHierarchy(plID);
+	if (pl == nullptr) {
+		throw(ActionManagerMissingPriorityLevel());
+	}
 	pl->AddTask(task);
 }
 
-void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevels){
-	auto newAction= std::make_shared<Action> (Action());
+void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevels)
+		throw (ActionManagerMissingActionPriorityLevel) {
+	auto newAction = std::make_shared<Action>(Action());
 	newAction->SetID(actionID);
-	for(auto& pl:priorityLevels){
-		newAction->AddPriorityLevel(FindPriorityLevelInHierarchy(pl));
+	for (auto& pl : priorityLevels) {
+		std::shared_ptr<PriorityLevel> plToAdd = FindPriorityLevelInHierarchy(pl);
+		if (plToAdd == nullptr) {
+			throw(ActionManagerMissingActionPriorityLevel());
+		}
+		newAction->AddPriorityLevel(plToAdd);
 	}
 	actions_.push_back(newAction);
 }
@@ -41,10 +55,10 @@ std::shared_ptr<Action> ActionManager::FindAction(std::string ID) {
 	return nullptr;
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::FindPriorityLevelInHierarchy(std::string priorityLevelID){
+std::shared_ptr<PriorityLevel> ActionManager::FindPriorityLevelInHierarchy(std::string priorityLevelID) {
 
-	for(auto& priorityLevel:hierarchy_){
-		if(priorityLevel->GetID()==priorityLevelID){
+	for (auto& priorityLevel : hierarchy_) {
+		if (priorityLevel->GetID() == priorityLevelID) {
 			return priorityLevel;
 		}
 	}
@@ -100,6 +114,5 @@ const Hierarchy& ActionManager::GetHierarchy() const throw (ActionManagerHierarc
 	}
 	return hierarchy_;
 }
-
 
 }

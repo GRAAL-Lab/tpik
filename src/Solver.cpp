@@ -32,20 +32,17 @@ void Solver::SetAction(std::string action) throw (SolverNotInitializationExcepti
 
 const Eigen::VectorXd Solver::ComputeVelocities() throw (SolverNotInitializationException) {
 	if (actionManager_ == nullptr || tpik_ == nullptr) {
-		throw SolverNotInitializationException();
+		throw (SolverNotInitializationException());
 	}
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();
 	for (auto& priorityLevel : hierarchy_) {
-		//TODO must update priorityLevel since it is not possible to update them from main
 		priorityLevel->UpdateAll();
 		Eigen::MatrixXd J = priorityLevel->GetJacobian();
 		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot = priorityLevel->GetReference();
 		rml::SVDParameters svd = priorityLevel->GetSVDParameter();
-		//rml::PrintMatrix(A,"Act Func");
 		tpik_->ComputeYStep(J, A, x_dot, svd);
-		futils::PrettyPrint(tpik_->GetY(), "Y Step");
 	}
 	return tpik_->GetY();
 }

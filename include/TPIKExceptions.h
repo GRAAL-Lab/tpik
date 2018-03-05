@@ -20,7 +20,27 @@ class PriorityLevelIndexException: public std::exception {
  */
 class ActionManagerHierarchyException: public std::exception {
 	virtual const char* what() const throw () {
-		return "Action Manager has not unified hierarchy specified, use SetHierarchy ";
+		return "Action Manager has not unified hierarchy specified, use AddPriorityLevelToHierarchy or AddPriorityLevelToHierarchyWithSVD ";
+	}
+};
+/**
+ * @brief Exception to be thrown when a priority Level is not present in the unified hierarchy
+ */
+
+//TODO add the pl ID
+class ActionManagerMissingPriorityLevel: public std::exception {
+	virtual const char* what() const throw () {
+		return "The PL level does not exist in the unified hierarchy, use AddPriorityLevelToHierarchy or AddPriorityLevelToHierarchyWithSVD";
+	}
+};
+/**
+ * @brief Exception to be thrown when an Action pl is not present in the unified hierarchy
+ */
+
+//TODO add the pl ID
+class ActionManagerMissingActionPriorityLevel: public std::exception {
+	virtual const char* what() const throw () {
+		return "One of the Action PL level does not exist in the unified hierarchy, use AddPriorityLevelToHierarchy or AddPriorityLevelToHierarchyWithSVD";
 	}
 };
 
@@ -28,6 +48,7 @@ class ActionManagerHierarchyException: public std::exception {
  * @brief Exception to be thrown when it is not possible to set the action since it is not present in the
  * actions vector
  */
+//TODO add action ID
 class ActionManagerNullActionException: public std::exception {
 	virtual const char* what() const throw () {
 		return "The action settled is not present in the list of action, use AddAction to add it ";

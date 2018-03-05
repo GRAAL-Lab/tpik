@@ -75,7 +75,7 @@ const Eigen::VectorXd& PriorityLevel::GetReference() const {
 	return x_dot_;
 }
 
-void PriorityLevel::UpdateJacobian() {
+void PriorityLevel::UpdateJacobian(){
 	J_ = level_.at(0)->GetJacobian();
 	for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
 		J_ = rml::UnderJuxtapose(J_, task->GetJacobian());
