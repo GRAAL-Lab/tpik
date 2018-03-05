@@ -5,6 +5,7 @@
 #include <eigen3/Eigen/Dense>
 
 namespace tpik {
+
 Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik) {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
@@ -32,7 +33,7 @@ void Solver::SetAction(std::string action) throw (SolverNotInitializationExcepti
 
 const Eigen::VectorXd Solver::ComputeVelocities() throw (SolverNotInitializationException) {
 	if (actionManager_ == nullptr || tpik_ == nullptr) {
-		throw (SolverNotInitializationException());
+		throw(SolverNotInitializationException());
 	}
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();
@@ -42,7 +43,7 @@ const Eigen::VectorXd Solver::ComputeVelocities() throw (SolverNotInitialization
 		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot = priorityLevel->GetReference();
 		rml::SVDParameters svd = priorityLevel->GetSVDParameter();
-		tpik_->ComputeYStep(J, A, x_dot, svd);
+		tpik_->ComputeYSingleLevel(J, A, x_dot, svd);
 	}
 	return tpik_->GetY();
 }

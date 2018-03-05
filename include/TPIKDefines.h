@@ -3,8 +3,6 @@
 
 namespace tpik {
 
-
-
 struct BellShapedParameter {
 	double sigma1Max;
 	double sigma2Max;

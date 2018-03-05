@@ -13,83 +13,85 @@
 
 namespace tpik {
 /**
- * @brief Action Manager Class
- * Implementation of the Action Manager class. Such class, starting from a vector of tpik::Action and a unified hierarhcy can set
- * the current action, computing and setting the priority level external activation function.
+ * @brief Action Manager Class.
+ * Implementation of the Action Manager class. Such class offers an API in order to create the tpik::PriorityLevels, create the unified hierarchy,
+ * define the actions.
  */
 class ActionManager {
 public:
 	/**
 	 * @brief Action Manager Default constructor.
-	 *  */
+	 */
 	ActionManager();
-
 	/**
-	 * @brief Method creating a new PriorityLevel in the hierarchy, the user must create the priorityLevel taking into account their priority
-	 * Hence creating the priorityLevel by ordering them wrt their priority
-	 * @param[in] plID priority level id.
+	 * @brief Method creating a new PriorityLevel in the unified hierarchy.
+	 * The order in which the PriorityLevels are created defines their priority in the unified hierarchy.
+	 * @param[in] plID: priority level id.
 	 */
-	void AddPriorityLevelToHierarchy(const std::string plID);
-
+	void AddPriorityLevelToHierarchy(const std::string priorityLevelID);
 	/**
-	 * @brief Method creating a new PriorityLevel in the hierarchy, the user must create the priorityLevel taking into account their priority
-	 * Hence creating the priorityLevel by ordering them wrt their priority
-	 * @param[in] plID priority level id.
-	 * @param[in] svdParameter of the PriorityLevel
+	 * @brief Method creating a new PriorityLevel in the unified hierarchy and specifies its rml::SVDParameters.
+	 * The order in which the PriorityLevels are created defines their priority in the unified hierarchy.
+	 * @param[in] priorityLevelID: priority level id.
+	 * @param[in] svdParameter: rml::SVDParameters of the PriorityLevel.
 	 */
-	void AddPriorityLevelToHierarchyWithSVD(const std::string plID,rml::SVDParameters svdParameter);
+	void AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDParameters svdParameters);
 	/**
 	 * @brief Method adding a task to a priorityLevel.
-	 * @param[in] task: shared pointer to the task.
-	 * @param[in] plID: priorityLevel ID
+	 * @param[in] task: std::shared_ptr to the task.
+	 * @param[in] priorityLevelID: priorityLevel ID.
 	 */
-	void AddTaskToPriorityLevel(std::shared_ptr<Task> task,const std::string plID) throw (ActionManagerMissingPriorityLevel);
+	void AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
+			throw (ActionManagerMissingPriorityLevel);
 	/**
-	 * @brief Adding an action to the action list
+	 * @brief Method adding an action to the action list.
+	 * An exception is thrown if one of the action priority level is not present in the unified hierarchy.
 	 * @param[in] ActionID: Action ID.
-	 * @param[in] priorityLevels: std::vector containing the IDs of the priorityLevels composing the Action
+	 * @param[in] priorityLevelsID: std::vector containing the IDs of the priorityLevels composing the Action.
 	 */
-	void AddAction(std::string actionID, std::vector<std::string> priorityLevels) throw (ActionManagerMissingActionPriorityLevel);
-
+	void AddAction(std::string actionID, std::vector<std::string> priorityLevelsID)
+			throw (ActionManagerMissingActionPriorityLevel);
 	/**
-	 * @brief Method that sets the current Action
+	 * @brief Method that sets the current Action.
+	 * An exception is thrown if the action set is not present in the action list.
 	 * @param[in] newAction: new current action ID
-	 *  */
+	 */
 	void SetAction(std::string newAction) throw (ActionManagerNullActionException);
 	/**
-	 * @brief Method which computes and sets the external activation function in the unified hierarchy priority Levels
+	 * @brief Method which computes and sets the external activation functions in the unified hierarchy priority Levels.
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
-	 *  */
-	void ComputeExternalActivation() const throw (ActionManagerHierarchyException);
+	 * An exception is thrown if the unified hierarchy has not been specified yet.
+	 */
+	void ComputeExternalActivation() throw (ActionManagerHierarchyException);
 	/**
 	 * @brief Method which returns the unified hierarchy.
+	 * An exception is thrown if the unified hierarchy has not been specified yet
 	 * @return Unified Hierarchy .
-	 *  */
+	 */
 	const Hierarchy& GetHierarchy() const throw (ActionManagerHierarchyException);
 	/**
 	 * @brief Overload of the cout operator
-	 *  */
+	 */
 	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager) {
 		std::time_t ttp = std::chrono::system_clock::to_time_t(actionManager.time_);
-		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2)
-				<< "Current Action " << "\033[0m"<< *actionManager.currentAction_ << "\033[1;37m"
-				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
-				<< "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
+		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2) << "Current Action " << "\033[0m"
+				<< *actionManager.currentAction_ << "\033[1;37m" << "OldAction " << "\033[0m"
+				<< *actionManager.oldAction_ << "\033[1;37m" << "Time Elapsed " << "\033[0m"
+				<< std::put_time(std::localtime(&ttp), "%F %T");
 	}
 private:
 	/**
-	 * @brief Method that finds an tpik::Action in the actionManager vector of actions.
+	 * @brief Method that finds a tpik::Action in the action list.
 	 * @param[in] ID: action ID.
-	 * @return shared ptr to the found tpik::Action.
-	 *  */
+	 * @return std::shared_ptr to the found tpik::Action.
+	 */
 	std::shared_ptr<Action> FindAction(std::string ID);
 	/**
 	 * @brief Method which finds a priority level in the unified hierarchy.
 	 * @param[in] priorityLevelID: ID of the priority level to find.
-	 * @return shared pointer to the found priorityLevel.
+	 * @return std::shared_ptr to the found priorityLevel.
 	 */
 	std::shared_ptr<PriorityLevel> FindPriorityLevelInHierarchy(std::string priorityLevelID);
-
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;
 	Hierarchy hierarchy_;

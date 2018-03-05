@@ -4,10 +4,10 @@
 #include <eigen3/Eigen/Dense>
 
 namespace tpik {
-Task::Task(const std::string ID){
+
+Task::Task(const std::string ID) {
 	ID_ = ID;
 }
-
 
 Task::~Task() {
 }

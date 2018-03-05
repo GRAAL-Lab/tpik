@@ -7,6 +7,7 @@ InequalityTask::InequalityTask(const std::string ID):Task(ID),minBound_(0),maxBo
 
 InequalityTask::~InequalityTask(){
 }
+
 void InequalityTask::SetMinBound(double minBound) {
 	minBound_ = minBound;
 
@@ -17,8 +18,8 @@ void InequalityTask::SetMaxBound(double maxBound) {
 
 }
 
-void InequalityTask::SetTaskParameter(TaskParameter taskParameter) {
-	taskParameter_ = taskParameter;
+void InequalityTask::SetTaskParameter(TaskParameter taskParameters) {
+	taskParameter_ = taskParameters;
 }
 
 TaskParameter InequalityTask::GetTaskParameter() {

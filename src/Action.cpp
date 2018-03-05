@@ -5,6 +5,7 @@
 #include <memory>
 
 namespace tpik {
+
 void Action::SetID(std::string ID) {
 	ID_ = ID;
 }

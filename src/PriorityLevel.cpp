@@ -5,6 +5,7 @@
 #include <rml/RML.h>
 
 namespace tpik {
+
 PriorityLevel::PriorityLevel(std::string ID) :
 		taskNumber_(0), Ae_(0) {
 	ID_ = ID;
@@ -35,47 +36,7 @@ void PriorityLevel::SetID(std::string ID) {
 	ID_ = ID;
 }
 
-const std::vector<std::shared_ptr<Task> > PriorityLevel::GetLevel() const {
-	return level_;
-}
-
-void PriorityLevel::SetExternalActivationFunction(double Ae) {
-	Ae_ = Ae;
-}
-
-void PriorityLevel::SetSVDParameters(rml::SVDParameters svdParameters) {
-	svdParameters_.lambda = svdParameters.lambda;
-	svdParameters_.mu = svdParameters.mu;
-	svdParameters_.threshold = svdParameters.threshold;
-}
-
-int PriorityLevel::GetNumberOfTask() {
-	return level_.size();
-
-}
-
-const Eigen::MatrixXd& PriorityLevel::GetJacobian() const {
-	return J_;
-}
-
-Eigen::MatrixXd PriorityLevel::GetActivationFunction() {
-
-	return Ae_ * Ai_;
-}
-
-const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const {
-	return Ai_;
-}
-
-double PriorityLevel::GetExternalActivationFunction() {
-	return Ae_;
-}
-
-const Eigen::VectorXd& PriorityLevel::GetReference() const {
-	return x_dot_;
-}
-
-void PriorityLevel::UpdateJacobian(){
+void PriorityLevel::UpdateJacobian() {
 	J_ = level_.at(0)->GetJacobian();
 	for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
 		J_ = rml::UnderJuxtapose(J_, task->GetJacobian());
@@ -106,6 +67,45 @@ void PriorityLevel::UpdateAll() {
 	UpdateInternalActivationFunction();
 	UpdateReference();
 
+}
+
+void PriorityLevel::SetExternalActivationFunction(double Ae) {
+	Ae_ = Ae;
+}
+
+void PriorityLevel::SetSVDParameters(rml::SVDParameters svdParameters) {
+	svdParameters_.lambda = svdParameters.lambda;
+	svdParameters_.mu = svdParameters.mu;
+	svdParameters_.threshold = svdParameters.threshold;
+}
+const Eigen::MatrixXd& PriorityLevel::GetJacobian() const {
+	return J_;
+}
+
+Eigen::MatrixXd PriorityLevel::GetActivationFunction() {
+
+	return Ae_ * Ai_;
+}
+
+const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const {
+	return Ai_;
+}
+
+double PriorityLevel::GetExternalActivationFunction() {
+	return Ae_;
+}
+
+const Eigen::VectorXd& PriorityLevel::GetReference() const {
+	return x_dot_;
+}
+
+int PriorityLevel::GetNumberOfTask() {
+	return level_.size();
+
+}
+
+const std::vector<std::shared_ptr<Task> > PriorityLevel::GetLevel() const {
+	return level_;
 }
 
 rml::SVDParameters tpik::PriorityLevel::GetSVDParameter() {

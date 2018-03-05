@@ -6,7 +6,7 @@
 
 namespace tpik {
 /**
- * @brief Exception to be thrown when ID has not been initialized
+ * @brief Exception to be thrown when priority level ID has not been initialized.
  */
 
 class PriorityLevelIndexException: public std::exception {
@@ -16,7 +16,7 @@ class PriorityLevelIndexException: public std::exception {
 };
 
 /**
- * @brief Exception to be thrown when the unified hierarchy has not been specified
+ * @brief Exception to be thrown when the unified hierarchy has not been specified.
  */
 class ActionManagerHierarchyException: public std::exception {
 	virtual const char* what() const throw () {
@@ -24,9 +24,8 @@ class ActionManagerHierarchyException: public std::exception {
 	}
 };
 /**
- * @brief Exception to be thrown when a priority Level is not present in the unified hierarchy
+ * @brief Exception to be thrown when a priority Level is not present in the unified hierarchy.
  */
-
 //TODO add the pl ID
 class ActionManagerMissingPriorityLevel: public std::exception {
 	virtual const char* what() const throw () {
@@ -34,7 +33,7 @@ class ActionManagerMissingPriorityLevel: public std::exception {
 	}
 };
 /**
- * @brief Exception to be thrown when an Action pl is not present in the unified hierarchy
+ * @brief Exception to be thrown when an Action priority level is not present in the unified hierarchy.
  */
 
 //TODO add the pl ID
@@ -46,7 +45,7 @@ class ActionManagerMissingActionPriorityLevel: public std::exception {
 
 /**
  * @brief Exception to be thrown when it is not possible to set the action since it is not present in the
- * actions vector
+ * actions vector.
  */
 //TODO add action ID
 class ActionManagerNullActionException: public std::exception {
@@ -56,7 +55,7 @@ class ActionManagerNullActionException: public std::exception {
 };
 
 /**
- * @brief Exception to be thrown when Degrees of Freedom have not been initialized
+ * @brief Exception to be thrown when the degrees of freedom have not been initialized.
  */
 class TPIKMissingDoFInitializationException: public std::exception {
 	virtual const char* what() const throw () {
@@ -65,7 +64,7 @@ class TPIKMissingDoFInitializationException: public std::exception {
 };
 
 /**
- * @brief Exception to be thrown when Degrees of Freedom have not been initialized
+ * @brief Exception to be thrown when either the tpik or the action manager have not been initialized
  */
 class SolverNotInitializationException: public std::exception {
 	virtual const char* what() const throw () {

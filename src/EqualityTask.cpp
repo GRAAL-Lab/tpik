@@ -3,7 +3,12 @@
 
 namespace tpik {
 
-EqualityTask::EqualityTask(const std::string ID) : Task(ID) {}
+EqualityTask::EqualityTask(const std::string ID) :
+		Task(ID) {
+}
+
+EqualityTask::~EqualityTask() {
+}
 
 void EqualityTask::SetTaskParameter(TaskParameter taskParameter) {
 	taskParameter_ = taskParameter;
@@ -12,7 +17,5 @@ void EqualityTask::SetTaskParameter(TaskParameter taskParameter) {
 TaskParameter EqualityTask::GetTaskParameter() {
 	return taskParameter_;
 }
-EqualityTask::~EqualityTask(){
 
-}
 }

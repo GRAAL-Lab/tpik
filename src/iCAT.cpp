@@ -16,7 +16,7 @@ iCAT::iCAT() :
 iCAT::~iCAT() {
 }
 
-void iCAT::ComputeYStep(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd xdot, rml::SVDParameters svd)
+void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd xdot, rml::SVDParameters svd)
 		throw (TPIKMissingDoFInitializationException) {
 	if (DoF_ == 0) {
 		throw TPIKMissingDoFInitializationException();
