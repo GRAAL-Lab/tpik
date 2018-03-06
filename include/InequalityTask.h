@@ -42,7 +42,7 @@ public:
 
 	/**
 	 * @brief Method that sets the Task Parameter (gain, task enable boolean).
-	 * @param[in] TaskParameter: Task Parameter struct.
+	 * @param[in] TaskParameters: Task Parameter struct.
 	 */
 	void SetTaskParameter(TaskParameter taskParameters);
 	/**
@@ -53,7 +53,7 @@ public:
 	TaskParameter GetTaskParameter();
 	/**
 	 * @brief Method settings bell shaped parameter.
-	 * @param[in] BellShapedParameter.
+	 * @param[in] BellShapedParameters.
 	 */
 	void SetBellShapedParameter(BellShapedParameter bellShapedParameters);
 	/**
