@@ -46,17 +46,9 @@ public:
 	 */
 	const Eigen::VectorXd& GetReference() const;
 	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task internal activation function.
-	 */
-	virtual void UpdateInternalActivationFunction()=0;
-	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task reference.
-	 */
-	virtual void UpdateReference()=0;
-	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task Jacobian.
-	 *  */
-	virtual void UpdateJacobian()=0;
+     * @brief Pure Virtual Method to be implemented by the derived class to update the Task.
+     */
+	virtual void Update()=0;
 	/**
 	 * @brief Overload of the cout operator.
 	 */
@@ -68,6 +60,18 @@ public:
 	}
 
 protected:
+	/**
+	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task internal activation function.
+	 */
+	virtual void UpdateInternalActivationFunction()=0;
+	/**
+	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task reference.
+	 */
+	virtual void UpdateReference()=0;
+	/**
+	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task Jacobian.
+	 *  */
+	virtual void UpdateJacobian()=0;
 	std::string ID_;
 	Eigen::MatrixXd Ai_, J_;
 	Eigen::VectorXd x_dot_;
