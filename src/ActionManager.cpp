@@ -25,7 +25,7 @@ void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorit
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
 		throw (ActionManagerMissingPriorityLevel) {
-	std::shared_ptr<PriorityLevel> pl = FindPriorityLevelInHierarchy(priorityLevelID);
+	std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
 	if (pl == nullptr) {
 		throw(ActionManagerMissingPriorityLevel());
 	}
@@ -37,7 +37,7 @@ void ActionManager::AddAction(std::string actionID, std::vector<std::string> pri
 	auto newAction = std::make_shared<Action>(Action());
 	newAction->SetID(actionID);
 	for (auto& pl : priorityLevelsID) {
-		std::shared_ptr<PriorityLevel> plToAdd = FindPriorityLevelInHierarchy(pl);
+		std::shared_ptr<PriorityLevel> plToAdd = GetPriorityLevel(pl);
 		if (plToAdd == nullptr) {
 			throw(ActionManagerMissingActionPriorityLevel());
 		}
@@ -48,7 +48,7 @@ void ActionManager::AddAction(std::string actionID, std::vector<std::string> pri
 
 void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException) {
 	oldAction_ = currentAction_;
-	currentAction_ = FindAction(newAction);
+	currentAction_ = GetAction(newAction);
 	if (currentAction_ == nullptr) {
 		throw(ActionManagerNullActionException());
 	}
@@ -96,7 +96,7 @@ const Hierarchy& ActionManager::GetHierarchy() const throw (ActionManagerHierarc
 	return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::FindAction(std::string ActionID) {
+std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) {
 	for (auto& act : actions_) {
 		if (act->GetID() == ActionID) {
 			return act;
@@ -105,7 +105,7 @@ std::shared_ptr<Action> ActionManager::FindAction(std::string ActionID) {
 	return nullptr;
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::FindPriorityLevelInHierarchy(std::string priorityLevelID) {
+std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID) {
 
 	for (auto& priorityLevel : hierarchy_) {
 		if (priorityLevel->GetID() == priorityLevelID) {

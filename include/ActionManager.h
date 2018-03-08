@@ -69,6 +69,21 @@ public:
 	 */
 	const Hierarchy& GetHierarchy() const throw (ActionManagerHierarchyException);
 	/**
+		 * @brief Method which returns a priorityLevel.
+		 * @param[in] priorityLevelID: ID of the priority Level.
+		 * @return std::shared_ptr to PriorityLevel.
+	*/
+	//TODO throw an exception if the priority level is not present in the hierarchy
+	std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID);
+
+	/**
+		 * @brief Method which returns an Action.
+		 * @param[in] ActionID: ID of the Action.
+		 * @return std::shared_ptr to Action.
+	*/
+	//TODO throw an exception if the priority level is not present in the hierarchy
+	std::shared_ptr<Action> GetAction(std::string ActionID);
+	/**
 	 * @brief Overload of the cout operator
 	 */
 	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager) {
@@ -78,19 +93,7 @@ public:
 				<< *actionManager.oldAction_ << "\033[1;37m" << "Time Elapsed " << "\033[0m"
 				<< std::put_time(std::localtime(&ttp), "%F %T");
 	}
-private:
-	/**
-	 * @brief Method that finds a tpik::Action in the action list.
-	 * @param[in] ID: action ID.
-	 * @return std::shared_ptr to the found tpik::Action.
-	 */
-	std::shared_ptr<Action> FindAction(std::string ID);
-	/**
-	 * @brief Method which finds a priority level in the unified hierarchy.
-	 * @param[in] priorityLevelID: ID of the priority level to find.
-	 * @return std::shared_ptr to the found priorityLevel.
-	 */
-	std::shared_ptr<PriorityLevel> FindPriorityLevelInHierarchy(std::string priorityLevelID);
+
 protected:
 	std::vector<std::shared_ptr<Action>> actions_;
 	Hierarchy hierarchy_;
