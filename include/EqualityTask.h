@@ -24,7 +24,7 @@ public:
 	 * @brief Constructor of TaskEquality Class.
 	 * @param[in] ID: Task ID.
 	 */
-	EqualityTask(const std::string ID);
+	EqualityTask(const std::string ID, int TaskSpace, int DoF);
 	/**
 	 * @brief Default De-Constructor of TaskEquality Class
 	 */

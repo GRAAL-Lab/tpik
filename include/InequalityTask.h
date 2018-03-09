@@ -23,7 +23,7 @@ public:
 	 * @brief Constructor of Task Class.
 	 * @param[in] ID: Task ID.
 	 */
-	InequalityTask(const std::string ID);
+	InequalityTask(const std::string ID,int TaskSpace, int DoF);
 	/**
 	 * @brief Default De-constructor of InequalityTask Class.
 	 */

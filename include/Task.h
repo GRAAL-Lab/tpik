@@ -20,7 +20,7 @@ public:
 	 * @brief Constructor of Task Class.
 	 * @param[in] ID: Task ID.
 	 */
-	Task(const std::string ID);
+	Task(const std::string ID, int TaskSpace, int DoF);
 	/**
 	 * @brief Default De-constructor of Task Class.
 	 */
@@ -75,6 +75,8 @@ protected:
 	std::string ID_;
 	Eigen::MatrixXd Ai_, J_;
 	Eigen::VectorXd x_dot_;
+	int taskSpace_;
+	int DoF_;
 
 };
 }

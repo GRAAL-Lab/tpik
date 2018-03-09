@@ -49,22 +49,11 @@ public:
 	 * @param[in] ID: priorityLevelID to be set.
 	 */
 	void SetID(std::string ID);
-	/**
-	 * @brief Method which juxtaposes the Task Jacobians to obtain the priority level Jacobian.
-	 */
-	void UpdateJacobian();
-	/**
-	 * @brief Method which juxtaposes the Task Internal Activation Functions to obtain the priority level Internal Activation Function.
-	 */
-	void UpdateInternalActivationFunction();
-	/**
-	 * @brief Method which juxtaposes the Task References to obtain the priority level References.
-	 */
-	void UpdateReference();
+
 	/**
 	 * @brief Method which updates the PriorityLevel Jacobian, Internal ActivationFunction and Reference.
 	 */
-	void UpdateAll();
+	void Update();
 	/**
 	 * @brief Method setting the external activation function of the PriorityLevel, it is supposed that such value is equal for all the priority Level tasks.
 	 *
@@ -130,6 +119,19 @@ public:
 	}
 
 private:
+	/**
+	 * @brief Method which juxtaposes the Task Jacobians to obtain the priority level Jacobian.
+	 */
+	void UpdateJacobian();
+	/**
+	 * @brief Method which juxtaposes the Task Internal Activation Functions to obtain the priority level Internal Activation Function.
+	 */
+	void UpdateInternalActivationFunction();
+	/**
+	 * @brief Method which juxtaposes the Task References to obtain the priority level References.
+	 */
+	void UpdateReference();
+
 	std::vector<std::shared_ptr<Task> > level_;
 	std::string ID_;
 	Eigen::MatrixXd Ai_, J_;

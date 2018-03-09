@@ -3,7 +3,7 @@
 
 namespace tpik {
 
-InequalityTask::InequalityTask(const std::string ID):Task(ID),minBound_(0),maxBound_(0){}
+InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF):Task(ID, TaskSpace, DoF),minBound_(0),maxBound_(0){}
 
 InequalityTask::~InequalityTask(){
 }

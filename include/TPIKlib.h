@@ -13,5 +13,6 @@
 #include "TPIKExceptions.h"
 #include "InequalityTask.h"
 #include "EqualityTask.h"
+#include "CoordinationArmVehicleSolver.h"
 
 #endif

@@ -5,8 +5,13 @@
 
 namespace tpik {
 
-Task::Task(const std::string ID) {
+Task::Task(const std::string ID, int taskSpace, int DoF) {
 	ID_ = ID;
+	taskSpace_=taskSpace;
+	DoF_=DoF;
+	Ai_.resize(taskSpace_,taskSpace_);
+	x_dot_.resize(taskSpace_);
+	J_.resize(taskSpace_,DoF_);
 }
 
 Task::~Task() {

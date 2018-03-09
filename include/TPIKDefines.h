@@ -1,16 +1,17 @@
 #ifndef __TPIKDEFINES_H__
 #define __TPIKDEFINES_H__
 
-namespace tpik {
+namespace tpik
+{
 
-struct BellShapedParameter {
-	double sigma1Max;
-	double sigma2Max;
-	double sigma1Min;
-	double sigma3Min;
+struct BellShapedParameter
+{
+	double sigmaMax;
+	double sigmaMin;
 };
 
-struct TaskParameter {
+struct TaskParameter
+{
 	double gain;
 	bool TaskEnable;
 };

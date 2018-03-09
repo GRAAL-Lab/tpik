@@ -4,26 +4,68 @@
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
-#include <tpik/TPIKlib.h>
-#include <rml/RML.h>
+#include "ActionManager.h"
+#include "TPIK.h"
 
 namespace tpik {
+/**
+ * @brief CoordinationArmVehicleSolver class.
+ * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
+ * and arms by optimizing the arms velocities wrt to the vehicle current velocities.
+ * In order to achieve such results, one must provide an implementation of the Task class which provides the vehicle teleoperation
+ * with the actual vehicle velocities.
+ * First the whole system velocities (both for the vehicle and the arms) are computed. Then, by taking into account the current vehicle
+ * velocities, the arms velocities are computed hence obtaining the optimized arms velocities wrt to the current vehicle velocities.
+ * The desired vehicle velocities returned will be the one of the first optimization while the arms one will be the one of the second otpimization.
+ * In this way the difference in between the dynamic and kinematic of the arm and the vehicle is taken into account and the arms target velocities
+ * will be independent on the possible vehicle errors in tracking the desired velocities.
+ * note: the vehicle teleoperation task must not be included in the unified heirarchy.
+ */
 class CoordinationArmVehicleSolver {
 public:
-	CoordinationArmVehicleSolver(std::shared_ptr<tpik::ActionManager> actionManager, std::shared_ptr<tpik::TPIK> tpik,
+	/**
+	 * @brief Overload of the consturctur
+	 * @param[in] actionManager: std::shared_ptr to tpik::ActionManager which manages the unified hierarchy and the mission action.
+	 * @param[in] tpik: tpik::std::shared_ptr TPIK which provides the method to solve a single priority level.
+	 * @param[in] vehicleTask: std::shared_ptr to implementation of the abstract class tpik::Task which provides the teleoparation for the vehicle velocities.
+	 * @param[in] vehicleTaskSVDParameter: svd parameters for the input vehicle task.
+	 */
+	CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
 			std::shared_ptr<Task> vehicleTask, rml::SVDParameters vehicleTaskSVDParameter);
+	/**
+	 * @brief Method setting the current misison action.
+	 * @param[in] action: current action ID.
+	 */
+	//TODO throw and exception if the action is not included in the internal action list
 	void SetAction(std::string action);
-	void SetTPIK(std::shared_ptr<tpik::TPIK> tpik);
-	void SetActionManager(std::shared_ptr<tpik::ActionManager> actionManager);
+	/**
+	 * @brief Method setting the tpik .
+	 * @param[in] tpik: std::shared_ptr to tpik::TPIK object.
+	 */
+	void SetTPIK(std::shared_ptr<TPIK> tpik);
+	/**
+	 * @brief Method setting the ActionManager .
+	 * @param[in] actionManager: std::shared_ptr to tpik::ActionManager object.
+	 */
+	void SetActionManager(std::shared_ptr<ActionManager> actionManager);
+	/**
+	 * @brief Method setting the VehicleTask  .
+	 * @param[in] vehicleTask: std::shared_ptr to the implementation of tpik::Task, implementing the Vehicle Teleoperation.
+	 */
 	void SetVehicleTask(std::shared_ptr<Task> vehicleTask);
+	/**
+	 * @brief Method that computes the optimized velocities for the whole system through two different optimization. One for the vehicle and
+	 * on for the arms.
+	 * @return Kinematic Control Velocities.
+	 */
 	const Eigen::VectorXd ComputeDecoupledVelocities();
 private:
-	std::shared_ptr<tpik::ActionManager> actionManager_;
-	std::shared_ptr<tpik::TPIK> tpik_;
-	std::vector<std::shared_ptr<tpik::PriorityLevel> > hierarchy_;
-	std::vector<std::shared_ptr<tpik::PriorityLevel> > hierarchyArm_;
+	std::shared_ptr<ActionManager> actionManager_;
+	std::shared_ptr<TPIK> tpik_;
+	std::vector<std::shared_ptr<PriorityLevel> > hierarchy_;
+	std::vector<std::shared_ptr<PriorityLevel> > hierarchyArm_;
 	std::shared_ptr<Task> vehicleTask_;
-	std::shared_ptr<tpik::PriorityLevel> vehiclePL_;
+	std::shared_ptr<PriorityLevel> vehiclePL_;
 };
 }
 #endif

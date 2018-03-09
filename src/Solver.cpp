@@ -38,7 +38,7 @@ const Eigen::VectorXd Solver::ComputeVelocities() throw (SolverNotInitialization
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();
 	for (auto& priorityLevel : hierarchy_) {
-		priorityLevel->UpdateAll();
+		priorityLevel->Update();
 		Eigen::MatrixXd J = priorityLevel->GetJacobian();
 		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot = priorityLevel->GetReference();

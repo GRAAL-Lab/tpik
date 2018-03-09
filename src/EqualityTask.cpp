@@ -3,8 +3,8 @@
 
 namespace tpik {
 
-EqualityTask::EqualityTask(const std::string ID) :
-		Task(ID) {
+EqualityTask::EqualityTask(const std::string ID, int TaskSpace, int DoF) :
+		Task(ID, TaskSpace, DoF) {
 }
 
 EqualityTask::~EqualityTask() {

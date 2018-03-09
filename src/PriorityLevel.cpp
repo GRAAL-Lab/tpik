@@ -62,7 +62,7 @@ void PriorityLevel::UpdateReference() {
 	}
 }
 
-void PriorityLevel::UpdateAll() {
+void PriorityLevel::Update() {
 	UpdateJacobian();
 	UpdateInternalActivationFunction();
 	UpdateReference();
