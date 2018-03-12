@@ -11,10 +11,6 @@ TPIK::TPIK(int DoF) {
 	Q_ = I_;
 }
 
-TPIK::TPIK() {
-	DoF_ = 0;
-}
-
 TPIK::~TPIK() {
 }
 
@@ -28,12 +24,6 @@ void TPIK::Reset() {
 
 }
 
-void TPIK::SetDoF(int DoF) {
-	DoF_ = DoF;
-	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
-	y_ = Eigen::VectorXd::Zero(DoF_);
-	Q_ = I_;
-}
 
 int TPIK::GetDoF() {
 	return DoF_;

@@ -17,10 +17,6 @@ Task::Task(const std::string ID, int taskSpace, int DoF) {
 Task::~Task() {
 }
 
-void Task::SetID(const std::string ID) {
-	ID_ = ID;
-}
-
 const Eigen::MatrixXd& Task::GetJacobian() const {
 	return J_;
 

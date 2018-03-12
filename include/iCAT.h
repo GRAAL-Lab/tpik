@@ -20,10 +20,7 @@ public:
 	 * @param[in] DoF: Degrees of Freedom.
 	 */
 	iCAT(int DoF);
-	/**
-	 * @brief Class default constructor.
-	 */
-	iCAT();
+
 	/**
 	 * @brief Class default de-constructor.
 	 */

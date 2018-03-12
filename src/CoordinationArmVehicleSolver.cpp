@@ -25,23 +25,9 @@ void CoordinationArmVehicleSolver::SetAction(std::string action) {
 	actionManager_->SetAction(action);
 }
 
-void CoordinationArmVehicleSolver::SetActionManager(std::shared_ptr<ActionManager> actionManager) {
-	actionManager_ = actionManager;
-	hierarchy_ = actionManager_->GetHierarchy();
-	auto plVehicle = std::make_shared<PriorityLevel>(PriorityLevel("plVehicle"));
-	plVehicle->AddTask(vehicleTask_);
-	hierarchyArm_.push_back(plVehicle);
-	hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
-}
-
-void CoordinationArmVehicleSolver::SetVehicleTask(std::shared_ptr<Task> vehicleTask) {
-	vehicleTask_ = vehicleTask;
-}
-
 void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik) {
 	tpik_ = tpik;
 }
-
 
 const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities() {
 

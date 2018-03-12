@@ -19,10 +19,7 @@ public:
 	 * @param[in] DoF: degrees of freedom;
 	 */
 	TPIK(int DoF);
-	/**
-	 * @brief TPIK Default constructor.
-	 */
-	TPIK();
+
 	/**
 	 * @brief TPIK virtual Default de-constructor.
 	 */
@@ -46,11 +43,6 @@ public:
 	 * @brief Method which resets the class variables in order to compute a new kinematic control.
 	 */
 	void Reset();
-	/**
-	 * @brief Method which sets the system Degrees of Freedom
-	 * @param[in] DoF: Degrees of Freedom.
-	 */
-	void SetDoF(int DoF);
 	/**
 	 * @brief Method which returns the system Degrees of Freedom
 	 * @return Degrees of freedom.

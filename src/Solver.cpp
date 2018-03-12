@@ -12,14 +12,6 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPI
 	tpik_ = tpik;
 }
 
-Solver::Solver() {
-}
-
-void Solver::SetActionManager(std::shared_ptr<ActionManager> actionManager) {
-	actionManager_ = actionManager;
-	hierarchy_ = actionManager_->GetHierarchy();
-}
-
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) {
 	tpik_ = tpik;
 }

@@ -24,15 +24,6 @@ public:
 	 */
 	Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik);
 	/**
-	 * @brief Solver Class default constructor.
-	 */
-	Solver();
-	/**
-	 * @brief Method which sets the action Manager.
-	 * @param[in] actionManger: std::shared_ptr to the action manager.
-	 */
-	void SetActionManager(std::shared_ptr<ActionManager> actionManager);
-	/**
 	 * @brief Method which sets the tpik.
 	 * @param[in] tpik: std::shared_ptr to tpik.
 	 */

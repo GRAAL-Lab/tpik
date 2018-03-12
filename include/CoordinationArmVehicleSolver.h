@@ -44,16 +44,6 @@ public:
 	 */
 	void SetTPIK(std::shared_ptr<TPIK> tpik);
 	/**
-	 * @brief Method setting the ActionManager .
-	 * @param[in] actionManager: std::shared_ptr to tpik::ActionManager object.
-	 */
-	void SetActionManager(std::shared_ptr<ActionManager> actionManager);
-	/**
-	 * @brief Method setting the VehicleTask  .
-	 * @param[in] vehicleTask: std::shared_ptr to the implementation of tpik::Task, implementing the Vehicle Teleoperation.
-	 */
-	void SetVehicleTask(std::shared_ptr<Task> vehicleTask);
-	/**
 	 * @brief Method that computes the optimized velocities for the whole system through two different optimization. One for the vehicle and
 	 * on for the arms.
 	 * @return Kinematic Control Velocities.

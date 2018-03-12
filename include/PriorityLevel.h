@@ -25,10 +25,7 @@ public:
 	 * @param[in] ID: Priority Level ID.
 	 */
 	PriorityLevel(std::string ID);
-	/**
-	 * @brief Default Constructor of PriorityLevel Class.
-	 */
-	PriorityLevel();
+
 	/**
 	 * @brief Default De-constructor of PriorityLevel Class.
 	 */
@@ -44,12 +41,6 @@ public:
 	 * @return PriorityLevel ID.
 	 */
 	std::string GetID() const throw (PriorityLevelIndexException);
-	/**
-	 * @brief Method setting the PriorityLevel ID.
-	 * @param[in] ID: priorityLevelID to be set.
-	 */
-	void SetID(std::string ID);
-
 	/**
 	 * @brief Method which updates the PriorityLevel Jacobian, Internal ActivationFunction and Reference.
 	 */

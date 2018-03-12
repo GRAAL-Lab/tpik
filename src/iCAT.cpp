@@ -9,10 +9,6 @@ iCAT::iCAT(int DoF) :
 		TPIK(DoF) {
 }
 
-iCAT::iCAT() :
-		TPIK() {
-}
-
 iCAT::~iCAT() {
 }
 

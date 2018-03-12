@@ -25,11 +25,7 @@ public:
 	 * @brief Default De-constructor of Task Class.
 	 */
 	virtual ~Task();
-	/**
-	 * @brief Method that sets the Task ID.
-	 * @param[in] ID : Task ID.
-	 */
-	void SetID(const std::string ID);
+
 	/**
 	 * @brief Method returning the Jacobian Matrix of the Task.
 	 * @return Jacobian Matrix.

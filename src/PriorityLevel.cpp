@@ -11,10 +11,6 @@ PriorityLevel::PriorityLevel(std::string ID) :
 	ID_ = ID;
 }
 
-PriorityLevel::PriorityLevel() :
-		taskNumber_(0), Ae_(0) {
-}
-
 PriorityLevel::~PriorityLevel() {
 }
 
@@ -30,10 +26,6 @@ std::string PriorityLevel::GetID() const throw (PriorityLevelIndexException) {
 	}
 
 	return ID_;
-}
-
-void PriorityLevel::SetID(std::string ID) {
-	ID_ = ID;
 }
 
 void PriorityLevel::UpdateJacobian() {
