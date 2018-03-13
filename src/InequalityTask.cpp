@@ -1,36 +1,47 @@
 #include <iostream>
-#include "InequalityTask.h"
+#include "tpik/InequalityTask.h"
 
-namespace tpik {
+namespace tpik
+{
 
-InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF):Task(ID, TaskSpace, DoF),minBound_(0),maxBound_(0){}
-
-InequalityTask::~InequalityTask(){
+InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF) :
+		Task(ID, TaskSpace, DoF), minBound_(0), maxBound_(0)
+{
 }
 
-void InequalityTask::SetMinBound(double minBound) {
+InequalityTask::~InequalityTask()
+{
+}
+
+void InequalityTask::SetMinBound(double minBound)
+{
 	minBound_ = minBound;
 
 }
 
-void InequalityTask::SetMaxBound(double maxBound) {
+void InequalityTask::SetMaxBound(double maxBound)
+{
 	maxBound_ = maxBound;
 
 }
 
-void InequalityTask::SetTaskParameter(TaskParameter taskParameters) {
+void InequalityTask::SetTaskParameter(TaskParameter taskParameters)
+{
 	taskParameter_ = taskParameters;
 }
 
-TaskParameter InequalityTask::GetTaskParameter() {
+TaskParameter InequalityTask::GetTaskParameter()
+{
 	return taskParameter_;
 }
 
-void InequalityTask::SetBellShapedParameter(BellShapedParameter bellShapedParameter){
-	bellShapedParameter_=bellShapedParameter;
+void InequalityTask::SetBellShapedParameter(BellShapedParameter bellShapedParameter)
+{
+	bellShapedParameter_ = bellShapedParameter;
 }
 
-BellShapedParameter InequalityTask::GetBellShapedParameter(){
+BellShapedParameter InequalityTask::GetBellShapedParameter()
+{
 	return bellShapedParameter_;
 }
 

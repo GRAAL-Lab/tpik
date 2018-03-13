@@ -30,13 +30,24 @@ install(TARGETS tpik EXPORT tpikConfig
     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})  # This is for Windows
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tpik)
+install(DIRECTORY include/tpik DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 # This makes the project importable from the install directory
 # Put config file in per-project dir (name MUST match), can also
 # just go into 'cmake'.
 install(EXPORT tpikConfig DESTINATION share/tpik/cmake)
 # This makes the project importable from the build directory
 export(TARGETS tpik FILE tpikConfig.cmake)
+
+if(BUILD_TEST)
+    # Every library has unit tests, of course
+   add_executable(tpik_test
+   test/tpikTest.cpp
+   test/TestTask.cpp 
+)
+target_link_libraries(tpik_test tpik)
+    
+add_test(tpik_test tpik_test)
+endif(BUILD_TEST)
 
 
 

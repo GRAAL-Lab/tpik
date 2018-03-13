@@ -8,7 +8,8 @@
 #include "TPIKDefines.h"
 #include "Task.h"
 
-namespace tpik {
+namespace tpik
+{
 
 /**
  * @brief EqualityTask class, derived from the Abstract class Task.
@@ -17,7 +18,8 @@ namespace tpik {
  * Furthermore the class is provided with method to set and get the task parameter, composed by gain and a boolean stating whether the task is enabled.
  */
 
-class EqualityTask: public Task {
+class EqualityTask: public Task
+{
 
 public:
 	/**

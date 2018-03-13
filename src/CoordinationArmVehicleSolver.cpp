@@ -1,13 +1,15 @@
-#include "CoordinationArmVehicleSolver.h"
+#include "tpik/CoordinationArmVehicleSolver.h"
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <memory>
 
-namespace tpik {
+namespace tpik
+{
 
-CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
-		std::shared_ptr<Task> vehicleTask,rml::SVDParameters vehicleTaskSVDParameter) {
+CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager,
+		std::shared_ptr<TPIK> tpik, std::shared_ptr<Task> vehicleTask, rml::SVDParameters vehicleTaskSVDParameter)
+{
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
 	tpik_ = tpik;
@@ -21,15 +23,18 @@ CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<Actio
 	hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
 
-void CoordinationArmVehicleSolver::SetAction(std::string action) {
+void CoordinationArmVehicleSolver::SetAction(std::string action)
+{
 	actionManager_->SetAction(action);
 }
 
-void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik) {
+void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik)
+{
 	tpik_ = tpik;
 }
 
-const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities() {
+const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
+{
 
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();
@@ -45,7 +50,8 @@ const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
 		tpik_->ComputeYSingleLevel(plHierarchyArms->GetJacobian(), plHierarchyArms->GetActivationFunction(),
 				plHierarchyArms->GetReference(), plHierarchyArms->GetSVDParameter());
 	}
-	Eigen::VectorXd y = rml::UnderJuxtapose(yVehicle.block(0, 0, 6, 1), tpik_->GetY().block(6, 0,tpik_->GetDoF()-6, 1));
+	Eigen::VectorXd y = rml::UnderJuxtapose(yVehicle.block(0, 0, 6, 1),
+			tpik_->GetY().block(6, 0, tpik_->GetDoF() - 6, 1));
 	return y;
 }
 

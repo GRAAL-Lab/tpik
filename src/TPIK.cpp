@@ -1,31 +1,36 @@
-#include "TPIK.h"
+#include "tpik/TPIK.h"
 #include <iostream>
 #include <vector>
 #include <eigen3/Eigen/Dense>
 
-namespace tpik {
-TPIK::TPIK(int DoF) {
+namespace tpik
+{
+TPIK::TPIK(int DoF)
+{
 	DoF_ = DoF;
 	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
 	y_ = Eigen::VectorXd::Zero(DoF_);
 	Q_ = I_;
 }
 
-TPIK::~TPIK() {
+TPIK::~TPIK()
+{
 }
 
-const Eigen::VectorXd& TPIK::GetY() const {
+const Eigen::VectorXd& TPIK::GetY() const
+{
 	return y_;
 }
 
-void TPIK::Reset() {
+void TPIK::Reset()
+{
 	y_.setZero();
 	Q_.setIdentity();
 
 }
 
-
-int TPIK::GetDoF() {
+int TPIK::GetDoF()
+{
 	return DoF_;
 }
 

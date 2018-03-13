@@ -9,7 +9,8 @@
 #include "Task.h"
 #include "TPIKExceptions.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief PriorityLevel class.
  * Implementation of the PriorityLevel Class. Starting form a vector of tpik::Task which have the same priority, it computes the
@@ -18,7 +19,8 @@ namespace tpik {
  * behavior (hence are all active or inactive).
  * The overall activation function is computed as product between the internal and external activation functions.
  */
-class PriorityLevel {
+class PriorityLevel
+{
 public:
 	/**
 	 * @brief Constructor of PriorityLevel Class.
@@ -37,10 +39,9 @@ public:
 	void AddTask(std::shared_ptr<Task> task);
 	/**
 	 * @brief Method returning the PriorityLevel ID.
-	 * An exception is throw if the priority level id has not been set yet.
 	 * @return PriorityLevel ID.
 	 */
-	std::string GetID() const throw (PriorityLevelIndexException);
+	std::string GetID() const;
 	/**
 	 * @brief Method which updates the PriorityLevel Jacobian, Internal ActivationFunction and Reference.
 	 */
@@ -98,15 +99,16 @@ public:
 	/**
 	 * @brief Function overloading the cout operator
 	 */
-	friend std::ostream& operator <<(std::ostream& os, PriorityLevel const& priorityLevel) {
-		return os << "\033[1;37m" << "PriorityLevel ID " << priorityLevel.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
-				<< "Internal Activation Function \n" << "\033[0m" << priorityLevel.Ai_ << "\n" << "\033[1;37m"
-				<< "External Activation Function " << "\033[0m" << priorityLevel.Ae_ << "\n" << "\033[1;37m"
-				<< "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n" << "\033[1;37m"
-				<< "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n" << "\033[1;37m"
-				<< "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.svdParameters_.threshold << "\n" << "\033[1;37m"
-				<< "lambda " << "\033[0m"  << priorityLevel.svdParameters_.lambda << "\n" << "\033[1;37m"
-				<< "mu " << "\033[0m" << priorityLevel.svdParameters_.mu << "\n" << "\033[0m";
+	friend std::ostream& operator <<(std::ostream& os, PriorityLevel const& priorityLevel)
+	{
+		return os << "\033[1;37m" << "PriorityLevel ID " << priorityLevel.ID_ << "\n" << std::setprecision(2)
+				<< "\033[1;37m" << "Internal Activation Function \n" << "\033[0m" << priorityLevel.Ai_ << "\n"
+				<< "\033[1;37m" << "External Activation Function " << "\033[0m" << priorityLevel.Ae_ << "\n"
+				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n"
+				<< "\033[1;37m" << "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n"
+				<< "\033[1;37m" << "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.svdParameters_.threshold << "\n"
+				<< "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.svdParameters_.lambda << "\n"
+				<< "\033[1;37m" << "mu " << "\033[0m" << priorityLevel.svdParameters_.mu << "\n" << "\033[0m";
 	}
 
 private:

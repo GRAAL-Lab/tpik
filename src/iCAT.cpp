@@ -1,22 +1,23 @@
-#include "iCAT.h"
+#include "tpik/iCAT.h"
 #include <iostream>
 #include <vector>
 #include <rml/RML.h>
 #include <eigen3/Eigen/Dense>
 
-namespace tpik {
+namespace tpik
+{
 iCAT::iCAT(int DoF) :
-		TPIK(DoF) {
+		TPIK(DoF)
+{
 }
 
-iCAT::~iCAT() {
+iCAT::~iCAT()
+{
 }
 
 void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd xdot, rml::SVDParameters svd)
-		throw (TPIKMissingDoFInitializationException) {
-	if (DoF_ == 0) {
-		throw TPIKMissingDoFInitializationException();
-	}
+{
+
 	Eigen::MatrixXd barG = J * Q_;
 	Eigen::MatrixXd barGtraspAA = barG.transpose() * Alpha * Alpha;
 	Eigen::MatrixXd T = (I_ - Q_).transpose() * (I_ - Q_);

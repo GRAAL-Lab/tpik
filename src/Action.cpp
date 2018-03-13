@@ -1,15 +1,18 @@
-#include "Action.h"
+#include "tpik/Action.h"
 #include <iostream>
 #include <vector>
 #include <memory>
 
-namespace tpik {
+namespace tpik
+{
 
-void Action::SetID(std::string ID) {
+void Action::SetID(std::string ID)
+{
 	ID_ = ID;
 }
 
-bool Action::FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel) {
+bool Action::FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel)
+{
 	for (auto& priorityLevelHierarhcy : priorityLevels_) {
 		if (priorityLevelHierarhcy->GetID() == (priorityLevel->GetID())) {
 			return true;
@@ -18,15 +21,18 @@ bool Action::FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel) {
 	return false;
 }
 
-void Action::AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel) {
+void Action::AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel)
+{
 	priorityLevels_.push_back(priorityLevel);
 }
 
-const Hierarchy Action::GetPriorityLevels() const {
+const Hierarchy Action::GetPriorityLevels() const
+{
 	return priorityLevels_;
 }
 
-std::string Action::GetID() {
+std::string Action::GetID()
+{
 	return ID_;
 }
 

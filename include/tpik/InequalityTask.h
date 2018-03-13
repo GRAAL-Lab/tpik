@@ -9,7 +9,8 @@
 #include "TPIKDefines.h"
 #include "Task.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief InequalityTask class, derived from the Abstract class Task.
  * Abstract base InequalityTask, implementing the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
@@ -17,13 +18,14 @@ namespace tpik {
  * Such class is provided with method to set and get the minimum and maximum bounds in order to state the interval where the task is active.
  * Furthermore methods to set and get the task parameter (gain and a boolean stating whether the task is enabled) are implemented.
  */
-class InequalityTask: public Task {
+class InequalityTask: public Task
+{
 public:
 	/**
 	 * @brief Constructor of Task Class.
 	 * @param[in] ID: Task ID.
 	 */
-	InequalityTask(const std::string ID,int TaskSpace, int DoF);
+	InequalityTask(const std::string ID, int TaskSpace, int DoF);
 	/**
 	 * @brief Default De-constructor of InequalityTask Class.
 	 */

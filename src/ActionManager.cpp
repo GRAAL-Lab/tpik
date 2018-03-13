@@ -1,10 +1,12 @@
-#include "ActionManager.h"
+#include "tpik/ActionManager.h"
 #include <iostream>
 #include <memory>
 #include <vector>
 
-namespace tpik {
-ActionManager::ActionManager() {
+namespace tpik
+{
+ActionManager::ActionManager()
+{
 	auto defaultAct = std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
 	oldAction_ = defaultAct;
@@ -12,19 +14,22 @@ ActionManager::ActionManager() {
 	actions_.push_back(oldAction_);
 }
 
-void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelID) {
+void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelID)
+{
 	hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
 }
 
 void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID,
-		rml::SVDParameters svdParameters) {
+		rml::SVDParameters svdParameters)
+{
 	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
 	pl->SetSVDParameters(svdParameters);
 	hierarchy_.push_back(pl);
 }
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
-		throw (ActionManagerMissingPriorityLevel) {
+		throw (std::exception)
+{
 	std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
 	if (pl == nullptr) {
 		throw(ActionManagerMissingPriorityLevel());
@@ -32,8 +37,8 @@ void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std
 	pl->AddTask(task);
 }
 
-void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevelsID)
-		throw (ActionManagerMissingActionPriorityLevel) {
+void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevelsID) throw (std::exception)
+{
 	auto newAction = std::make_shared<Action>(Action());
 	newAction->SetID(actionID);
 	for (auto& pl : priorityLevelsID) {
@@ -46,7 +51,8 @@ void ActionManager::AddAction(std::string actionID, std::vector<std::string> pri
 	actions_.push_back(newAction);
 }
 
-void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullActionException) {
+void ActionManager::SetAction(std::string newAction) throw (std::exception)
+{
 	oldAction_ = currentAction_;
 	currentAction_ = GetAction(newAction);
 	if (currentAction_ == nullptr) {
@@ -55,7 +61,8 @@ void ActionManager::SetAction(std::string newAction) throw (ActionManagerNullAct
 	time_ = std::chrono::system_clock::now();
 }
 
-void ActionManager::ComputeExternalActivation() throw (ActionManagerHierarchyException) {
+void ActionManager::ComputeExternalActivation() throw (std::exception)
+{
 	if (hierarchy_.empty()) {
 		throw(ActionManagerHierarchyException());
 	}
@@ -89,14 +96,16 @@ void ActionManager::ComputeExternalActivation() throw (ActionManagerHierarchyExc
 
 }
 
-const Hierarchy& ActionManager::GetHierarchy() const throw (ActionManagerHierarchyException) {
+const Hierarchy& ActionManager::GetHierarchy() const throw (std::exception)
+{
 	if (hierarchy_.empty()) {
 		throw ActionManagerHierarchyException();
 	}
 	return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) {
+std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID)
+{
 	for (auto& act : actions_) {
 		if (act->GetID() == ActionID) {
 			return act;
@@ -105,7 +114,8 @@ std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) {
 	return nullptr;
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID) {
+std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID)
+{
 
 	for (auto& priorityLevel : hierarchy_) {
 		if (priorityLevel->GetID() == priorityLevelID) {

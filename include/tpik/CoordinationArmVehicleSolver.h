@@ -7,7 +7,8 @@
 #include "ActionManager.h"
 #include "TPIK.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief CoordinationArmVehicleSolver class.
  * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
@@ -21,7 +22,8 @@ namespace tpik {
  * will be independent on the possible vehicle errors in tracking the desired velocities.
  * note: the vehicle teleoperation task must not be included in the unified heirarchy.
  */
-class CoordinationArmVehicleSolver {
+class CoordinationArmVehicleSolver
+{
 public:
 	/**
 	 * @brief Overload of the consturctur

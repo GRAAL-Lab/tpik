@@ -7,13 +7,15 @@
 #include "TPIK.h"
 #include "TPIKExceptions.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief iCAT Class derived from the tpik::TPIK abstract class.
  * Implementation of the iCAT (Inequality Constraints Activation and Task) algorithm. It implements the pure virtual method ComputeYStep of
  * the tpik::TPIK class to compute the inverse kinematic of a single task level.
  */
-class iCAT: public TPIK {
+class iCAT: public TPIK
+{
 public:
 	/**
 	 * @brief Class constructor.
@@ -27,14 +29,13 @@ public:
 	virtual ~iCAT();
 	/**
 	 * @brief Implementation of the pure virtual method that computes the inverse kinematic control for a single priority level.
-	 * An expection is thrown if the number of degrees of freemdom has not been initialized yet.
 	 * @param[in] J: Jacobian Matrix;
 	 * @param[in] Alpha: Activation Function;
 	 * @param[in] x_dot: Reference;
 	 * @param[in] svd: rml::SVDParameters
 	 */
-	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot, rml::SVDParameters svd)
-			throw (TPIKMissingDoFInitializationException);
+	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot,
+			rml::SVDParameters svd);
 };
 }
 #endif

@@ -8,13 +8,15 @@
 #include <iomanip>
 #include "TPIKDefines.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief Task class.
  * Implementation of the abstract Task base class. The derived classes must implement the pure virtual methods: UpdateJacobian, UpdateInternalActivationFunction
  * and UpdateReference.
  */
-class Task {
+class Task
+{
 public:
 	/**
 	 * @brief Constructor of Task Class.
@@ -42,13 +44,14 @@ public:
 	 */
 	const Eigen::VectorXd& GetReference() const;
 	/**
-     * @brief Pure Virtual Method to be implemented by the derived class to update the Task.
-     */
+	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task.
+	 */
 	virtual void Update()=0;
 	/**
 	 * @brief Overload of the cout operator.
 	 */
-	friend std::ostream& operator <<(std::ostream& os, Task const& task) {
+	friend std::ostream& operator <<(std::ostream& os, Task const& task)
+	{
 		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
 				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m"
 				<< "Jacobian \n" << "\033[0m" << task.J_ << "\n" << "\033[1;37m"

@@ -6,7 +6,8 @@
 #include <memory>
 #include "PriorityLevel.h"
 
-namespace tpik {
+namespace tpik
+{
 typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
 /**
  * @brief Action class.
@@ -14,11 +15,12 @@ typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
  * action hierarchy.
  */
 
-class Action {
+class Action
+{
 public:
 	/**
 	 * @brief Method setting the Action ID.
-	*/
+	 */
 	void SetID(std::string ID);
 	/**
 	 * @brief Method checking whether the input priorityLevel is present in the action.
@@ -44,7 +46,8 @@ public:
 	/**
 	 * @brief Overloading of the cout operator.
 	 */
-	friend std::ostream& operator <<(std::ostream& os, Action const& action) {
+	friend std::ostream& operator <<(std::ostream& os, Action const& action)
+	{
 		return os << "\033[1;37m" << "Action ID " << action.ID_ << "\n" << std::setprecision(2);
 	}
 	;
