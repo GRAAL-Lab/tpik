@@ -20,6 +20,10 @@ class Task
 public:
 	/**
 	 * @brief Constructor of Task Class.
+	 * The Jacobian, reference and Internal Activation Function matrices are pre-allocated and initialized to zeros.
+	 * Jacobian (taskSpace x DoF)
+	 * Internal Activation Function (taskSpace x taskSpace)
+	 * Reference (taskSpace x 1)
 	 * @param[in] ID: Task ID.
 	 */
 	Task(const std::string ID, int TaskSpace, int DoF);

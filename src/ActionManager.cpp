@@ -71,25 +71,22 @@ void ActionManager::ComputeExternalActivation() throw (std::exception)
 		bool isInNewAction = currentAction_->FindPriorityLevel(priorityLevel);
 		double Ae;
 		if (isInOldAction && isInNewAction) {
-			// The PL is already active :identity
+			// The PL is already active :identity.
 			priorityLevel->SetExternalActivationFunction(1.0);
 		} else if (!isInOldAction && isInNewAction) {
-			//increasing
+			// The PL must be activated: increasing.
 			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
-			std::cout << diff.count() << " DIFF" << std::endl;
+			// In 500 ms the PL is completely active.
 			Ae = rml::IncreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
-			std::cout << Ae << " AE" << std::endl;
 		} else if (isInOldAction && !isInNewAction) {
 			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
-			//The PL must be deactivated: decreasing
-			std::cout << diff.count() << " DIFF" << std::endl;
+			//The PL must be deactivated: decreasing.
 			Ae = rml::DecreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
-			std::cout << Ae << " AE" << std::endl;
 
 		} else {
-			//The PL is already deactivated:zeros
+			//The PL is already deactivated:zeros.
 			priorityLevel->SetExternalActivationFunction(0.0);
 		}
 	}
