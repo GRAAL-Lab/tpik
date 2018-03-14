@@ -34,13 +34,13 @@ public:
 	 * @brief Method that sets the Task Minimum bound for Inequality Task to define the interval in which the Task must be active.
 	 * @param[in] minBound: minimum interval value.
 	 */
-	void SetMinBound(double minBound);
+	void SetMinBound(Eigen::VectorXd minBound);
 
 	/**
 	 * @brief Method that sets the Task Maximum bound for Inequality Task to define the interval in which the Task must be active.
 	 * @param[in] maxBound: maximum interval value.
 	 */
-	void SetMaxBound(double maxBound);
+	void SetMaxBound(Eigen::VectorXd maxBound);
 
 	/**
 	 * @brief Method that sets the Task Parameter (gain, task enable boolean).
@@ -66,7 +66,7 @@ public:
 
 protected:
 
-	double minBound_, maxBound_;
+	Eigen::VectorXd minBound_, maxBound_;
 	TaskParameter taskParameter_;
 	BellShapedParameter bellShapedParameter_;
 

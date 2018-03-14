@@ -6,8 +6,8 @@ namespace tpik
 
 struct BellShapedParameter
 {
-	double sigmaMax;
-	double sigmaMin;
+	double deltaMinBound;
+	double deltaMaxBound;
 };
 
 struct TaskParameter

@@ -61,8 +61,6 @@ int main()
 	std::cout << "COMPUTED VELOCITY" << std::endl;
 	//TEST CHANGING PARAMETER OF JACOBIAN
 	std::cout << "************Testing changing of jacobian**********" << std::endl;
-	auto gain1 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(6, 6));
-	auto gain2 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(6, 6));
 	testTask1->SetGain(gain1);
 	testTask2->SetGain(gain2);
 	*gain1 = 0.01 * Eigen::MatrixXd::Identity(6, 6);

@@ -5,21 +5,23 @@ namespace tpik
 {
 
 InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF) :
-		Task(ID, TaskSpace, DoF), minBound_(0), maxBound_(0)
+		Task(ID, TaskSpace, DoF)
 {
+	minBound_.resize(taskSpace_);
+	maxBound_.resize(taskSpace_);
 }
 
 InequalityTask::~InequalityTask()
 {
 }
 
-void InequalityTask::SetMinBound(double minBound)
+void InequalityTask::SetMinBound(Eigen::VectorXd minBound)
 {
 	minBound_ = minBound;
 
 }
 
-void InequalityTask::SetMaxBound(double maxBound)
+void InequalityTask::SetMaxBound(Eigen::VectorXd maxBound)
 {
 	maxBound_ = maxBound;
 
