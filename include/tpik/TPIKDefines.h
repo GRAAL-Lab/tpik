@@ -13,7 +13,8 @@ struct BellShapedParameter
 struct TaskParameter
 {
 	double gain;
-	bool TaskEnable;
+	bool taskEnable;
+	Eigen::VectorXd saturation;
 };
 
 }

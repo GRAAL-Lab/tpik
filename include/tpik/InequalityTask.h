@@ -32,13 +32,13 @@ public:
 	virtual ~InequalityTask();
 	/**
 	 * @brief Method that sets the Task Minimum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] minBound: minimum interval value.
+	 * @param[in] minBound: eigen vector minimum interval value for each scalar task .
 	 */
 	void SetMinBound(Eigen::VectorXd minBound);
 
 	/**
 	 * @brief Method that sets the Task Maximum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] maxBound: maximum interval value.
+	 * @param[in] maxBound: eigen vector maximum interval value for each scalar task .
 	 */
 	void SetMaxBound(Eigen::VectorXd maxBound);
 

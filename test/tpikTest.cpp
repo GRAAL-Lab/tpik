@@ -14,8 +14,8 @@ int main()
 	const std::string IDAction1 = "act1";
 	const std::string IDAction2 = "act2";
 	const std::string IDAction3 = "act3";
-	int taskSpace=6;
-	int DoF=6;
+	int taskSpace = 6;
+	int DoF = 6;
 
 	rml::SVDParameters svd;
 	svd.lambda = 0.00;
