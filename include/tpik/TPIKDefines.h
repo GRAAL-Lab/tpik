@@ -14,7 +14,7 @@ struct TaskParameter
 {
 	double gain;
 	bool taskEnable;
-	Eigen::VectorXd saturation;
+	double saturation;
 };
 
 }
