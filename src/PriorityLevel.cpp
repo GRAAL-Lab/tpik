@@ -72,11 +72,9 @@ void PriorityLevel::SetExternalActivationFunction(double Ae)
 	Ae_ = Ae;
 }
 
-void PriorityLevel::SetSVDParameters(rml::SVDParameters svdParameters)
+void PriorityLevel::SetSVDParameters(rml::SVDData svdParameters)
 {
-	svdParameters_.lambda = svdParameters.lambda;
-	svdParameters_.mu = svdParameters.mu;
-	svdParameters_.threshold = svdParameters.threshold;
+	svdParameters_=svdParameters;
 }
 const Eigen::MatrixXd& PriorityLevel::GetJacobian() const
 {
@@ -115,7 +113,7 @@ const std::vector<std::shared_ptr<Task> > PriorityLevel::GetLevel() const
 	return level_;
 }
 
-rml::SVDParameters tpik::PriorityLevel::GetSVDParameter()
+rml::SVDData PriorityLevel::GetSVDParameter()
 {
 	return svdParameters_;
 

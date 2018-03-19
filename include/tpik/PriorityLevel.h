@@ -55,7 +55,7 @@ public:
 	 * @brief Method setting the PriorityLevel svdParameters.
 	 * @param[in] svdParameters struct.
 	 */
-	void SetSVDParameters(rml::SVDParameters svdParameters);
+	void SetSVDParameters(rml::SVDData svdParameters);
 	/**
 	 * @brief Method Returning the PriorityLevel Jacobian.
 	 * @return PriorityLevel Jacobian.
@@ -95,7 +95,7 @@ public:
 	 * @brief Function Returning the PriorityLevel SVDParameters.
 	 * @return PriorityLevel rml::SVDParameter.
 	 */
-	rml::SVDParameters GetSVDParameter();
+	rml::SVDData GetSVDParameter();
 	/**
 	 * @brief Function overloading the cout operator
 	 */
@@ -106,9 +106,8 @@ public:
 				<< "\033[1;37m" << "External Activation Function " << "\033[0m" << priorityLevel.Ae_ << "\n"
 				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n"
 				<< "\033[1;37m" << "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n"
-				<< "\033[1;37m" << "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.svdParameters_.threshold << "\n"
-				<< "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.svdParameters_.lambda << "\n"
-				<< "\033[1;37m" << "mu " << "\033[0m" << priorityLevel.svdParameters_.mu << "\n" << "\033[0m";
+				<< "\033[1;37m" << "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.svdParameters_.params.threshold << "\n"
+				<< "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.svdParameters_.params.lambda << "\n";
 	}
 
 private:
@@ -131,7 +130,7 @@ private:
 	Eigen::VectorXd x_dot_;
 	double Ae_;
 	int taskNumber_;
-	rml::SVDParameters svdParameters_;
+	rml::SVDData svdParameters_;
 };
 }
 typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;

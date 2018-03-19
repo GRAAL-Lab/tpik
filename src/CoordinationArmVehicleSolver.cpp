@@ -8,7 +8,7 @@ namespace tpik
 {
 
 CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager,
-		std::shared_ptr<TPIK> tpik, std::shared_ptr<Task> vehicleTask, rml::SVDParameters vehicleTaskSVDParameter)
+		std::shared_ptr<TPIK> tpik, std::shared_ptr<Task> vehicleTask, rml::SVDData vehicleTaskSVDParameter)
 {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();

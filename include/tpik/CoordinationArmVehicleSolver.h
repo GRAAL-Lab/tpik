@@ -33,7 +33,7 @@ public:
 	 * @param[in] vehicleTaskSVDParameter: svd parameters for the input vehicle task.
 	 */
 	CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
-			std::shared_ptr<Task> vehicleTask, rml::SVDParameters vehicleTaskSVDParameter);
+			std::shared_ptr<Task> vehicleTask, rml::SVDData vehicleTaskSVDParameter);
 	/**
 	 * @brief Method setting the current misison action.
 	 * @param[in] action: current action ID.

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tpik/InequalityTask.h"
+#include "rml/RML.h"
 
 namespace tpik
 {
@@ -45,6 +46,11 @@ void InequalityTask::SetBellShapedParameter(BellShapedParameter bellShapedParame
 BellShapedParameter InequalityTask::GetBellShapedParameter()
 {
 	return bellShapedParameter_;
+}
+
+void InequalityTask::SaturateReference()
+{
+	rml::SaturateVector(taskSpace_,taskParameter_.saturation,x_dot_);
 }
 
 }

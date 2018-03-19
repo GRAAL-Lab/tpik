@@ -15,7 +15,7 @@ iCAT::~iCAT()
 {
 }
 
-void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot, rml::SVDParameters svd)
+void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot, rml::SVDData svd)
 {
 	if(!A.isZero()){
 	Eigen::MatrixXd barG = J * Q_;

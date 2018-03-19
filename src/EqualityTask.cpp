@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tpik/EqualityTask.h"
+#include "rml/RML.h"
 
 namespace tpik
 {
@@ -23,4 +24,8 @@ TaskParameter EqualityTask::GetTaskParameter()
 	return taskParameter_;
 }
 
+void EqualityTask::SaturateReference()
+{
+	rml::SaturateVector(taskSpace_,taskParameter_.saturation,x_dot_);
+}
 }

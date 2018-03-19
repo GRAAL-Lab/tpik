@@ -33,7 +33,7 @@ public:
 	 * @param[in] svd: svd Parameters.
 	 */
 	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot,
-			rml::SVDParameters svd)=0;
+			rml::SVDData svd)=0;
 	/**
 	 * @brief Method which returns the computed velocity.
 	 * @return Inverse Kinematic Velocity.

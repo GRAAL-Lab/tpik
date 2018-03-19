@@ -65,7 +65,7 @@ public:
 	BellShapedParameter GetBellShapedParameter();
 
 protected:
-
+	void SaturateReference();
 	Eigen::VectorXd minBound_, maxBound_;
 	TaskParameter taskParameter_;
 	BellShapedParameter bellShapedParameter_;

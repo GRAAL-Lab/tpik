@@ -36,7 +36,7 @@ public:
 	 * @param[in] priorityLevelID: priority level id.
 	 * @param[in] svdParameter: rml::SVDParameters of the PriorityLevel.
 	 */
-	void AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDParameters svdParameters);
+	void AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDData svdParameters);
 	/**
 	 * @brief Method adding a task to a priorityLevel.
 	 * An exception is throw if the priority level does not exist in the unified heirarchy.

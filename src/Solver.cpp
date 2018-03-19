@@ -33,7 +33,7 @@ const Eigen::VectorXd Solver::ComputeVelocities()
 		Eigen::MatrixXd J = priorityLevel->GetJacobian();
 		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot = priorityLevel->GetReference();
-		rml::SVDParameters svd = priorityLevel->GetSVDParameter();
+		rml::SVDData svd = priorityLevel->GetSVDParameter();
 		tpik_->ComputeYSingleLevel(J, A, x_dot, svd);
 	}
 	return tpik_->GetY();

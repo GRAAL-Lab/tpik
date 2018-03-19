@@ -42,6 +42,7 @@ public:
 	 */
 	TaskParameter GetTaskParameter();
 protected:
+	void SaturateReference();
 	TaskParameter taskParameter_;
 
 };

@@ -20,7 +20,7 @@ void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelI
 }
 
 void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID,
-		rml::SVDParameters svdParameters)
+		rml::SVDData svdParameters)
 {
 	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
 	pl->SetSVDParameters(svdParameters);

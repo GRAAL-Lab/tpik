@@ -35,7 +35,7 @@ public:
 	 * @param[in] svd: rml::SVDParameters
 	 */
 	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot,
-			rml::SVDParameters svd);
+			rml::SVDData svd);
 };
 }
 #endif

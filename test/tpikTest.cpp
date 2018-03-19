@@ -17,10 +17,9 @@ int main()
 	int taskSpace = 6;
 	int DoF = 6;
 
-	rml::SVDParameters svd;
-	svd.lambda = 0.00;
-	svd.threshold = 0.00;
-	svd.flag = true;
+	rml::SVDData svd;
+	svd.params.lambda = 0.00;
+	svd.params.threshold = 0.00;
 	auto testTask1 = std::make_shared<TestTask>(TestTask(ID1));
 	auto testTask2 = std::make_shared<TestTask>(TestTask(ID2));
 	auto gain1 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(taskSpace, DoF));
