@@ -76,6 +76,16 @@ public:
 	 */
 	//TODO throw an exception if the priority level is not present in the hierarchy
 	std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID);
+	/**
+	 * @brief Method to set whether the actionManager is used in a simulation.
+	 * @param[in] isSimulated: true if it is simulated, false otherwise.
+	 */
+	void SetIsSimulation(bool isSimulated);
+	/**
+	 * @brief Method to set whether the time if the actionManager is simulated.
+	 * @param[in] simulationTime: currentSimulationTime in ms.
+	 */
+	void SetTime(long simulationTime);
 
 	/**
 	 * @brief Method which returns an Action.
@@ -95,13 +105,22 @@ public:
 				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m"
 				<< "Time Elapsed " << "\033[0m" << std::put_time(std::localtime(&ttp), "%F %T");
 	}
-
+	//TODO it is private, only for debug purpose
+	std::chrono::system_clock::time_point GetTime();
 protected:
+	/**
+	 * @brief Method which returns the current time. If the action manager is simulated the simulation time is returned,
+	 * else the current system clock is returned.
+	 * @return current time.
+	 */
+
 	std::vector<std::shared_ptr<Action>> actions_;
 	Hierarchy hierarchy_;
 	std::shared_ptr<Action> currentAction_;
 	std::shared_ptr<Action> oldAction_;
-	std::chrono::system_clock::time_point time_;
+	std::chrono::system_clock::time_point  time_;
+	bool isSimulated_;
+	std::chrono::system_clock::time_point simulationTime_, simulationBegin_;
 
 };
 }

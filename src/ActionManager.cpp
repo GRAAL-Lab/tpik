@@ -1,10 +1,11 @@
-#include "tpik/ActionManager.h"
 #include <iostream>
 #include <memory>
 #include <vector>
+#include "tpik/ActionManager.h"
 
 namespace tpik
 {
+using namespace std::chrono;
 ActionManager::ActionManager()
 {
 	auto defaultAct = std::make_shared<Action>(Action());
@@ -12,6 +13,9 @@ ActionManager::ActionManager()
 	oldAction_ = defaultAct;
 	currentAction_ = defaultAct;
 	actions_.push_back(oldAction_);
+	isSimulated_ = false;
+	simulationBegin_=system_clock::now();
+	simulationTime_=simulationBegin_;
 }
 
 void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelID)
@@ -19,8 +23,7 @@ void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelI
 	hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
 }
 
-void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID,
-		rml::SVDData svdParameters)
+void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDData svdParameters)
 {
 	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
 	pl->SetSVDParameters(svdParameters);
@@ -58,7 +61,7 @@ void ActionManager::SetAction(std::string newAction) throw (std::exception)
 	if (currentAction_ == nullptr) {
 		throw(ActionManagerNullActionException());
 	}
-	time_ = std::chrono::system_clock::now();
+	time_ = GetTime();
 }
 
 void ActionManager::ComputeExternalActivation() throw (std::exception)
@@ -75,12 +78,12 @@ void ActionManager::ComputeExternalActivation() throw (std::exception)
 			priorityLevel->SetExternalActivationFunction(1.0);
 		} else if (!isInOldAction && isInNewAction) {
 			// The PL must be activated: increasing.
-			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
+			std::chrono::duration<double, std::milli> diff = GetTime() - time_;
 			// In 500 ms the PL is completely active.
 			Ae = rml::IncreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
 		} else if (isInOldAction && !isInNewAction) {
-			std::chrono::duration<double, std::milli> diff = std::chrono::system_clock::now() - time_;
+			std::chrono::duration<double, std::milli> diff = GetTime() - time_;
 			//The PL must be deactivated: decreasing.
 			Ae = rml::DecreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
 			priorityLevel->SetExternalActivationFunction(Ae);
@@ -123,4 +126,24 @@ std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string prior
 
 }
 
+void ActionManager::SetIsSimulation(bool isSimulated)
+{
+	isSimulated_ = isSimulated;
+}
+
+void ActionManager::SetTime(long simulationTime)
+{
+	auto t = milliseconds(simulationTime);
+	simulationTime_=simulationBegin_+t;
+}
+
+std::chrono::system_clock::time_point ActionManager::GetTime()
+{
+
+	if (isSimulated_) {
+		return simulationTime_;
+	} else {
+		return time_point_cast<milliseconds>(system_clock::now());
+	}
+}
 }
