@@ -39,24 +39,23 @@ public:
 	void AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDData svdParameters);
 	/**
 	 * @brief Method adding a task to a priorityLevel.
-	 * An exception is throw if the priority level does not exist in the unified heirarchy.
+	 * An exception is throw if the priority level does not exist in the unified hierarchy (Via GetPriorityLevel method).
 	 * @param[in] task: std::shared_ptr to the task.
 	 * @param[in] priorityLevelID: priorityLevel ID.
 	 */
-	void AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID) throw (std::exception);
+	void AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID);
 	/**
-	 * @brief Method adding an action to the action list.
-	 * An exception is thrown if one of the action priority level is not present in the unified hierarchy.
+	 * @brief Method adding an action to the action list..
 	 * @param[in] ActionID: Action ID.
 	 * @param[in] priorityLevelsID: std::vector containing the IDs of the priorityLevels composing the Action.
 	 */
-	void AddAction(std::string actionID, std::vector<std::string> priorityLevelsID) throw (std::exception);
+	void AddAction(std::string actionID, std::vector<std::string> priorityLevelsID);
 	/**
 	 * @brief Method that sets the current Action.
-	 * An exception is thrown if the action set is not present in the action list.
+	 * An exception is thrown if the action set is not present in the action list (via getAction exception).
 	 * @param[in] newAction: new current action ID
 	 */
-	void SetAction(std::string newAction) throw (std::exception);
+	void SetAction(std::string newAction) ;
 	/**
 	 * @brief Method which computes and sets the external activation functions in the unified hierarchy priority Levels.
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
@@ -71,11 +70,12 @@ public:
 	const Hierarchy& GetHierarchy() const throw (std::exception);
 	/**
 	 * @brief Method which returns a priorityLevel.
+	 * An exception is throw if the priority level does not exist in the unified hierarchy
 	 * @param[in] priorityLevelID: ID of the priority Level.
 	 * @return std::shared_ptr to PriorityLevel.
 	 */
-	//TODO throw an exception if the priority level is not present in the hierarchy
-	std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID);
+
+	std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID) throw (std::exception);
 	/**
 	 * @brief Method to set whether the actionManager is used in a simulation.
 	 * @param[in] isSimulated: true if it is simulated, false otherwise.
@@ -89,11 +89,11 @@ public:
 
 	/**
 	 * @brief Method which returns an Action.
+	 * An exception is thrown if the action set is not present in the action list
 	 * @param[in] ActionID: ID of the Action.
 	 * @return std::shared_ptr to Action.
 	 */
-	//TODO throw an exception if the priority level is not present in the hierarchy
-	std::shared_ptr<Action> GetAction(std::string ActionID);
+	std::shared_ptr<Action> GetAction(std::string ActionID) throw (std::exception);
 	/**
 	 * @brief Overload of the cout operator
 	 */

@@ -37,6 +37,10 @@ public:
 	 */
 	void SetTaskParameter(TaskParameter taskParameter);
 	/**
+	 * @brief Method checking whether all the task variables have been initialized
+	 */
+	void CheckInitialization() throw(std::exception);
+	/**
 	 * @brief Method that returns the TaskEquality Parameter
 	 * @returns TaskParameter
 	 */
@@ -44,6 +48,7 @@ public:
 protected:
 	void SaturateReference();
 	TaskParameter taskParameter_;
+	bool initializedTaskParameter_;
 
 };
 }

@@ -31,36 +31,26 @@ void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorit
 }
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
-		throw (std::exception)
 {
 	std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
-	if (pl == nullptr) {
-		throw(ActionManagerMissingPriorityLevel());
-	}
 	pl->AddTask(task);
 }
 
-void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevelsID) throw (std::exception)
+void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevelsID)
 {
 	auto newAction = std::make_shared<Action>(Action());
 	newAction->SetID(actionID);
 	for (auto& pl : priorityLevelsID) {
 		std::shared_ptr<PriorityLevel> plToAdd = GetPriorityLevel(pl);
-		if (plToAdd == nullptr) {
-			throw(ActionManagerMissingActionPriorityLevel());
-		}
 		newAction->AddPriorityLevel(plToAdd);
 	}
 	actions_.push_back(newAction);
 }
 
-void ActionManager::SetAction(std::string newAction) throw (std::exception)
+void ActionManager::SetAction(std::string newAction)
 {
 	oldAction_ = currentAction_;
 	currentAction_ = GetAction(newAction);
-	if (currentAction_ == nullptr) {
-		throw(ActionManagerNullActionException());
-	}
 	time_ = GetTime();
 }
 
@@ -104,17 +94,17 @@ const Hierarchy& ActionManager::GetHierarchy() const throw (std::exception)
 	return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID)
+std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) throw (std::exception)
 {
 	for (auto& act : actions_) {
 		if (act->GetID() == ActionID) {
 			return act;
 		}
 	}
-	return nullptr;
+	throw(ActionManagerNullActionException());
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID)
+std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID) throw (std::exception)
 {
 
 	for (auto& priorityLevel : hierarchy_) {
@@ -122,7 +112,7 @@ std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string prior
 			return priorityLevel;
 		}
 	}
-	return nullptr;
+	throw(ActionManagerMissingPriorityLevel());
 
 }
 

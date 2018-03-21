@@ -63,12 +63,19 @@ public:
 	 * @returns bellShapedParameter.
 	 */
 	BellShapedParameter GetBellShapedParameter();
+	/**
+	 * @brief Method that returns the TaskEquality Parameter
+	 * @returns TaskParameter
+	 */
+	void CheckInitialization() throw (std::exception);
 
 protected:
 	void SaturateReference();
 	Eigen::VectorXd minBound_, maxBound_;
 	TaskParameter taskParameter_;
 	BellShapedParameter bellShapedParameter_;
+	bool initializedTaskParameter_,initializedMinBound_, initializedMaxBound_, initializedBellShapeParameters_;
+	bool maxBoundUsed_,minBoundUsed_;
 
 };
 }

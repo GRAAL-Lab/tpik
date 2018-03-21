@@ -35,10 +35,9 @@ public:
 	CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
 			std::shared_ptr<Task> vehicleTask, rml::SVDData vehicleTaskSVDParameter);
 	/**
-	 * @brief Method setting the current misison action.
+	 * @brief Method setting the current action.
 	 * @param[in] action: current action ID.
 	 */
-	//TODO throw and exception if the action is not included in the internal action list
 	void SetAction(std::string action);
 	/**
 	 * @brief Method setting the tpik .

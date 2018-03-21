@@ -50,7 +50,7 @@ class ActionManagerMissingActionPriorityLevel: public std::exception {
 //TODO add action ID
 class ActionManagerNullActionException: public std::exception {
 	virtual const char* what() const throw () {
-		return "The action settled is not present in the list of action, use AddAction to add it ";
+		return "The action is not present in the list of action, use AddAction to add it ";
 	}
 };
 
@@ -70,6 +70,52 @@ class SolverNotInitializationException: public std::exception {
 	virtual const char* what() const throw () {
 
 		return "TPIK and/or Action Manager are not initialized, use SetTPIK and/or SetActionManager";
+	}
+};
+
+/**
+ * @brief Exception to be thrown when taskParameter have not been initialized .
+ */
+
+class TaskParameterNotInitializedException: public std::exception
+{
+	virtual const char* what() const throw ()
+	{
+		return "Task Parameter not initialized, use SetTaskParameter ";
+	}
+};
+/**
+ * @brief Exception to be thrown when minBound have not been initialized .
+ */
+
+class MinBoundNotInitializedException: public std::exception
+{
+	virtual const char* what() const throw ()
+	{
+		return "Minimum Bound has not initialized, use SetMinBound ";
+	}
+};
+
+/**
+ * @brief Exception to be thrown when maxBound have not been initialized .
+ */
+
+class MaxBoundNotInitializedException: public std::exception
+{
+	virtual const char* what() const throw ()
+	{
+		return "Maximum Bound has not initialized, use SetMinBound ";
+	}
+};
+/**
+ * @brief Exception to be thrown when bellShapedParameter have not been initialized .
+ */
+
+class BellShapeParametersNotInitializedException: public std::exception
+{
+	virtual const char* what() const throw ()
+	{
+		return "BellShapeParameters has not initialized, use SetBellShapeParameters ";
 	}
 };
 }
