@@ -3,11 +3,9 @@
 
 #include <iostream>
 #include <vector>
-#include <memory>
 #include "Action.h"
 #include "PriorityLevel.h"
 #include <chrono>
-#include "TPIKExceptions.h"
 #include "TPIKDefines.h"
 
 namespace tpik

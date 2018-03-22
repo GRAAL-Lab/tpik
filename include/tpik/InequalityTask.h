@@ -2,10 +2,8 @@
 #define __INEQUALITYTASK_H__
 
 #include <iostream>
-#include <vector>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
-#include <iomanip>
 #include "TPIKDefines.h"
 #include "Task.h"
 

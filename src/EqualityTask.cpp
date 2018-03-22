@@ -1,4 +1,3 @@
-#include <iostream>
 #include "tpik/EqualityTask.h"
 #include "tpik/TPIKExceptions.h"
 #include "rml/RML.h"
@@ -34,8 +33,9 @@ void EqualityTask::SaturateReference()
 
 void EqualityTask::CheckInitialization() throw (std::exception)
 {
-	if(!initializedTaskParameter_){
-		throw (TaskParameterNotInitializedException());
+	if (!initializedTaskParameter_) {
+		std::cout << "TASK ID " << ID_ << std::endl;
+		throw(TaskParameterNotInitializedException());
 	}
 }
 }

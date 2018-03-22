@@ -2,9 +2,7 @@
 #define __EQUALITYTASK_H__
 
 #include <iostream>
-#include <vector>
 #include <iostream>
-#include <iomanip>
 #include "TPIKDefines.h"
 #include "Task.h"
 

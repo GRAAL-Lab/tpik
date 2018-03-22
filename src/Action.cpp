@@ -1,7 +1,4 @@
 #include "tpik/Action.h"
-#include <iostream>
-#include <vector>
-#include <memory>
 
 namespace tpik
 {

@@ -1,11 +1,9 @@
-#include <iostream>
-#include <memory>
-#include <vector>
 #include "tpik/ActionManager.h"
+#include "tpik/TPIKExceptions.h"
 
 namespace tpik
 {
-using namespace std::chrono;
+
 ActionManager::ActionManager()
 {
 	auto defaultAct = std::make_shared<Action>(Action());
@@ -14,7 +12,7 @@ ActionManager::ActionManager()
 	currentAction_ = defaultAct;
 	actions_.push_back(oldAction_);
 	isSimulated_ = false;
-	simulationBegin_=system_clock::now();
+	simulationBegin_=std::chrono::system_clock::now();
 	simulationTime_=simulationBegin_;
 }
 
@@ -101,6 +99,7 @@ std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) throw (st
 			return act;
 		}
 	}
+	std::cout << "ACTION ID " << ActionID << std::endl;
 	throw(ActionManagerNullActionException());
 }
 
@@ -112,7 +111,8 @@ std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string prior
 			return priorityLevel;
 		}
 	}
-	throw(ActionManagerMissingPriorityLevel());
+	std::cout << "PRIORITY LEVEL ID " << priorityLevelID << std::endl;
+	throw(ActionManagerMissingPriorityLevelException());
 
 }
 
@@ -123,7 +123,7 @@ void ActionManager::SetIsSimulation(bool isSimulated)
 
 void ActionManager::SetTime(long simulationTime)
 {
-	auto t = milliseconds(simulationTime);
+	auto t = std::chrono::milliseconds(simulationTime);
 	simulationTime_=simulationBegin_+t;
 }
 
@@ -133,7 +133,7 @@ std::chrono::system_clock::time_point ActionManager::GetTime()
 	if (isSimulated_) {
 		return simulationTime_;
 	} else {
-		return time_point_cast<milliseconds>(system_clock::now());
+		return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
 	}
 }
 }

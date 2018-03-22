@@ -5,9 +5,7 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <rml/RML.h>
-#include <memory>
 #include "Task.h"
-#include "TPIKExceptions.h"
 
 namespace tpik
 {

@@ -1,8 +1,4 @@
 #include "tpik/PriorityLevel.h"
-#include <iostream>
-#include <vector>
-#include <eigen3/Eigen/Dense>
-#include <rml/RML.h>
 
 namespace tpik
 {

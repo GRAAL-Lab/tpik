@@ -2,7 +2,6 @@
 #define __TPIK_H__
 
 #include <iostream>
-#include <vector>
 #include <eigen3/Eigen/Dense>
 #include "PriorityLevel.h"
 

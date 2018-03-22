@@ -1,7 +1,4 @@
 #include "tpik/Task.h"
-#include <vector>
-#include <iostream>
-#include <eigen3/Eigen/Dense>
 
 namespace tpik
 {

@@ -1,9 +1,4 @@
 #include "tpik/Solver.h"
-#include <iostream>
-#include <vector>
-#include <rml/RML.h>
-#include <eigen3/Eigen/Dense>
-
 namespace tpik
 {
 

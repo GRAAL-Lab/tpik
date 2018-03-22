@@ -1,8 +1,4 @@
 #include "tpik/CoordinationArmVehicleSolver.h"
-#include <iostream>
-#include <vector>
-#include <eigen3/Eigen/Dense>
-#include <memory>
 
 namespace tpik
 {

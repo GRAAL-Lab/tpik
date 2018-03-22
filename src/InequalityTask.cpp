@@ -65,15 +65,19 @@ void InequalityTask::SaturateReference()
 void InequalityTask::CheckInitialization() throw (std::exception)
 {
 	if (!initializedTaskParameter_) {
+		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(TaskParameterNotInitializedException());
 	}
 	if (!initializedMaxBound_ & maxBoundUsed_) {
+		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MaxBoundNotInitializedException());
 	}
 	if (!initializedMinBound_ & minBoundUsed_ ) {
+		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MinBoundNotInitializedException());
 	}
 	if (!initializedBellShapeParameters_) {
+		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(BellShapeParametersNotInitializedException());
 	}
 }
