@@ -29,7 +29,7 @@ public:
 	/**
 	 * @brief Default De-Constructor of TaskEquality Class
 	 */
-	virtual ~EqualityTask();s
+	virtual ~EqualityTask();
 	/**
 	 * @brief Method that sets the TaskEquality Parameter (gain, bell shaped function parameter, Task enable boolean).
 	 * @param[in] TaskParameter: Task Parameter struct.
