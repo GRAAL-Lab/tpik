@@ -13,14 +13,14 @@ namespace tpik
  * @brief CoordinationArmVehicleSolver class.
  * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
  * and arms by optimizing the arms velocities wrt to the vehicle current velocities.
- * In order to achieve such results, one must provide an implementation of the Task class which provides the vehicle teleoperation
- * with the actual vehicle velocities.
+ * In order to achieve such results, an implementation of the Task class which provides the vehicle teleoperation
+ * with the actual vehicle velocities is needed.
  * First the whole system velocities (both for the vehicle and the arms) are computed. Then, by taking into account the current vehicle
  * velocities, the arms velocities are computed hence obtaining the optimized arms velocities wrt to the current vehicle velocities.
  * The desired vehicle velocities returned will be the one of the first optimization while the arms one will be the one of the second otpimization.
  * In this way the difference in between the dynamic and kinematic of the arm and the vehicle is taken into account and the arms target velocities
  * will be independent on the possible vehicle errors in tracking the desired velocities.
- * note: the vehicle teleoperation task must not be included in the unified heirarchy.
+ * @note the vehicle teleoperation task must not be included in the unified heirarchy.
  */
 class CoordinationArmVehicleSolver
 {
@@ -49,7 +49,7 @@ public:
 	 * on for the arms.
 	 * @return Kinematic Control Velocities.
 	 */
-	const Eigen::VectorXd ComputeDecoupledVelocities();
+	Eigen::VectorXd ComputeDecoupledVelocities();
 private:
 	std::shared_ptr<ActionManager> actionManager_;
 	std::shared_ptr<TPIK> tpik_;

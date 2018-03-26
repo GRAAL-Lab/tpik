@@ -12,7 +12,7 @@ namespace tpik
 /**
  * @brief PriorityLevel class.
  * Implementation of the PriorityLevel Class. Starting form a vector of tpik::Task which have the same priority, it computes the
- * Jacobian, anternal activation function and teference by juxtaposing the related task matrices.
+ * Jacobian, internal activation function and reference by juxtaposing the related task matrices.
  * Methods to set the external Activation Function are provided. It is assumed that all the Tasks have the same
  * behavior (hence are all active or inactive).
  * The overall activation function is computed as product between the internal and external activation functions.
@@ -73,7 +73,7 @@ public:
 	 * @brief Method returning the PriorityLevel External Activation Function.
 	 * @return External Activation Function.
 	 */
-	double GetExternalActivationFunction();
+	const double GetExternalActivationFunction();
 	/**
 	 * @brief Method returning the PriorityLevel Reference.
 	 * @return PriorityLevel Reference.
@@ -93,7 +93,7 @@ public:
 	 * @brief Function Returning the PriorityLevel SVDParameters.
 	 * @return PriorityLevel rml::SVDParameter.
 	 */
-	rml::SVDData GetSVDParameter();
+	const rml::SVDData& GetSVDParameter();
 	/**
 	 * @brief Function overloading the cout operator
 	 */

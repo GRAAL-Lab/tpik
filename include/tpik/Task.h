@@ -23,7 +23,9 @@ public:
 	 * Jacobian (taskSpace x DoF)
 	 * Internal Activation Function (taskSpace x taskSpace)
 	 * Reference (taskSpace x 1)
-	 * @param[in] ID: Task ID.
+	 * @param[in] ID: Task ID;
+	 * @param[in] taskSpace: task space;
+	 * @param[in] DoF: Degrees of Freedom.
 	 */
 	Task(const std::string ID, int TaskSpace, int DoF);
 	/**
@@ -74,6 +76,7 @@ protected:
 	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task Jacobian.
 	 *  */
 	virtual void UpdateJacobian()=0;
+
 	std::string ID_;
 	Eigen::MatrixXd Ai_, J_;
 	Eigen::VectorXd x_dot_;

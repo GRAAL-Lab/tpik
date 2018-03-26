@@ -38,14 +38,13 @@ public:
 	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.
 	 * @return Computed Velocity Vector.
 	 */
-	const Eigen::VectorXd ComputeVelocities();
+	const Eigen::VectorXd& ComputeVelocities() const;
 	/**
 	 * @brief Overloading of the cout operator
 	 */
 	friend std::ostream& operator <<(std::ostream& os, Solver const& solver)
 	{
-		return os << "\033[1;37m" << "Solver \n" << std::setprecision(2) << *solver.actionManager_
-				<< "\n" << *solver.tpik_;
+		return os << "\033[1;37m" << "Solver \n" << std::setprecision(2) << *solver.actionManager_ << "\n" << *solver.tpik_;
 	}
 private:
 	std::shared_ptr<ActionManager> actionManager_;

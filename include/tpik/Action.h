@@ -18,6 +18,14 @@ class Action
 {
 public:
 	/**
+	 * @brief Default constructor.
+	 */
+	Action();
+	/**
+	 * @brief Default de constructor.
+	 */
+	~Action();
+	/**
 	 * @brief Method setting the Action ID.
 	 */
 	void SetID(std::string ID);
@@ -36,7 +44,7 @@ public:
 	 * Method returning the action hierarchy;
 	 * @return Action Hierarchy.
 	 */
-	const Hierarchy GetPriorityLevels() const;
+	const Hierarchy& GetPriorityLevels() const;
 	/**
 	 * @brief Method returning the action ID.
 	 * @return Action ID.

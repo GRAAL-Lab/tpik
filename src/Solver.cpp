@@ -19,7 +19,7 @@ void Solver::SetAction(std::string action)
 	actionManager_->SetAction(action);
 }
 
-const Eigen::VectorXd Solver::ComputeVelocities()
+const Eigen::VectorXd& Solver::ComputeVelocities() const
 {
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();

@@ -14,7 +14,7 @@ namespace tpik
  * Abstract base InequalityTask, implementing the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
  * UpdateJacobian and UpdateReference.
  * Such class is provided with method to set and get the minimum and maximum bounds in order to state the interval where the task is active.
- * Furthermore methods to set and get the task parameter (gain and a boolean stating whether the task is enabled) are implemented.
+ * Furthermore methods to set and get the task parameter (gain, reference saturation and a boolean stating whether the task is enabled) are implemented.
  */
 class InequalityTask: public Task
 {
@@ -50,7 +50,7 @@ public:
 	 * @returns TaskParameter
 	 */
 
-	TaskParameter GetTaskParameter();
+	const TaskParameter& GetTaskParameter();
 	/**
 	 * @brief Method settings bell shaped parameter.
 	 * @param[in] BellShapedParameters.
@@ -60,14 +60,17 @@ public:
 	 * @brief Method returning the task bell shaped parameter.
 	 * @returns bellShapedParameter.
 	 */
-	BellShapedParameter GetBellShapedParameter();
+	const BellShapedParameter& GetBellShapedParameter();
 	/**
-	 * @brief Method that returns the TaskEquality Parameter
-	 * @returns TaskParameter
+	 * @brief Method which chek whether all the needed variables have been initialized.
+	 * @note An exception is thrown if either the bellShapedParameter or the Task parameter have not been initialized yet.
 	 */
 	void CheckInitialization() throw (std::exception);
 
 protected:
+	/**
+	 * @brief Method saturating the reference using the member variable saturation of the taskParameter struct.
+	 */
 	void SaturateReference();
 	Eigen::VectorXd minBound_, maxBound_;
 	TaskParameter taskParameter_;

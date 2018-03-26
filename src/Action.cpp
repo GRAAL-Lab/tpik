@@ -3,6 +3,16 @@
 namespace tpik
 {
 
+Action::Action()
+{
+
+}
+
+Action::~Action()
+{
+
+}
+
 void Action::SetID(std::string ID)
 {
 	ID_ = ID;
@@ -23,7 +33,7 @@ void Action::AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel)
 	priorityLevels_.push_back(priorityLevel);
 }
 
-const Hierarchy Action::GetPriorityLevels() const
+const Hierarchy& Action::GetPriorityLevels() const
 {
 	return priorityLevels_;
 }

@@ -88,7 +88,7 @@ const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const
 	return Ai_;
 }
 
-double PriorityLevel::GetExternalActivationFunction()
+const double PriorityLevel::GetExternalActivationFunction()
 {
 	return Ae_;
 }
@@ -109,7 +109,7 @@ const std::vector<std::shared_ptr<Task> > PriorityLevel::GetLevel() const
 	return level_;
 }
 
-rml::SVDData PriorityLevel::GetSVDParameter()
+const rml::SVDData& PriorityLevel::GetSVDParameter()
 {
 	return svdParameters_;
 

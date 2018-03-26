@@ -29,7 +29,7 @@ void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik)
 	tpik_ = tpik;
 }
 
-const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
+Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
 {
 
 	actionManager_->ComputeExternalActivation();

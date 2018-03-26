@@ -9,6 +9,7 @@ EqualityTask::EqualityTask(const std::string ID, int TaskSpace, int DoF) :
 		Task(ID, TaskSpace, DoF)
 {
 	initializedTaskParameter_ = false;
+	UpdateInternalActivationFunction();
 }
 
 EqualityTask::~EqualityTask()
@@ -37,5 +38,10 @@ void EqualityTask::CheckInitialization() throw (std::exception)
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(TaskParameterNotInitializedException());
 	}
+}
+
+void EqualityTask::UpdateInternalActivationFunction()
+{
+	Ai_.setIdentity();
 }
 }

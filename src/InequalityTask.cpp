@@ -41,7 +41,7 @@ void InequalityTask::SetTaskParameter(TaskParameter taskParameters)
 	initializedTaskParameter_ = true;
 }
 
-TaskParameter InequalityTask::GetTaskParameter()
+const TaskParameter& InequalityTask::GetTaskParameter()
 {
 	return taskParameter_;
 }
@@ -52,7 +52,7 @@ void InequalityTask::SetBellShapedParameter(BellShapedParameter bellShapedParame
 	initializedBellShapeParameters_ = true;
 }
 
-BellShapedParameter InequalityTask::GetBellShapedParameter()
+const BellShapedParameter& InequalityTask::GetBellShapedParameter()
 {
 	return bellShapedParameter_;
 }
