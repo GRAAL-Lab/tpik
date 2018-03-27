@@ -33,7 +33,7 @@ public:
 	 * @param[in] vehicleTaskSVDParameter: svd parameters for the input vehicle task.
 	 */
 	CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
-			std::shared_ptr<Task> vehicleTask, rml::SVDData vehicleTaskSVDParameter);
+			std::shared_ptr<PriorityLevel> vehiclePriorityLevel, rml::SVDData vehicleTaskSVDParameter);
 	/**
 	 * @brief Method setting the current action.
 	 * @param[in] action: current action ID.
@@ -55,8 +55,8 @@ private:
 	std::shared_ptr<TPIK> tpik_;
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchy_;
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchyArm_;
-	std::shared_ptr<Task> vehicleTask_;
-	std::shared_ptr<PriorityLevel> vehiclePL_;
+	std::shared_ptr<PriorityLevel> vehiclePriorityLevel_;
+
 };
 }
 #endif

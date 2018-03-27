@@ -4,18 +4,15 @@ namespace tpik
 {
 
 CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager,
-		std::shared_ptr<TPIK> tpik, std::shared_ptr<Task> vehicleTask, rml::SVDData vehicleTaskSVDParameter)
+		std::shared_ptr<TPIK> tpik, std::shared_ptr<PriorityLevel> vehiclePriorityLevel, rml::SVDData vehicleTaskSVDParameter)
 {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
 	tpik_ = tpik;
-	auto vehiclePL = std::make_shared<PriorityLevel>(PriorityLevel("plVehicle"));
-	vehiclePL_ = vehiclePL;
-	vehicleTask_ = vehicleTask;
-	vehiclePL_->AddTask(vehicleTask_);
-	vehiclePL_->SetExternalActivationFunction(1.0);
-	vehiclePL_->SetSVDParameters(vehicleTaskSVDParameter);
-	hierarchyArm_.push_back(vehiclePL_);
+	vehiclePriorityLevel_=vehiclePriorityLevel;
+	vehiclePriorityLevel_->SetExternalActivationFunction(1.0);
+	vehiclePriorityLevel_->SetSVDParameters(vehicleTaskSVDParameter);
+	hierarchyArm_.push_back(vehiclePriorityLevel_);
 	hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
 
@@ -41,7 +38,7 @@ Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
 	}
 	Eigen::VectorXd yVehicle = tpik_->GetY();
 	tpik_->Reset();
-	vehiclePL_->Update();
+	vehiclePriorityLevel_->Update();
 	for (auto& plHierarchyArms : hierarchyArm_) {
 		tpik_->ComputeYSingleLevel(plHierarchyArms->GetJacobian(), plHierarchyArms->GetActivationFunction(),
 				plHierarchyArms->GetReference(), plHierarchyArms->GetSVDParameter());
