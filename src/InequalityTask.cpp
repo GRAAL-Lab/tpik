@@ -9,30 +9,13 @@ namespace tpik
 InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF) :
 		Task(ID, TaskSpace, DoF)
 {
-	minBound_.resize(taskSpace_);
-	maxBound_.resize(taskSpace_);
-	initializedMinBound_ = false;
-	initializedMaxBound_ = false;
-	initializedBellShapeParameters_ = false;
+	initializedDecreasingBellShapeParameter_ = false;
+	initializedIncreasingBellShapeParameter_ = false;
 	initializedTaskParameter_ = false;
 }
 
 InequalityTask::~InequalityTask()
 {
-}
-
-void InequalityTask::SetMinBound(Eigen::VectorXd minBound)
-{
-	minBound_ = minBound;
-	initializedMinBound_ = true;
-
-}
-
-void InequalityTask::SetMaxBound(Eigen::VectorXd maxBound)
-{
-	maxBound_ = maxBound;
-	initializedMaxBound_ = true;
-
 }
 
 void InequalityTask::SetTaskParameter(TaskParameter taskParameters)
@@ -46,20 +29,33 @@ const TaskParameter& InequalityTask::GetTaskParameter()
 	return taskParameter_;
 }
 
-void InequalityTask::SetBellShapedParameter(BellShapedParameter bellShapedParameter)
-{
-	bellShapedParameter_ = bellShapedParameter;
-	initializedBellShapeParameters_ = true;
-}
 
-const BellShapedParameter& InequalityTask::GetBellShapedParameter()
+void InequalityTask::SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShaped)
 {
-	return bellShapedParameter_;
+	increasingBellShape_=increasingBellShaped;
+	initializedIncreasingBellShapeParameter_=true;
+
+
+}
+void InequalityTask::SetDecreasingBellShapedParameter(BellShapedParameter decreasingBellShaped)
+{
+	decreasingBellShape_=decreasingBellShaped;
+	initializedDecreasingBellShapeParameter_=true;
 }
 
 void InequalityTask::SaturateReference()
 {
 	rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
+}
+
+const BellShapedParameter& InequalityTask::GetIncreasingBellShapedParameter()
+{
+	return increasingBellShape_;
+}
+
+const BellShapedParameter& InequalityTask::GetDecreasingBellShapedParameter()
+{
+	return decreasingBellShape_;
 }
 
 void InequalityTask::CheckInitialization() throw (std::exception)
@@ -68,18 +64,15 @@ void InequalityTask::CheckInitialization() throw (std::exception)
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(TaskParameterNotInitializedException());
 	}
-	if (!initializedMaxBound_ & maxBoundUsed_) {
+	if (!initializedIncreasingBellShapeParameter_ & bellShapeIncreasingUsed_) {
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MaxBoundNotInitializedException());
 	}
-	if (!initializedMinBound_ & minBoundUsed_ ) {
+	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_ ) {
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MinBoundNotInitializedException());
 	}
-	if (!initializedBellShapeParameters_) {
-		std::cout << "TASK ID " << ID_ << std::endl;
-		throw(BellShapeParametersNotInitializedException());
-	}
+
 }
 
 }

@@ -169,9 +169,10 @@ msg/_*.py
 # Ignore generated docs
 *.dox
 *.wikidoc
-latex
-html
+**/html
+**/latex
 doxygen_sqlite3.db
+
 
 # eclipse stuff
 .project
@@ -199,3 +200,5 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+

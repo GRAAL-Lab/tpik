@@ -1,13 +1,14 @@
 #ifndef __TPIKDEFINES_H__
 #define __TPIKDEFINES_H__
+#include <eigen3/Eigen/Dense>
 
 namespace tpik
 {
 
 struct BellShapedParameter
 {
-	double deltaMinBound;
-	double deltaMaxBound;
+	Eigen::VectorXd xmin;
+	Eigen::VectorXd xmax;
 };
 
 struct TaskParameter

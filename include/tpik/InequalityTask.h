@@ -52,15 +52,25 @@ public:
 
 	const TaskParameter& GetTaskParameter();
 	/**
-	 * @brief Method settings bell shaped parameter.
-	 * @param[in] BellShapedParameters.
+	 * @brief Method increasing bell shaped parameters.
+	 * @param[in] increasingBellShapedParameters increasing bell shaped parameter.
 	 */
-	void SetBellShapedParameter(BellShapedParameter bellShapedParameters);
+	void SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShapedParameters);
 	/**
-	 * @brief Method returning the task bell shaped parameter.
-	 * @returns bellShapedParameter.
+	 * @brief Method settings decreasing bell shaped parameter.
+	 * @param[in] decreasingBellShapedParameters decreasing bell shaped parameter.
 	 */
-	const BellShapedParameter& GetBellShapedParameter();
+	void SetDecreasingBellShapedParameter(BellShapedParameter decreasingBellShapedParameters);
+	/**
+	 * @brief Method returning the task increasing bell shaped parameter.
+	 * @returns increasing bellShapedParameter.
+	 */
+	const BellShapedParameter& GetIncreasingBellShapedParameter();
+	/**
+	 * @brief Method returning the task decreasing bell shaped parameter.
+	 * @returns increasing bellShapedParameter.
+	 */
+	const BellShapedParameter& GetDecreasingBellShapedParameter();
 	/**
 	 * @brief Method which chek whether all the needed variables have been initialized.
 	 * @note An exception is thrown if either the bellShapedParameter or the Task parameter have not been initialized yet.
@@ -74,9 +84,10 @@ protected:
 	void SaturateReference();
 	Eigen::VectorXd minBound_, maxBound_;
 	TaskParameter taskParameter_;
-	BellShapedParameter bellShapedParameter_;
-	bool initializedTaskParameter_,initializedMinBound_, initializedMaxBound_, initializedBellShapeParameters_;
-	bool maxBoundUsed_,minBoundUsed_;
+	bool initializedTaskParameter_,initializedDecreasingBellShapeParameter_, initializedIncreasingBellShapeParameter_;
+	bool bellShapeIncreasingUsed_,bellShapeDecreasingUsed_;
+	BellShapedParameter increasingBellShape_;
+	BellShapedParameter decreasingBellShape_;
 
 };
 }
