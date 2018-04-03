@@ -11,9 +11,10 @@ namespace tpik
 {
 /**
  * @brief InequalityTask class, derived from the Abstract class Task.
- * Abstract base InequalityTask, implementing the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
+ * Implementation of the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
  * UpdateJacobian and UpdateReference.
- * Such class is provided with method to set and get the minimum and maximum bounds in order to state the interval where the task is active.
+ * Such class is provided with method to set and get the increasing bell shaped parameter and the decreasing bell shaped parameter in order to state the interval
+ * where the task is active.
  * Furthermore methods to set and get the task parameter (gain, reference saturation and a boolean stating whether the task is enabled) are implemented.
  */
 class InequalityTask: public Task
@@ -21,54 +22,47 @@ class InequalityTask: public Task
 public:
 	/**
 	 * @brief Constructor of Task Class.
-	 * @param[in] ID: Task ID.
+	 * Initialization of the class variables:
+	 * Jacobian (taskSpace x DoF)
+	 * Internal Activation Function (taskSpace x taskSpace)
+	 * Reference (taskSpace x 1)
+	 * @param[in] ID Task ID.
+	 * @param[in] taskSpace
+	 * @param[in] DoF
 	 */
-	InequalityTask(const std::string ID, int TaskSpace, int DoF);
+	InequalityTask(const std::string ID, int taskSpace, int DoF);
 	/**
 	 * @brief Default De-constructor of InequalityTask Class.
 	 */
 	virtual ~InequalityTask();
 	/**
-	 * @brief Method that sets the Task Minimum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] minBound: eigen vector minimum interval value for each scalar task .
-	 */
-	void SetMinBound(Eigen::VectorXd minBound);
-
-	/**
-	 * @brief Method that sets the Task Maximum bound for Inequality Task to define the interval in which the Task must be active.
-	 * @param[in] maxBound: eigen vector maximum interval value for each scalar task .
-	 */
-	void SetMaxBound(Eigen::VectorXd maxBound);
-
-	/**
 	 * @brief Method that sets the Task Parameter (gain, task enable boolean).
-	 * @param[in] TaskParameters: Task Parameter struct.
+	 * @param[in] taskParameters tpik::TaskParameter struct.
 	 */
 	void SetTaskParameter(TaskParameter taskParameters);
 	/**
 	 * @brief Method that returns the TaskEquality Parameter
 	 * @returns TaskParameter
 	 */
-
 	const TaskParameter& GetTaskParameter();
 	/**
 	 * @brief Method increasing bell shaped parameters.
-	 * @param[in] increasingBellShapedParameters increasing bell shaped parameter.
+	 * @param[in] increasingBellShapedParameters tpik::BellShapedParameter for increasing curve.
 	 */
 	void SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShapedParameters);
 	/**
 	 * @brief Method settings decreasing bell shaped parameter.
-	 * @param[in] decreasingBellShapedParameters decreasing bell shaped parameter.
+	 * @param[in] decreasingBellShapedParameters tpik::BellShapedParameter for decreasing curve.
 	 */
 	void SetDecreasingBellShapedParameter(BellShapedParameter decreasingBellShapedParameters);
 	/**
 	 * @brief Method returning the task increasing bell shaped parameter.
-	 * @returns increasing bellShapedParameter.
+	 * @returns tpik::BellShapedParameter for increasing curve.
 	 */
 	const BellShapedParameter& GetIncreasingBellShapedParameter();
 	/**
 	 * @brief Method returning the task decreasing bell shaped parameter.
-	 * @returns increasing bellShapedParameter.
+	 * @returns tpik::BellShapedParameter for decreasing curve.
 	 */
 	const BellShapedParameter& GetDecreasingBellShapedParameter();
 	/**
@@ -82,12 +76,14 @@ protected:
 	 * @brief Method saturating the reference using the member variable saturation of the taskParameter struct.
 	 */
 	void SaturateReference();
-	Eigen::VectorXd minBound_, maxBound_;
-	TaskParameter taskParameter_;
-	bool initializedTaskParameter_,initializedDecreasingBellShapeParameter_, initializedIncreasingBellShapeParameter_;
-	bool bellShapeIncreasingUsed_,bellShapeDecreasingUsed_;
-	BellShapedParameter increasingBellShape_;
-	BellShapedParameter decreasingBellShape_;
+	TaskParameter taskParameter_;//!< The tpik::TaskParameter.
+	bool initializedTaskParameter_; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
+	bool initializedDecreasingBellShapeParameter_;  //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
+	bool initializedIncreasingBellShapeParameter_; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
+	bool bellShapeIncreasingUsed_;//!< The  boolean stating whether the increasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes.
+	bool bellShapeDecreasingUsed_;//!< The  boolean stating whether the decreasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes
+	BellShapedParameter increasingBellShape_;//!< The tpik::BellShapedParameter for increasing curve.
+	BellShapedParameter decreasingBellShape_;//!< The tpik::BellShapedParameter for decreasing curve.
 
 };
 }

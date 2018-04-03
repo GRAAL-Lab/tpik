@@ -5,8 +5,8 @@
 namespace tpik
 {
 
-EqualityTask::EqualityTask(const std::string ID, int TaskSpace, int DoF) :
-		Task(ID, TaskSpace, DoF)
+EqualityTask::EqualityTask(const std::string ID, int taskSpace, int DoF) :
+		Task(ID, taskSpace, DoF)
 {
 	initializedTaskParameter_ = false;
 	UpdateInternalActivationFunction();

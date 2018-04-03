@@ -21,10 +21,10 @@ void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelI
 	hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
 }
 
-void ActionManager::AddPriorityLevelToHierarchyWithSVD(const std::string priorityLevelID, rml::SVDData svdParameters)
+void ActionManager::AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID, rml::RegularizationData regularizationData)
 {
 	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
-	pl->SetSVDParameters(svdParameters);
+	pl->SetRegularizationData(regularizationData);
 	hierarchy_.push_back(pl);
 }
 

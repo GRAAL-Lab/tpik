@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <eigen3/Eigen/Dense>
-#include <iostream>
 #include <iomanip>
 #include "TPIKDefines.h"
 
@@ -27,7 +26,7 @@ public:
 	 * @param[in] taskSpace: task space;
 	 * @param[in] DoF: Degrees of Freedom.
 	 */
-	Task(const std::string ID, int TaskSpace, int DoF);
+	Task(const std::string ID, int taskSpace, int DoF);
 	/**
 	 * @brief Default De-constructor of Task Class.
 	 */
@@ -49,7 +48,7 @@ public:
 	 */
 	const Eigen::VectorXd& GetReference() const;
 	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task.
+	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task.
 	 */
 	virtual void Update()=0;
 	/**
@@ -65,23 +64,24 @@ public:
 
 protected:
 	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task internal activation function.
+	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task internal activation function.
 	 */
 	virtual void UpdateInternalActivationFunction()=0;
 	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task reference.
+	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task reference.
 	 */
 	virtual void UpdateReference()=0;
 	/**
-	 * @brief Pure Virtual Method to be implemented by the derived class to update the Task Jacobian.
+	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task Jacobian.
 	 *  */
 	virtual void UpdateJacobian()=0;
 
-	std::string ID_;
-	Eigen::MatrixXd Ai_, J_;
-	Eigen::VectorXd x_dot_;
-	int taskSpace_;
-	int DoF_;
+	std::string ID_; //!< The Task ID.
+	Eigen::MatrixXd Ai_;//!< The internal activation function.
+	Eigen::MatrixXd J_;//!< The jacobian.
+	Eigen::VectorXd x_dot_; //!< reference.
+	int taskSpace_; //!< The task Space.
+	int DoF_;//!< The degrees of freedom.
 
 };
 }

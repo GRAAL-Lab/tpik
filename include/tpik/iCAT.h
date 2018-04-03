@@ -28,11 +28,11 @@ public:
 	/**
 	 * @brief Implementation of the pure virtual method that computes the inverse kinematic control for a single priority level.
 	 * @param[in] J: Jacobian Matrix;
-	 * @param[in] A: Activation Function;
+	 * @param[in] A: Activation Function (Ai*Ae);
 	 * @param[in] x_dot: Reference;
-	 * @param[in] svd: rml::SVDParameters
+	 * @param[in] regularizationData rml::RegularizationData struct.
 	 */
-	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot, rml::SVDData svd);
+	void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot, rml::RegularizationData regularizationData) override;
 };
 }
 #endif

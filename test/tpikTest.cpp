@@ -17,9 +17,9 @@ int main()
 	int taskSpace = 6;
 	int DoF = 6;
 
-	rml::SVDData svd;
-	svd.params.lambda = 0.00;
-	svd.params.threshold = 0.00;
+	rml::RegularizationData regularizationData;
+	regularizationData.params.lambda = 0.00;
+	regularizationData.params.threshold = 0.00;
 	auto testTask1 = std::make_shared<TestTask>(TestTask(ID1));
 	auto testTask2 = std::make_shared<TestTask>(TestTask(ID2));
 	auto gain1 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(taskSpace, DoF));
@@ -32,10 +32,10 @@ int main()
 	testTask2->Update();
 	//Action Manager Defintion
 	auto actionManager = std::make_shared<tpik::ActionManager>(tpik::ActionManager());
-	actionManager->AddPriorityLevelToHierarchyWithSVD(IDPL1, svd);
+	actionManager->AddPriorityLevelToHierarchyWithRegularization(IDPL1, regularizationData);
 	actionManager->AddTaskToPriorityLevel(testTask1, IDPL1);
 	actionManager->AddTaskToPriorityLevel(testTask2, IDPL1);
-	actionManager->AddPriorityLevelToHierarchyWithSVD(IDPL2, svd);
+	actionManager->AddPriorityLevelToHierarchyWithRegularization(IDPL2, regularizationData);
 	actionManager->AddTaskToPriorityLevel(testTask1, IDPL2);
 	actionManager->AddTaskToPriorityLevel(testTask2, IDPL2);
 	actionManager->AddAction(IDAction1, std::vector<std::string> { IDPL1 });

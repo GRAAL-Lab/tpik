@@ -19,19 +19,20 @@ class Solver
 public:
 	/**
 	 * @brief Solver Class constructor.
-	 * @param[in] actionManger: std::shared_ptr to the action manager;
-	 * @param[in] tpik: std::shared_ptr to tpi
-	 * k.
+	 * @param[in] actionManager std::shared_ptr to the tpik::ActionManager containing the unified hierarchy and the action list.
+	 * @param[in] tpik std::shared_ptr to tpik::TPIK.
+	 *
 	 */
 	Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik);
 	/**
 	 * @brief Method which sets the tpik.
-	 * @param[in] tpik: std::shared_ptr to tpik.
+	 * @param[in] tpik std::shared_ptr to TPIK::TPIK.
+	 * @note Such method coul dbe used to change algorithm for computing the kinematic control for a single priority level.
 	 */
 	void SetTPIK(std::shared_ptr<TPIK> tpik);
 	/**
 	 * @brief Method which sets the current action.
-	 * @param[in] action: current action ID.
+	 * @param[in] action current action ID.
 	 */
 	void SetAction(std::string action);
 	/**
@@ -47,9 +48,9 @@ public:
 		return os << "\033[1;37m" << "Solver \n" << std::setprecision(2) << *solver.actionManager_ << "\n" << *solver.tpik_;
 	}
 private:
-	std::shared_ptr<ActionManager> actionManager_;
-	std::shared_ptr<TPIK> tpik_;
-	Hierarchy hierarchy_;
+	std::shared_ptr<ActionManager> actionManager_; //!< The std::shared_ptr to the tpik::ActionManager.
+	std::shared_ptr<TPIK> tpik_; //!< The std::shared_ptr to the tpik::TPIK.
+	Hierarchy hierarchy_; //!< The unified hierarhcy.
 };
 }
 

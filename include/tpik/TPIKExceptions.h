@@ -25,7 +25,7 @@ class ActionManagerMissingPriorityLevelException: public std::exception
 {
 	virtual const char* what() const throw ()
 	{
-		return "The PL level does not exist in the unified hierarchy, use the methods AddPriorityLevelToHierarchy or AddPriorityLevelToHierarchyWithSVD";
+		return "The PL level does not exist in the unified hierarchy, use the methods AddPriorityLevelToHierarchy or AddPriorityLevelToHierarchyWithRegularization";
 	}
 };
 /**

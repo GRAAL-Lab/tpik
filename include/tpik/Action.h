@@ -4,13 +4,18 @@
 #include <iostream>
 #include <vector>
 #include "PriorityLevel.h"
+#include "TPIKDefines.h"
 
 namespace tpik
 {
+/**
+ * @ brief Hierarchy typedef.
+ */
 typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
+
 /**
  * @brief Action class.
- * Implementation of the Action class, composed by an ID and a vector of shared_ptr to priorityLevels which identify the
+ * Implementation of the Action class. Each action is composed by an ID and a vector of std::shared_ptr to tpik::PriorityLevels defining the
  * action hierarchy.
  */
 
@@ -30,14 +35,14 @@ public:
 	 */
 	void SetID(std::string ID);
 	/**
-	 * @brief Method checking whether the input priorityLevel is present in the action.
-	 * @param[in] priorityLevel: shared_ptr to the tpik::PriorityLevel.
+	 * @brief Method checking whether the input tpik::PriorityLevel is present in the tpik::Action.
+	 * @param[in] priorityLevel std::shared_ptr to the tpik::PriorityLevel.
 	 * @return true if priorityLevel is in the action hierarchy, false otherwise.
 	 */
 	bool FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
 	/**
-	 * @brief Method adding the input priority level to the action.
-	 * @param[in] priorityLevel: shared_ptr to the tpik::PriorityLevel to be added.
+	 * @brief Method adding the input tpik::PriorityLevel to the action.
+	 * @param[in] priorityLevel shared_ptr to the tpik::PriorityLevel to be added.
 	 */
 	void AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel);
 	/**
@@ -59,8 +64,8 @@ public:
 	}
 	;
 private:
-	Hierarchy priorityLevels_;
-	std::string ID_;
+	Hierarchy priorityLevels_; //!< The action Hierarchy.
+	std::string ID_; //!< The action ID.
 };
 }
 #endif

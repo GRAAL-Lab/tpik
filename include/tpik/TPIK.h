@@ -27,12 +27,12 @@ public:
 	 * @brief Pure virtual method that computes the kinematic control for a single priority level.
 	 * To be implemented in the derived classes.
 	 * @param[in] J: Jacobian Matrix;
-	 * @param[in] Alpha: Activation Function;
+	 * @param[in] A: Activation Function (Ai*Ae);
 	 * @param[in] x_dot: Reference;
-	 * @param[in] svd: svd Parameters.
+	 * @param[in] regularizationData: rml::RegularizationData struct.
 	 */
-	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd Alpha, Eigen::VectorXd x_dot,
-			rml::SVDData svd)=0;
+	virtual void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot,
+			rml::RegularizationData regularizationData)=0;
 	/**
 	 * @brief Method which returns the computed velocity.
 	 * @return Inverse Kinematic Velocity.
@@ -57,10 +57,10 @@ public:
 	}
 
 protected:
-	Eigen::VectorXd y_;
-	Eigen::MatrixXd Q_;
-	Eigen::MatrixXd I_;
-	int DoF_;
+	Eigen::VectorXd y_; //!< The velocity.
+	Eigen::MatrixXd Q_;//!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
+	Eigen::MatrixXd I_;//!< The identity Matrix (DoF x DoF).
+	int DoF_; //!< The degrees of freedom.
 };
 }
 

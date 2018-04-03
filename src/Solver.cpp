@@ -28,8 +28,8 @@ const Eigen::VectorXd& Solver::ComputeVelocities() const
 		Eigen::MatrixXd J = priorityLevel->GetJacobian();
 		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
 		Eigen::MatrixXd x_dot = priorityLevel->GetReference();
-		rml::SVDData svd = priorityLevel->GetSVDParameter();
-		tpik_->ComputeYSingleLevel(J, A, x_dot, svd);
+		rml::RegularizationData regularizationData = priorityLevel->GetRegularizationData();
+		tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
 	}
 	return tpik_->GetY();
 }

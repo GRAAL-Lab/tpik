@@ -3,7 +3,7 @@
 namespace tpik
 {
 
-PriorityLevel::PriorityLevel(std::string ID) :
+PriorityLevel::PriorityLevel(const std::string ID) :
 		taskNumber_(0), Ae_(0)
 {
 	ID_ = ID;
@@ -68,9 +68,9 @@ void PriorityLevel::SetExternalActivationFunction(double Ae)
 	Ae_ = Ae;
 }
 
-void PriorityLevel::SetSVDParameters(rml::SVDData svdParameters)
+void PriorityLevel::SetRegularizationData(rml::RegularizationData regularizationData)
 {
-	svdParameters_=svdParameters;
+	regularizationData_=regularizationData;
 }
 const Eigen::MatrixXd& PriorityLevel::GetJacobian() const
 {
@@ -109,9 +109,9 @@ const std::vector<std::shared_ptr<Task> > PriorityLevel::GetLevel() const
 	return level_;
 }
 
-const rml::SVDData& PriorityLevel::GetSVDParameter()
+const rml::RegularizationData& PriorityLevel::GetRegularizationData()
 {
-	return svdParameters_;
+	return regularizationData_;
 
 }
 

@@ -10,10 +10,10 @@ namespace tpik
 {
 
 /**
- * @brief EqualityTask class, derived from the Abstract class Task.
- * Abstract EqualityTask class, implementing the Equality tasks. The derived classes must implement the pure virtual methods
+ * @brief EqualityTask class, derived from the Abstract class tpik::Task.
+ * Implementation of the Equality tasks. The derived classes must implement the pure virtual methods
  * UpdateJacobian and UpdateReference.
- * Furthermore the class is provided with method to set and get the task parameter, composed by gain, reference saturation value and
+ * Furthermore the class is provided with methods to set and get the tpik::TaskParameter, composed by gain, reference saturation value and
  * a boolean stating whether the task is enabled.
  */
 
@@ -23,16 +23,22 @@ class EqualityTask: public Task
 public:
 	/**
 	 * @brief Constructor of TaskEquality Class.
-	 * @param[in] ID: Task ID.
+	 * Initialization of the class variables:
+	 * Jacobian (taskSpace x DoF)
+	 * Internal Activation Function eye(taskSpace x taskSpace)
+	 * Reference (taskSpace x 1)
+	 * @param[in] ID Task ID.
+	 * @param[in] taskSpace
+	 * @param[in] DoF
 	 */
-	EqualityTask(const std::string ID, int TaskSpace, int DoF);
+	EqualityTask(const std::string ID, int taskSpace, int DoF);
 	/**
 	 * @brief Default De-Constructor of TaskEquality Class
 	 */
 	virtual ~EqualityTask();
 	/**
 	 * @brief Method that sets the TaskEquality Parameter (gain, bell shaped function parameter, Task enable boolean).
-	 * @param[in] TaskParameter: Task Parameter struct.
+	 * @param[in] taskParameter tpik::TaskParameter struct.
 	 */
 	void SetTaskParameter(TaskParameter taskParameter);
 	/**
@@ -42,12 +48,12 @@ public:
 	void CheckInitialization() throw (std::exception);
 	/**
 	 * @brief Method that returns the TaskEquality Parameter
-	 * @returns TaskParameter
+	 * @returns tpik::TaskParameter
 	 */
 	TaskParameter GetTaskParameter();
 protected:
 	/**
-	 * @brief Method saturating the reference using the member variable saturation of the taskParameter struct.
+	 * @brief Method saturating the reference using the member variable saturation of the tpik::TaskParameter struct.
 	 */
 	void SaturateReference();
 	/**
@@ -58,8 +64,8 @@ protected:
 	 */
 	void UpdateInternalActivationFunction() override;
 
-	TaskParameter taskParameter_;
-	bool initializedTaskParameter_;
+	TaskParameter taskParameter_;//!< The tpik::TaskParameter.
+	bool initializedTaskParameter_; //!< The boolean used to check whether the task parameter have been initialized.
 
 };
 }

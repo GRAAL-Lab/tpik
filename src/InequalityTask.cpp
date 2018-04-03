@@ -6,8 +6,8 @@
 namespace tpik
 {
 
-InequalityTask::InequalityTask(const std::string ID, int TaskSpace, int DoF) :
-		Task(ID, TaskSpace, DoF)
+InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF) :
+		Task(ID, taskSpace, DoF)
 {
 	initializedDecreasingBellShapeParameter_ = false;
 	initializedIncreasingBellShapeParameter_ = false;
