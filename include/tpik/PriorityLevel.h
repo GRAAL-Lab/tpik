@@ -102,10 +102,11 @@ public:
 		return os << "\033[1;37m" << "PriorityLevel ID " << priorityLevel.ID_ << "\n" << std::setprecision(2)
 				<< "\033[1;37m" << "Internal Activation Function \n" << "\033[0m" << priorityLevel.Ai_ << "\n"
 				<< "\033[1;37m" << "External Activation Function " << "\033[0m" << priorityLevel.Ae_ << "\n"
-				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n"
-				<< "\033[1;37m" << "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n"
-				<< "\033[1;37m" << "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.regularizationData_.params.threshold << "\n"
-				<< "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.regularizationData_.params.threshold << "\n";
+				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n" << "\033[1;37m"
+				<< "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n" << "\033[1;37m"
+				<< "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.regularizationData_.params.threshold
+				<< "\n" << "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.regularizationData_.params.threshold
+				<< "\n";
 	}
 
 private:
@@ -127,11 +128,10 @@ private:
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
 	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< The reference.
-	double Ae_;//!< The external activation function.
+	double Ae_; //!< The external activation function.
 	int taskNumber_; //!< The priority level number of tasks.
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
 };
 }
-
 
 #endif

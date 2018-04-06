@@ -13,14 +13,14 @@ namespace tpik
  * @brief CoordinationArmVehicleSolver class.
  * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
  * and arms by optimizing the arms velocities wrt to the vehicle current velocities.
- * In order to achieve such results, an implementation of the Task class which provides the vehicle teleoperation
+ * In order to achieve such result, an implementation of the Task class which provides the vehicle teleoperation
  * with the actual vehicle velocities is needed.
  * First the whole system velocities (both for the vehicle and the arms) are computed. Then, by taking into account the current vehicle
  * velocities, the arms velocities are computed hence obtaining the optimized arms velocities wrt to the current vehicle velocities.
  * The desired vehicle velocities returned will be the one of the first optimization while the arms velocities will be the one of the second otpimization.
  * In this way the difference in between the dynamic and kinematic of the arm and the vehicle is taken into account and the arms target velocities
  * will be independent on the possible vehicle errors in tracking the desired velocities.
- * @note the vehicle teleoperation task must not be included in the unified heirarchy.
+ * @note the vehicle teleoperation task must NOT be included in the unified heirarchy.
  */
 class CoordinationArmVehicleSolver
 {
@@ -47,7 +47,7 @@ public:
 	/**
 	 * @brief Method that computes the optimized velocities for the whole system through two different optimization. One for the vehicle and
 	 * on for the arms.
-	 * @return Kinematic Control Velocities.
+	 * @return Kinematic control velocities.
 	 */
 	Eigen::VectorXd ComputeDecoupledVelocities();
 private:
@@ -55,7 +55,7 @@ private:
 	std::shared_ptr<TPIK> tpik_; //!< The std::shared_ptr to the tpik::TPIK.
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchy_; //!< The unified hierarhcy.
 	std::vector<std::shared_ptr<PriorityLevel> > hierarchyArm_; //!< The unified hierarchy used to compute the arm velocites, hence with the vehicle teleopertion.
-	std::shared_ptr<PriorityLevel> vehiclePriorityLevel_;//!< The std::shared_ptr to vehicle teleoperatio tpik::PriorityLevel.
+	std::shared_ptr<PriorityLevel> vehiclePriorityLevel_; //!< The std::shared_ptr to vehicle teleoperatio tpik::PriorityLevel.
 
 };
 }

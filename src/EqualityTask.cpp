@@ -19,7 +19,9 @@ EqualityTask::~EqualityTask()
 void EqualityTask::SetTaskParameter(TaskParameter taskParameter)
 {
 	taskParameter_ = taskParameter;
+	isActive_ = taskParameter_.taskEnable;
 	initializedTaskParameter_ = true;
+
 }
 
 TaskParameter EqualityTask::GetTaskParameter()

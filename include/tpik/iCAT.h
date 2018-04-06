@@ -32,7 +32,8 @@ public:
 	 * @param[in] x_dot: Reference;
 	 * @param[in] regularizationData rml::RegularizationData struct.
 	 */
-	void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot, rml::RegularizationData regularizationData) override;
+	void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot,
+			rml::RegularizationData regularizationData) override;
 };
 }
 #endif

@@ -28,6 +28,7 @@ std::string PriorityLevel::GetID() const
 
 void PriorityLevel::UpdateJacobian()
 {
+
 	J_ = level_.at(0)->GetJacobian();
 	for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
 		J_ = rml::UnderJuxtapose(J_, task->GetJacobian());
@@ -37,18 +38,42 @@ void PriorityLevel::UpdateJacobian()
 
 void PriorityLevel::UpdateInternalActivationFunction()
 {
-	Ai_ = level_.at(0)->GetInternalActivationFunction();
-	for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
-		Eigen::MatrixXd ANewTask = task->GetInternalActivationFunction();
-		Eigen::MatrixXd Anew = rml::RightJuxtapose(Ai_, Eigen::MatrixXd::Zero(Ai_.rows(), ANewTask.cols()));
-		Ai_ = rml::UnderJuxtapose(Anew,
-				rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows(), Ai_.cols()), ANewTask));
+
+	bool isAiInitialized = false;
+	for (auto& task : level_) {
+		if (isAiInitialized) {
+			Eigen::MatrixXd ANewTask;
+
+			if (task->GetIsActive()) {
+				ANewTask = task->GetInternalActivationFunction();
+
+			} else {
+				ANewTask = Eigen::MatrixXd::Zero(task->GetTaskSpace(), task->GetTaskSpace());
+
+			}
+			Eigen::MatrixXd Anew = rml::RightJuxtapose(Ai_, Eigen::MatrixXd::Zero(Ai_.rows(), ANewTask.cols()));
+			Ai_ = rml::UnderJuxtapose(Anew,
+					rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows(), Ai_.cols()), ANewTask));
+
+		} else {
+			if (task->GetIsActive()) {
+				Ai_ = task->GetInternalActivationFunction();
+				isAiInitialized = true;
+
+			} else {
+				Ai_ = Eigen::MatrixXd::Zero(task->GetTaskSpace(), task->GetTaskSpace());
+				isAiInitialized = true;
+
+			}
+
+		}
 	}
 
 }
 
 void PriorityLevel::UpdateReference()
 {
+
 	x_dot_ = level_.at(0)->GetReference();
 	for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
 		x_dot_ = rml::UnderJuxtapose(x_dot_, task->GetReference());
@@ -70,7 +95,7 @@ void PriorityLevel::SetExternalActivationFunction(double Ae)
 
 void PriorityLevel::SetRegularizationData(rml::RegularizationData regularizationData)
 {
-	regularizationData_=regularizationData;
+	regularizationData_ = regularizationData;
 }
 const Eigen::MatrixXd& PriorityLevel::GetJacobian() const
 {

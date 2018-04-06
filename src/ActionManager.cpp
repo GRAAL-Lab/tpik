@@ -12,8 +12,8 @@ ActionManager::ActionManager()
 	currentAction_ = defaultAct;
 	actions_.push_back(oldAction_);
 	isSimulated_ = false;
-	simulationBegin_=std::chrono::system_clock::now();
-	simulationTime_=simulationBegin_;
+	simulationBegin_ = std::chrono::system_clock::now();
+	simulationTime_ = simulationBegin_;
 }
 
 void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelID)
@@ -21,7 +21,8 @@ void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelI
 	hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
 }
 
-void ActionManager::AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID, rml::RegularizationData regularizationData)
+void ActionManager::AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID,
+		rml::RegularizationData regularizationData)
 {
 	auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
 	pl->SetRegularizationData(regularizationData);
@@ -124,7 +125,7 @@ void ActionManager::SetIsSimulation(bool isSimulated)
 void ActionManager::SetTime(long simulationTime)
 {
 	auto t = std::chrono::milliseconds(simulationTime);
-	simulationTime_=simulationBegin_+t;
+	simulationTime_ = simulationBegin_ + t;
 }
 
 std::chrono::system_clock::time_point ActionManager::GetTime()

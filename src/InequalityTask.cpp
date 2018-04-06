@@ -21,7 +21,9 @@ InequalityTask::~InequalityTask()
 void InequalityTask::SetTaskParameter(TaskParameter taskParameters)
 {
 	taskParameter_ = taskParameters;
+	isActive_ = taskParameter_.taskEnable;
 	initializedTaskParameter_ = true;
+
 }
 
 const TaskParameter& InequalityTask::GetTaskParameter()
@@ -29,18 +31,16 @@ const TaskParameter& InequalityTask::GetTaskParameter()
 	return taskParameter_;
 }
 
-
 void InequalityTask::SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShaped)
 {
-	increasingBellShape_=increasingBellShaped;
-	initializedIncreasingBellShapeParameter_=true;
-
+	increasingBellShape_ = increasingBellShaped;
+	initializedIncreasingBellShapeParameter_ = true;
 
 }
 void InequalityTask::SetDecreasingBellShapedParameter(BellShapedParameter decreasingBellShaped)
 {
-	decreasingBellShape_=decreasingBellShaped;
-	initializedDecreasingBellShapeParameter_=true;
+	decreasingBellShape_ = decreasingBellShaped;
+	initializedDecreasingBellShapeParameter_ = true;
 }
 
 void InequalityTask::SaturateReference()
@@ -68,7 +68,7 @@ void InequalityTask::CheckInitialization() throw (std::exception)
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MaxBoundNotInitializedException());
 	}
-	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_ ) {
+	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_) {
 		std::cout << "TASK ID " << ID_ << std::endl;
 		throw(MinBoundNotInitializedException());
 	}

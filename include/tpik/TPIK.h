@@ -5,13 +5,15 @@
 #include <eigen3/Eigen/Dense>
 #include "PriorityLevel.h"
 
-namespace tpik {
+namespace tpik
+{
 /**
  * @brief TPIK class.
  * Implementation of the TPIK (Task Priority Inverse Kinematic) Abstract class containing the pure virtual method ComputeYSingleLevel
  * to compute the inverse kinematic control for a single priority level.
  */
-class TPIK {
+class TPIK
+{
 public:
 	/**
 	 * @brief TPIK constructor.
@@ -50,7 +52,8 @@ public:
 	/**
 	 * @brief Overload of the cout function
 	 */
-	friend std::ostream& operator <<(std::ostream& os, TPIK const& tpik) {
+	friend std::ostream& operator <<(std::ostream& os, TPIK const& tpik)
+	{
 		return os << "\033[1;37m" << "TPIK" << "\n" << std::setprecision(2) << "\033[1;37m"
 				<< "Y \n" << "\033[0m" << tpik.y_ << "\n" << "\033[1;37m"
 				<< "Q \n" << "\033[0m" << tpik.Q_ << "\n";
@@ -58,8 +61,8 @@ public:
 
 protected:
 	Eigen::VectorXd y_; //!< The velocity.
-	Eigen::MatrixXd Q_;//!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
-	Eigen::MatrixXd I_;//!< The identity Matrix (DoF x DoF).
+	Eigen::MatrixXd Q_; //!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
+	Eigen::MatrixXd I_; //!< The identity Matrix (DoF x DoF).
 	int DoF_; //!< The degrees of freedom.
 };
 }

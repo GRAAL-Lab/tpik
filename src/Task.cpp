@@ -8,12 +8,10 @@ Task::Task(const std::string ID, int taskSpace, int DoF)
 	ID_ = ID;
 	taskSpace_ = taskSpace;
 	DoF_ = DoF;
-	Ai_.resize(taskSpace_, taskSpace_);
-	Ai_.setZero();
-	x_dot_.resize(taskSpace_);
-	Ai_.setZero();
-	J_.resize(taskSpace_, DoF_);
-	Ai_.setZero();
+	Ai_.setZero(taskSpace_, taskSpace_);
+	x_dot_.setZero(taskSpace_);
+	J_.setZero(taskSpace_, DoF_);
+	isActive_ = true;
 }
 
 Task::~Task()
@@ -35,6 +33,21 @@ const Eigen::VectorXd& Task::GetReference() const
 {
 	return x_dot_;
 
+}
+int Task::GetDoF()
+{
+	return DoF_;
+
+}
+
+int Task::GetTaskSpace()
+{
+	return taskSpace_;
+}
+
+bool Task::GetIsActive()
+{
+	return isActive_;
 }
 
 }

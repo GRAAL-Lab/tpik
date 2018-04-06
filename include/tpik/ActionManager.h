@@ -23,6 +23,8 @@ class ActionManager
 public:
 	/**
 	 * @brief Action Manager Default constructor.
+	 * The ActionManager is, by default, NOT used in a simulation, hence the time is syncronized with the system clock time.
+	 * @note The default current action is an empty action.
 	 */
 	ActionManager();
 	/**
@@ -37,7 +39,8 @@ public:
 	 * @param[in] priorityLevelID priority level id.
 	 * @param[in] regularizationData rml::RegularizationData of the PriorityLevel.
 	 */
-	void AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID, rml::RegularizationData regularizationData);
+	void AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID,
+			rml::RegularizationData regularizationData);
 	/**
 	 * @brief Method adding a tpik::Task to a tpik::PriorityLevel.
 	 * @note An exception is thrown if the tpik::PriorityLevel does not exist in the unified hierarchy (Via GetPriorityLevel method).
@@ -102,8 +105,8 @@ public:
 	{
 		std::time_t ttp = std::chrono::system_clock::to_time_t(actionManager.time_);
 		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2) <<
-				"Current Action " << "\033[0m" << *actionManager.currentAction_ << "\033[1;37m" <<
-				"OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m" <<std::endl;
+				"Current Action " << "\033[0m" << *actionManager.currentAction_ << "\033[1;37m"
+				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m" << std::endl;
 	}
 	/**
 	 * @brief Method which returns the current time. If the tpik::ActionManager is simulated the simulation time is returned,
@@ -120,7 +123,7 @@ protected:
 	std::shared_ptr<Action> oldAction_; //!< The previous action.
 	std::chrono::system_clock::time_point time_; //!< The current time.
 	bool isSimulated_; //!< The boolean stating whether the action manager is used in a simulation.
-	std::chrono::system_clock::time_point simulationTime_; //!< The simulationTime.
+	std::chrono::system_clock::time_point simulationTime_; //!< The simulation time.
 	std::chrono::system_clock::time_point simulationBegin_; //!< The time when the simulation begin.
 
 };

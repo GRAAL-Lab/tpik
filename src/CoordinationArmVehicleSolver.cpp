@@ -4,12 +4,13 @@ namespace tpik
 {
 
 CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager,
-		std::shared_ptr<TPIK> tpik, std::shared_ptr<PriorityLevel> vehiclePriorityLevel, rml::RegularizationData vehiclePLRegularizedData)
+		std::shared_ptr<TPIK> tpik, std::shared_ptr<PriorityLevel> vehiclePriorityLevel,
+		rml::RegularizationData vehiclePLRegularizedData)
 {
 	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
 	tpik_ = tpik;
-	vehiclePriorityLevel_=vehiclePriorityLevel;
+	vehiclePriorityLevel_ = vehiclePriorityLevel;
 	vehiclePriorityLevel_->SetExternalActivationFunction(1.0);
 	vehiclePriorityLevel_->SetRegularizationData(vehiclePLRegularizedData);
 	hierarchyArm_.push_back(vehiclePriorityLevel_);

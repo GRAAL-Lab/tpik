@@ -5,8 +5,8 @@ namespace tpik
 TPIK::TPIK(int DoF)
 {
 	DoF_ = DoF;
-	I_ = Eigen::MatrixXd::Identity(DoF_, DoF_);
-	y_ = Eigen::VectorXd::Zero(DoF_);
+	I_.setIdentity(DoF_, DoF_);
+	y_.setZero(DoF_);
 	Q_ = I_;
 }
 

@@ -76,14 +76,14 @@ protected:
 	 * @brief Method saturating the reference using the member variable saturation of the taskParameter struct.
 	 */
 	void SaturateReference();
-	TaskParameter taskParameter_;//!< The tpik::TaskParameter.
+	TaskParameter taskParameter_; //!< The tpik::TaskParameter.
 	bool initializedTaskParameter_; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
-	bool initializedDecreasingBellShapeParameter_;  //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
+	bool initializedDecreasingBellShapeParameter_; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
 	bool initializedIncreasingBellShapeParameter_; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
-	bool bellShapeIncreasingUsed_;//!< The  boolean stating whether the increasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes.
-	bool bellShapeDecreasingUsed_;//!< The  boolean stating whether the decreasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes
-	BellShapedParameter increasingBellShape_;//!< The tpik::BellShapedParameter for increasing curve.
-	BellShapedParameter decreasingBellShape_;//!< The tpik::BellShapedParameter for decreasing curve.
+	bool bellShapeIncreasingUsed_; //!< The  boolean stating whether the increasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes.
+	bool bellShapeDecreasingUsed_; //!< The  boolean stating whether the decreasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes
+	BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve.
+	BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve.
 
 };
 }

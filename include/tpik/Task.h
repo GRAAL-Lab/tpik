@@ -48,6 +48,22 @@ public:
 	 */
 	const Eigen::VectorXd& GetReference() const;
 	/**
+	 * @brief Method returning the Task Degrees of Freedom.
+	 * @return Degrees of Freedom.
+	 */
+	int GetDoF();
+	/**
+	 * @brief Method returning the Task Space.
+	 * @return Task Space.
+	 */
+	int GetTaskSpace();
+	/**
+	 * @brief Method returning the task enable boolean.
+	 * @return True if the Task is active, false otherwise.
+	 * @note If the task is inactive, the internal activation function is set to 0 in the tpik::PriorityLevel.
+	 */
+	bool GetIsActive();
+	/**
 	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task.
 	 */
 	virtual void Update()=0;
@@ -57,9 +73,8 @@ public:
 	friend std::ostream& operator <<(std::ostream& os, Task const& task)
 	{
 		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
-				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m"
-				<< "Jacobian \n" << "\033[0m" << task.J_ << "\n" << "\033[1;37m"
-				<< "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
+				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m" << "Jacobian \n"
+				<< "\033[0m" << task.J_ << "\n" << "\033[1;37m" << "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
 	}
 
 protected:
@@ -77,11 +92,12 @@ protected:
 	virtual void UpdateJacobian()=0;
 
 	std::string ID_; //!< The Task ID.
-	Eigen::MatrixXd Ai_;//!< The internal activation function.
-	Eigen::MatrixXd J_;//!< The jacobian.
+	Eigen::MatrixXd Ai_; //!< The internal activation function.
+	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< reference.
 	int taskSpace_; //!< The task Space.
-	int DoF_;//!< The degrees of freedom.
+	int DoF_; //!< The degrees of freedom.
+	bool isActive_; //!< The flag stating whether the task is active.
 
 };
 }

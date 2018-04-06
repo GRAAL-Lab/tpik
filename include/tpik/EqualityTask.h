@@ -64,7 +64,7 @@ protected:
 	 */
 	void UpdateInternalActivationFunction() override;
 
-	TaskParameter taskParameter_;//!< The tpik::TaskParameter.
+	TaskParameter taskParameter_; //!< The tpik::TaskParameter.
 	bool initializedTaskParameter_; //!< The boolean used to check whether the task parameter have been initialized.
 
 };
