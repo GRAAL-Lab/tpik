@@ -70,6 +70,16 @@ public:
 	 * @note An exception is thrown if either the bellShapedParameter or the Task parameter have not been initialized yet.
 	 */
 	void CheckInitialization() throw (std::exception);
+	/**
+	 * Method stating whether the increasing bell shape parameter are used.
+	 * @return true if the bell shape increasing parameter are used, false otherwise.
+	 */
+	bool GetBellShapeIncreasingUsed();
+	/**
+	 * Method stating whether the decreasing bell shape parameter are used.
+	 * @return true if the bell shape decreasing parameter are used, false otherwise.
+	 */
+	bool GetBellShapeDecreasingUsed();
 
 protected:
 	/**

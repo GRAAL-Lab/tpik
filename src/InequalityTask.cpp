@@ -43,11 +43,6 @@ void InequalityTask::SetDecreasingBellShapedParameter(BellShapedParameter decrea
 	initializedDecreasingBellShapeParameter_ = true;
 }
 
-void InequalityTask::SaturateReference()
-{
-	rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
-}
-
 const BellShapedParameter& InequalityTask::GetIncreasingBellShapedParameter()
 {
 	return increasingBellShape_;
@@ -73,6 +68,21 @@ void InequalityTask::CheckInitialization() throw (std::exception)
 		throw(MinBoundNotInitializedException());
 	}
 
+}
+
+bool InequalityTask::GetBellShapeIncreasingUsed()
+{
+	return  bellShapeIncreasingUsed_;
+}
+
+bool InequalityTask::GetBellShapeDecreasingUsed()
+{
+	return bellShapeDecreasingUsed_;
+}
+
+void InequalityTask::SaturateReference()
+{
+	rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
 }
 
 }

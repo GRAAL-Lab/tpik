@@ -1,4 +1,3 @@
-//! \mainpage Main Page
 # TPIKlib: Task Priority Inverse Kinematic Library
 
 ## Description
