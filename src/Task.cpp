@@ -49,5 +49,9 @@ bool Task::GetIsActive()
 {
 	return isActive_;
 }
+const std::string Task::GetID()
+{
+	return ID_;
+}
 
 }

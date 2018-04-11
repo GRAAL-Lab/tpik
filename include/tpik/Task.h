@@ -64,6 +64,11 @@ public:
 	 */
 	bool GetIsActive();
 	/**
+	 * @brief Method returning the task ID.
+	 * @return Task ID.
+	 */
+	const std::string GetID();
+	/**
 	 * @brief Pure Virtual Method to be implemented by the derived classes to update the Task.
 	 */
 	virtual void Update()=0;
