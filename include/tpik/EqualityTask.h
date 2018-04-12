@@ -51,6 +51,16 @@ public:
 	 * @returns tpik::TaskParameter
 	 */
 	TaskParameter GetTaskParameter();
+	/**
+	 * @brief Overload of the cout operator.
+	 */
+	friend std::ostream& operator <<(std::ostream& os, EqualityTask const& equality)
+	{
+		return os <<"\033[1;37m"<<"EQUALITY TASK: " << equality.ID_<<"\n" << "Internal Activation Function \n" << "\033[0m" << equality.Ai_ << "\n"
+				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << equality.J_ << "\n"
+				<< "\033[1;37m" << "Reference \n" << "\033[0m" << equality.x_dot_ <<"\n"
+				<< "\033[0m" << equality.taskParameter_ <<"\n";
+	}
 protected:
 	/**
 	 * @brief Method saturating the reference using the member variable saturation of the tpik::TaskParameter struct.

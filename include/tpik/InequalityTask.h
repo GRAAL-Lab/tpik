@@ -80,6 +80,27 @@ public:
 	 * @return true if the bell shape decreasing parameter are used, false otherwise.
 	 */
 	bool GetBellShapeDecreasingUsed();
+	/**
+	 * @brief Overload of the cout operator.
+	 */
+	friend std::ostream& operator <<(std::ostream& os, InequalityTask const& inequality)
+	{
+		os << "\033[1;37m" << "INEQUALITY TASK : "<< inequality.ID_ << "\n"
+				<< "Internal Activation Function \n" << "\033[0m" << inequality.Ai_ << "\n"
+				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << inequality.J_ << "\n"
+				<< "\033[1;37m" << "Reference \n" << "\033[0m" << inequality.x_dot_ <<"\n"
+				<< "\033[0m"<< inequality.taskParameter_ ;
+
+	if (inequality.bellShapeDecreasingUsed_) {
+		os <<  "\033[1;37m" << "decreasing bell shape\n" << "\033[0m" << inequality.decreasingBellShape_ <<"\n";
+
+
+	}
+	if (inequality.bellShapeIncreasingUsed_) {
+		os <<  "\033[1;37m" << "increasing bell shape\n" << "\033[0m" << inequality.increasingBellShape_ <<"\n";
+	}
+		return os;
+	}
 
 protected:
 	/**
