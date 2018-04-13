@@ -56,16 +56,19 @@ const BellShapedParameter& InequalityTask::GetDecreasingBellShapedParameter()
 void InequalityTask::CheckInitialization() throw (std::exception)
 {
 	if (!initializedTaskParameter_) {
-		std::cout << "TASK ID " << ID_ << std::endl;
-		throw(TaskParameterNotInitializedException());
+		TaskParameterNotInitializedException taskParameterException;
+		taskParameterException.SetID(ID_);
+		throw(taskParameterException);
 	}
 	if (!initializedIncreasingBellShapeParameter_ & bellShapeIncreasingUsed_) {
-		std::cout << "TASK ID " << ID_ << std::endl;
-		throw(MaxBoundNotInitializedException());
+		BellShapedIncreasingNotInitializedException bellShapeIncreasingNotInitilized;
+		bellShapeIncreasingNotInitilized.SetID(ID_);
+		throw(bellShapeIncreasingNotInitilized);
 	}
 	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_) {
-		std::cout << "TASK ID " << ID_ << std::endl;
-		throw(MinBoundNotInitializedException());
+		BellShapedDecreasingNotInitializedException bellShapedDecreasingNotInitialized;
+		bellShapedDecreasingNotInitialized.SetID(ID_);
+		throw(bellShapedDecreasingNotInitialized);
 	}
 
 }

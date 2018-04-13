@@ -37,8 +37,9 @@ void EqualityTask::SaturateReference()
 void EqualityTask::CheckInitialization() throw (std::exception)
 {
 	if (!initializedTaskParameter_) {
-		std::cout << "TASK ID " << ID_ << std::endl;
-		throw(TaskParameterNotInitializedException());
+		TaskParameterNotInitializedException taskParameterException;
+		taskParameterException.SetID(ID_);
+		throw(taskParameterException);
 	}
 }
 

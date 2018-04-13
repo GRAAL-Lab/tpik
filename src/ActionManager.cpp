@@ -93,27 +93,29 @@ const Hierarchy& ActionManager::GetHierarchy() const throw (std::exception)
 	return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::GetAction(std::string ActionID) throw (std::exception)
+std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) throw (std::exception)
 {
+	ActionManagerNullActionException nullAction;
+	nullAction.SetID(actionID);
 	for (auto& act : actions_) {
-		if (act->GetID() == ActionID) {
+		if (act->GetID() == actionID) {
 			return act;
 		}
 	}
-	std::cout << "ACTION ID " << ActionID << std::endl;
-	throw(ActionManagerNullActionException());
+	throw(nullAction);
 }
 
 std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID) throw (std::exception)
 {
+	ActionManagerMissingPriorityLevelException missingPL;
+	missingPL.SetID(priorityLevelID);
 
 	for (auto& priorityLevel : hierarchy_) {
 		if (priorityLevel->GetID() == priorityLevelID) {
 			return priorityLevel;
 		}
 	}
-	std::cout << "PRIORITY LEVEL ID " << priorityLevelID << std::endl;
-	throw(ActionManagerMissingPriorityLevelException());
+throw(missingPL);
 
 }
 
