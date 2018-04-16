@@ -4,9 +4,8 @@ namespace tpik
 {
 
 PriorityLevel::PriorityLevel(const std::string ID) :
-		taskNumber_(0), Ae_(0)
+		taskNumber_(0), Ae_(0), ID_(ID)
 {
-	ID_ = ID;
 }
 
 PriorityLevel::~PriorityLevel()

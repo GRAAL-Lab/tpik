@@ -2,9 +2,8 @@
 
 namespace tpik
 {
-TPIK::TPIK(int DoF)
+TPIK::TPIK(int DoF): DoF_(DoF)
 {
-	DoF_ = DoF;
 	I_.setIdentity(DoF_, DoF_);
 	y_.setZero(DoF_);
 	Q_ = I_;

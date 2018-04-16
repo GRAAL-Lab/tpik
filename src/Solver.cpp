@@ -2,11 +2,9 @@
 namespace tpik
 {
 
-Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik)
+Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik): actionManager_(actionManager), tpik_(tpik)
 {
-	actionManager_ = actionManager;
 	hierarchy_ = actionManager_->GetHierarchy();
-	tpik_ = tpik;
 }
 
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik)

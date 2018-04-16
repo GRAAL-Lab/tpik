@@ -65,7 +65,7 @@ public:
 	;
 private:
 	Hierarchy priorityLevels_; //!< The action Hierarchy.
-	std::string ID_; //!< The action ID.
+	std::string ID_{" "}; //!< The action ID.
 };
 }
 #endif

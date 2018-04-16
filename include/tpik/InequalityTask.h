@@ -27,10 +27,12 @@ public:
 	 * Internal Activation Function (taskSpace x taskSpace)
 	 * Reference (taskSpace x 1)
 	 * @param[in] ID Task ID.
-	 * @param[in] taskSpace
-	 * @param[in] DoF
+	 * @param[in] taskSpace;
+	 * @param[in] DoF;
+	 * @param[in] bellShapeDecreasingUsed : boolean stating whether the decreasing bell shaped parameter are used and needed to be set;
+	 * @parma[in] bellShapedIncreasingUsed : boolean stating whether the increasing bell shaped parameter are used and needed to be set.
 	 */
-	InequalityTask(const std::string ID, int taskSpace, int DoF);
+	InequalityTask(const std::string ID, int taskSpace, int DoF, bool bellShapeDecreasingUsed, bool BellShapedIncreasingUsed);
 	/**
 	 * @brief Default De-constructor of InequalityTask Class.
 	 */
@@ -108,11 +110,11 @@ protected:
 	 */
 	void SaturateReference();
 	TaskParameter taskParameter_; //!< The tpik::TaskParameter.
-	bool initializedTaskParameter_; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
-	bool initializedDecreasingBellShapeParameter_; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
-	bool initializedIncreasingBellShapeParameter_; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
-	bool bellShapeIncreasingUsed_; //!< The  boolean stating whether the increasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes.
-	bool bellShapeDecreasingUsed_; //!< The  boolean stating whether the decreasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes
+	bool initializedTaskParameter_{false}; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
+	bool initializedDecreasingBellShapeParameter_{false}; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
+	bool initializedIncreasingBellShapeParameter_{false}; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
+	bool bellShapeIncreasingUsed_{false}; //!< The  boolean stating whether the increasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes.
+	bool bellShapeDecreasingUsed_{false}; //!< The  boolean stating whether the decreasing tpik::BellShapedParameter are used. To be defined in the constructor of the derived classes
 	BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve.
 	BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve.
 

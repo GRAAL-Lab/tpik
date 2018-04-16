@@ -6,12 +6,12 @@
 namespace tpik
 {
 
-InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF) :
-		Task(ID, taskSpace, DoF)
+InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF, bool bellShapeDecreasingUsed,
+		bool BellShapedIncreasingUsed) :
+		Task(ID, taskSpace, DoF), initializedDecreasingBellShapeParameter_(false), initializedIncreasingBellShapeParameter_(
+				false), initializedTaskParameter_(false), bellShapeDecreasingUsed_(bellShapeDecreasingUsed), bellShapeIncreasingUsed_(bellShapeIncreasingUsed_)
 {
-	initializedDecreasingBellShapeParameter_ = false;
-	initializedIncreasingBellShapeParameter_ = false;
-	initializedTaskParameter_ = false;
+
 }
 
 InequalityTask::~InequalityTask()
@@ -55,17 +55,20 @@ const BellShapedParameter& InequalityTask::GetDecreasingBellShapedParameter()
 
 void InequalityTask::CheckInitialization() throw (std::exception)
 {
-	if (!initializedTaskParameter_) {
+	if (!initializedTaskParameter_)
+	{
 		TaskParameterNotInitializedException taskParameterException;
 		taskParameterException.SetID(ID_);
 		throw(taskParameterException);
 	}
-	if (!initializedIncreasingBellShapeParameter_ & bellShapeIncreasingUsed_) {
+	if (!initializedIncreasingBellShapeParameter_ & bellShapeIncreasingUsed_)
+	{
 		BellShapedIncreasingNotInitializedException bellShapeIncreasingNotInitilized;
 		bellShapeIncreasingNotInitilized.SetID(ID_);
 		throw(bellShapeIncreasingNotInitilized);
 	}
-	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_) {
+	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_)
+	{
 		BellShapedDecreasingNotInitializedException bellShapedDecreasingNotInitialized;
 		bellShapedDecreasingNotInitialized.SetID(ID_);
 		throw(bellShapedDecreasingNotInitialized);
@@ -75,7 +78,7 @@ void InequalityTask::CheckInitialization() throw (std::exception)
 
 bool InequalityTask::GetBellShapeIncreasingUsed()
 {
-	return  bellShapeIncreasingUsed_;
+	return bellShapeIncreasingUsed_;
 }
 
 bool InequalityTask::GetBellShapeDecreasingUsed()

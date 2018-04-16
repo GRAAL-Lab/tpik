@@ -4,14 +4,13 @@
 namespace tpik
 {
 
-ActionManager::ActionManager()
+ActionManager::ActionManager():isSimulated_(false)
 {
 	auto defaultAct = std::make_shared<Action>(Action());
 	defaultAct->SetID("DEFAULT_ACTION");
 	oldAction_ = defaultAct;
 	currentAction_ = defaultAct;
 	actions_.push_back(oldAction_);
-	isSimulated_ = false;
 	simulationBegin_ = std::chrono::system_clock::now();
 	simulationTime_ = simulationBegin_;
 }

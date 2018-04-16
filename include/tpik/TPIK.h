@@ -63,7 +63,7 @@ protected:
 	Eigen::VectorXd y_; //!< The velocity.
 	Eigen::MatrixXd Q_; //!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
 	Eigen::MatrixXd I_; //!< The identity Matrix (DoF x DoF).
-	int DoF_; //!< The degrees of freedom.
+	int DoF_{0}; //!< The degrees of freedom.
 };
 }
 

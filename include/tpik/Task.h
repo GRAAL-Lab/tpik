@@ -96,13 +96,13 @@ protected:
 	 *  */
 	virtual void UpdateJacobian()=0;
 
-	std::string ID_; //!< The Task ID.
+	std::string ID_ { "" }; //!< The Task ID.
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
 	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< reference.
-	int taskSpace_; //!< The task Space.
-	int DoF_; //!< The degrees of freedom.
-	bool isActive_; //!< The flag stating whether the task is active.
+	int taskSpace_{0}; //!< The task Space.
+	int DoF_{0}; //!< The degrees of freedom.
+	bool isActive_{false}; //!< The flag stating whether the task is active.
 
 };
 }

@@ -3,15 +3,11 @@
 namespace tpik
 {
 
-Task::Task(const std::string ID, int taskSpace, int DoF)
+Task::Task(const std::string ID, int taskSpace, int DoF): ID_(ID), taskSpace_(taskSpace), DoF_(DoF), isActive_(true)
 {
-	ID_ = ID;
-	taskSpace_ = taskSpace;
-	DoF_ = DoF;
 	Ai_.setZero(taskSpace_, taskSpace_);
 	x_dot_.setZero(taskSpace_);
 	J_.setZero(taskSpace_, DoF_);
-	isActive_ = true;
 }
 
 Task::~Task()

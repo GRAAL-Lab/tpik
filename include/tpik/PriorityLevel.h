@@ -124,12 +124,12 @@ private:
 	void UpdateReference();
 
 	std::vector<std::shared_ptr<Task> > level_; //!< The vector containing the std::shared_ptr to tpik::Task objects.
-	std::string ID_; //!< The PriorityLevel ID.
+	std::string ID_{" "}; //!< The PriorityLevel ID.
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
 	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< The reference.
-	double Ae_; //!< The external activation function.
-	int taskNumber_; //!< The priority level number of tasks.
+	double Ae_{0}; //!< The external activation function.
+	int taskNumber_{0}; //!< The priority level number of tasks.
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
 };
 }

@@ -122,7 +122,7 @@ protected:
 	std::shared_ptr<Action> currentAction_; //!< The current action.
 	std::shared_ptr<Action> oldAction_; //!< The previous action.
 	std::chrono::system_clock::time_point time_; //!< The current time.
-	bool isSimulated_; //!< The boolean stating whether the action manager is used in a simulation.
+	bool isSimulated_{false}; //!< The boolean stating whether the action manager is used in a simulation.
 	std::chrono::system_clock::time_point simulationTime_; //!< The simulation time.
 	std::chrono::system_clock::time_point simulationBegin_; //!< The time when the simulation begin.
 
