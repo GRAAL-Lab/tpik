@@ -7,9 +7,9 @@ namespace tpik
 {
 
 InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF, bool bellShapeDecreasingUsed,
-		bool BellShapedIncreasingUsed) :
+		bool bellShapedIncreasingUsed) :
 		Task(ID, taskSpace, DoF), initializedDecreasingBellShapeParameter_(false), initializedIncreasingBellShapeParameter_(
-				false), initializedTaskParameter_(false), bellShapeDecreasingUsed_(bellShapeDecreasingUsed), bellShapeIncreasingUsed_(bellShapeIncreasingUsed_)
+				false), initializedTaskParameter_(false), bellShapeDecreasingUsed_(bellShapeDecreasingUsed), bellShapeIncreasingUsed_(bellShapedIncreasingUsed)
 {
 
 }
