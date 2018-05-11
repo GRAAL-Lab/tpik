@@ -4,13 +4,11 @@ namespace tpik
 {
 
 CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager,
-		std::shared_ptr<TPIK> tpik, std::shared_ptr<PriorityLevel> vehiclePriorityLevel,
-		rml::RegularizationData vehiclePLRegularizedData): actionManager_(actionManager), tpik_(tpik), vehiclePriorityLevel_(vehiclePriorityLevel)
+		std::shared_ptr<TPIK> tpik, std::shared_ptr<PriorityLevel> vehiclePriorityLevel): actionManager_(actionManager), tpik_(tpik), vehiclePriorityLevel_(vehiclePriorityLevel)
 {
 
 	hierarchy_ = actionManager_->GetHierarchy();
 	vehiclePriorityLevel_->SetExternalActivationFunction(1.0);
-	vehiclePriorityLevel_->SetRegularizationData(vehiclePLRegularizedData);
 	hierarchyArm_.push_back(vehiclePriorityLevel_);
 	hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
@@ -27,6 +25,7 @@ void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik)
 
 Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
 {
+
 
 	actionManager_->ComputeExternalActivation();
 	tpik_->Reset();

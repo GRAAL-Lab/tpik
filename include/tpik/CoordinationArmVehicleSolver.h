@@ -29,11 +29,11 @@ public:
 	 * @brief Overload of the consturctur
 	 * @param[in] actionManager std::shared_ptr to tpik::ActionManager which manages the unified hierarchy and the mission action.
 	 * @param[in] tpik std::shared_ptr to tpik::TPIK which provides the method to solve a single tpik::PriorityLevel.
-	 * @param[in] vehiclePriorityLevel std::shared_ptr to tpik::PriorityLevel containing task providing the teleoparation for the vehicle velocities.
-	 * @param[in] vehiclePLRegularizedData rml::RegularizationData struct for the input vehicle priorityLevel.
+	 * @param[in] vehiclePriorityLevel std::shared_ptr to tpik::PriorityLevel containing task providing the teleoparation for the vehicle velocities
+	 * (with regularization data already set ).
 	 */
 	CoordinationArmVehicleSolver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik,
-			std::shared_ptr<PriorityLevel> vehiclePriorityLevel, rml::RegularizationData vehiclePLRegularizedData);
+			std::shared_ptr<PriorityLevel> vehiclePriorityLevel);
 	/**
 	 * @brief Method setting the current tpik::Action.
 	 * @param[in] action current action ID.
