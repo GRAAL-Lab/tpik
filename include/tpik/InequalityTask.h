@@ -10,22 +10,22 @@
 namespace tpik
 {
 /**
- * @brief InequalityTask class, derived from the Abstract class Task.
+ * @brief InequalityTask class, derived from the Abstract class Task.\n
  * Implementation of the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
- * UpdateJacobian and UpdateReference.
+ * UpdateJacobian and UpdateReference.\n
  * Such class is provided with method to set and get the increasing bell shaped parameter and the decreasing bell shaped parameter in order to state the interval
- * where the task is active.
+ * where the task is active.\n
  * Furthermore methods to set and get the task parameter (gain, reference saturation and a boolean stating whether the task is enabled) are implemented.
  */
 class InequalityTask: public Task
 {
 public:
 	/**
-	 * @brief Constructor of Task Class.
-	 * Initialization of the class variables:
-	 * Jacobian (taskSpace x DoF)
-	 * Internal Activation Function (taskSpace x taskSpace)
-	 * Reference (taskSpace x 1)
+	 * @brief Constructor of Task Class.\n
+	 * Initialization of the class variables:\n
+	 * Jacobian (taskSpace x DoF)\n
+	 * Internal Activation Function (taskSpace x taskSpace)\n
+	 * Reference (taskSpace x 1)\n
 	 * @param[in] ID Task ID.
 	 * @param[in] taskSpace;
 	 * @param[in] DoF;
@@ -87,7 +87,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, InequalityTask const& inequality)
 	{
-		os << "\033[1;37m" << "INEQUALITY TASK : "<< inequality.ID_ << "\n"
+		os << "\033[1;37m" << "INEQUALITY TASK : "<< inequality.ID_ << "\n"<<std::setprecision(4)
 				<< "Internal Activation Function \n" << "\033[0m" << inequality.Ai_ << "\n"
 				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << inequality.J_ << "\n"
 				<< "\033[1;37m" << "Reference \n" << "\033[0m" << inequality.x_dot_ <<"\n"

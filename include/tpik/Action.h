@@ -9,12 +9,12 @@
 namespace tpik
 {
 /**
- * @ brief Hierarchy typedef.
+ * @brief Hierarchy typedef.
  */
 typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
 
 /**
- * @brief Action class.
+ * @brief Action class.\n
  * Implementation of the Action class. Each action is composed by an ID and a vector of std::shared_ptr to tpik::PriorityLevels defining the
  * action hierarchy.
  */
@@ -60,7 +60,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, Action const& action)
 	{
-		return os << "\033[1;37m" << "Action ID " << action.ID_ << "\n" << std::setprecision(2);
+		return os << "\033[1;37m" << "Action ID " << action.ID_ << "\n" << std::setprecision(4);
 	}
 	;
 private:

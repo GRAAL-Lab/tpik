@@ -10,16 +10,16 @@
 namespace tpik
 {
 /**
- * @brief CoordinationArmVehicleSolver class.
+ * @brief CoordinationArmVehicleSolver class.\n
  * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
- * and arms by optimizing the arms velocities wrt to the vehicle current velocities.
+ * and arms by optimizing the arms velocities wrt to the vehicle current velocities.\n
  * In order to achieve such result, an implementation of the Task class which provides the vehicle teleoperation
- * with the actual vehicle velocities is needed.
+ * with the actual vehicle velocities is needed.\n
  * First the whole system velocities (both for the vehicle and the arms) are computed. Then, by taking into account the current vehicle
- * velocities, the arms velocities are computed hence obtaining the optimized arms velocities wrt to the current vehicle velocities.
+ * velocities, the arms velocities are computed hence obtaining the optimized arms velocities wrt to the current vehicle velocities.\n
  * The desired vehicle velocities returned will be the one of the first optimization while the arms velocities will be the one of the second otpimization.
  * In this way the difference in between the dynamic and kinematic of the arm and the vehicle is taken into account and the arms target velocities
- * will be independent on the possible vehicle errors in tracking the desired velocities.
+ * will be independent on the possible vehicle errors in tracking the desired velocities.\n
  * @note the vehicle teleoperation task must NOT be included in the unified heirarchy.
  */
 class CoordinationArmVehicleSolver

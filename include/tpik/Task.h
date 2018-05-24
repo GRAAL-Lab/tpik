@@ -9,7 +9,7 @@
 namespace tpik
 {
 /**
- * @brief Task class.
+ * @brief Task class.\n
  * Implementation of the abstract Task base class. The derived classes must implement the pure virtual methods: UpdateJacobian, UpdateInternalActivationFunction
  * and UpdateReference.
  */
@@ -17,10 +17,10 @@ class Task
 {
 public:
 	/**
-	 * @brief Constructor of Task Class.
-	 * The Jacobian, reference and Internal Activation Function matrices are pre-allocated and initialized to zeros.
-	 * Jacobian (taskSpace x DoF)
-	 * Internal Activation Function (taskSpace x taskSpace)
+	 * @brief Constructor of Task Class.\n
+	 * The Jacobian, reference and Internal Activation Function matrices are pre-allocated and initialized to zeros.\n
+	 * Jacobian (taskSpace x DoF)\n
+	 * Internal Activation Function (taskSpace x taskSpace)\n
 	 * Reference (taskSpace x 1)
 	 * @param[in] ID: Task ID;
 	 * @param[in] taskSpace: task space;
@@ -77,7 +77,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, Task const& task)
 	{
-		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(2) << "\033[1;37m"
+		return os << "\033[1;37m" << "Task ID " << task.ID_ << "\n" << std::setprecision(4) << "\033[1;37m"
 				<< "Internal Activation Function \n" << "\033[0m" << task.Ai_ << "\n" << "\033[1;37m" << "Jacobian \n"
 				<< "\033[0m" << task.J_ << "\n" << "\033[1;37m" << "Reference \n" << "\033[0m" << task.x_dot_ << "\n";
 	}

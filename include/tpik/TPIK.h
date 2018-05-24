@@ -8,7 +8,7 @@
 namespace tpik
 {
 /**
- * @brief TPIK class.
+ * @brief TPIK class.\n
  * Implementation of the TPIK (Task Priority Inverse Kinematic) Abstract class containing the pure virtual method ComputeYSingleLevel
  * to compute the inverse kinematic control for a single priority level.
  */
@@ -26,7 +26,7 @@ public:
 	 */
 	virtual ~TPIK();
 	/**
-	 * @brief Pure virtual method that computes the kinematic control for a single priority level.
+	 * @brief Pure virtual method that computes the kinematic control for a single priority level.\n
 	 * To be implemented in the derived classes.
 	 * @param[in] J: Jacobian Matrix;
 	 * @param[in] A: Activation Function (Ai*Ae);
@@ -54,7 +54,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, TPIK const& tpik)
 	{
-		return os << "\033[1;37m" << "TPIK" << "\n" << std::setprecision(2) << "\033[1;37m"
+		return os << "\033[1;37m" << "TPIK" << "\n" << std::setprecision(4) << "\033[1;37m"
 				<< "Y \n" << "\033[0m" << tpik.y_ << "\n" << "\033[1;37m"
 				<< "Q \n" << "\033[0m" << tpik.Q_ << "\n";
 	}

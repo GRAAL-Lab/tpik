@@ -8,7 +8,7 @@
 namespace tpik
 {
 /**
- * @brief iCAT Class derived from the tpik::TPIK abstract class.
+ * @brief iCAT Class derived from the tpik::TPIK abstract class.\n
  * Implementation of the iCAT (Inequality Constraints Activation and Task) algorithm. It implements the pure virtual method ComputeYStep of
  * the tpik::TPIK class to compute the inverse kinematic of a single priority level.
  */

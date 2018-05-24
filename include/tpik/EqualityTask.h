@@ -10,9 +10,9 @@ namespace tpik
 {
 
 /**
- * @brief EqualityTask class, derived from the Abstract class tpik::Task.
+ * @brief EqualityTask class, derived from the Abstract class tpik::Task.\n
  * Implementation of the Equality tasks. The derived classes must implement the pure virtual methods
- * UpdateJacobian and UpdateReference.
+ * UpdateJacobian and UpdateReference.\n
  * Furthermore the class is provided with methods to set and get the tpik::TaskParameter, composed by gain, reference saturation value and
  * a boolean stating whether the task is enabled.
  */
@@ -23,9 +23,9 @@ class EqualityTask: public Task
 public:
 	/**
 	 * @brief Constructor of TaskEquality Class.
-	 * Initialization of the class variables:
-	 * Jacobian (taskSpace x DoF)
-	 * Internal Activation Function eye(taskSpace x taskSpace)
+	 * Initialization of the class variables:\n
+	 * Jacobian (taskSpace x DoF)\n
+	 * Internal Activation Function eye(taskSpace x taskSpace)\n
 	 * Reference (taskSpace x 1)
 	 * @param[in] ID Task ID.
 	 * @param[in] taskSpace
@@ -56,7 +56,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, EqualityTask const& equality)
 	{
-		return os <<"\033[1;37m"<<"EQUALITY TASK: " << equality.ID_<<"\n" << "Internal Activation Function \n" << "\033[0m" << equality.Ai_ << "\n"
+		return os <<"\033[1;37m"<<"EQUALITY TASK: " << equality.ID_<<"\n" <<std::setprecision(4)<< "Internal Activation Function \n" << "\033[0m" << equality.Ai_ << "\n"
 				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << equality.J_ << "\n"
 				<< "\033[1;37m" << "Reference \n" << "\033[0m" << equality.x_dot_ <<"\n"
 				<< "\033[0m" << equality.taskParameter_ <<"\n";

@@ -10,11 +10,11 @@
 namespace tpik
 {
 /**
- * @brief PriorityLevel class.
+ * @brief PriorityLevel class.\n
  * Implementation of the PriorityLevel Class. Starting form a vector of tpik::Task which have the same priority, it computes the
- * Jacobian, internal activation function and reference by juxtaposing the related task matrices.
+ * Jacobian, internal activation function and reference by juxtaposing the related task matrices.\n
  * Methods to set the external Activation Function are provided. It is assumed that all the Tasks have the same
- * behavior wrt the external activation function (hence either they are all present or none of them are present in an action).
+ * behavior wrt the external activation function (hence either they are all present or none of them are present in an action).\n
  * The overall activation function is computed as product between the internal and external activation functions.
  */
 class PriorityLevel
@@ -99,7 +99,7 @@ public:
 	 */
 	friend std::ostream& operator <<(std::ostream& os, PriorityLevel const& priorityLevel)
 	{
-		return os << "\033[1;37m" << "PriorityLevel ID " << priorityLevel.ID_ << "\n" << std::setprecision(2)
+		return os << "\033[1;37m" << "PriorityLevel ID " << priorityLevel.ID_ << "\n" << std::setprecision(4)
 				<< "\033[1;37m" << "Internal Activation Function \n" << "\033[0m" << priorityLevel.Ai_ << "\n"
 				<< "\033[1;37m" << "External Activation Function " << "\033[0m" << priorityLevel.Ae_ << "\n"
 				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n" << "\033[1;37m"

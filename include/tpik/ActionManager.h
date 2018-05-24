@@ -11,30 +11,30 @@
 namespace tpik
 {
 /**
- * @brief Action Manager Class.
+ * @brief Action Manager Class.\n
  * Implementation of the Action Manager class. Such class offers an API in order to create the tpik::PriorityLevel, create the unified hierarchy,
- * define the tpik::Action.
+ * define the tpik::Action.\n
  * The tpik::ActionManager can be used in simulation by setting the related boolean to true (via SetIsSimulation()) and setting the simulationTime
- * (via SetTime()).
+ * (via SetTime()).\n
  * @note The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
  */
 class ActionManager
 {
 public:
 	/**
-	 * @brief Action Manager Default constructor.
+	 * @brief Action Manager Default constructor.\n
 	 * The ActionManager is, by default, NOT used in a simulation, hence the time is syncronized with the system clock time.
 	 * @note The default current action is an empty action.
 	 */
 	ActionManager();
 	/**
-	 * @brief Method creating a new tpik::PriorityLevel in the unified hierarchy.
+	 * @brief Method creating a new tpik::PriorityLevel in the unified hierarchy.\n
 	 * The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
 	 * @param[in] priorityLevelID priority level id.
 	 */
 	void AddPriorityLevelToHierarchy(const std::string priorityLevelID);
 	/**
-	 * @brief Method creating a new tpik::PriorityLevel in the unified hierarchy and specifies its rml::RegularizationData.
+	 * @brief Method creating a new tpik::PriorityLevel in the unified hierarchy and specifies its rml::RegularizationData.\n
 	 * The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
 	 * @param[in] priorityLevelID priority level id.
 	 * @param[in] regularizationData rml::RegularizationData of the PriorityLevel.
@@ -61,7 +61,7 @@ public:
 	 */
 	void SetAction(std::string newAction);
 	/**
-	 * @brief Method which computes and sets the external activation functions in the unified hierarchy tpik::PriorityLevel.
+	 * @brief Method which computes and sets the external activation functions in the unified hierarchy tpik::PriorityLevel.\n
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
 	 * @note An exception is thrown if the unified hierarchy has not been specified yet.
 	 */
@@ -104,7 +104,7 @@ public:
 	friend std::ostream& operator <<(std::ostream& os, ActionManager const& actionManager)
 	{
 		std::time_t ttp = std::chrono::system_clock::to_time_t(actionManager.time_);
-		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(2) <<
+		return os << "\033[1;37m" << "ActionManager \n" << std::setprecision(4) <<
 				"Current Action " << "\033[0m" << *actionManager.currentAction_ << "\033[1;37m"
 				<< "OldAction " << "\033[0m" << *actionManager.oldAction_ << "\033[1;37m" << std::endl;
 	}

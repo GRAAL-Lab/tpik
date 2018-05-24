@@ -9,7 +9,7 @@
 namespace tpik
 {
 /**
- * @brief Solver class.
+ * @brief Solver class.\n
  * Implementation of the Solver class. Using the tpik::ActionManager and tpik::TPIK, it computes the inverse kinematic control for all the priorityLevels
  * by taking into account the transition between the current action and the previous one.
  */
