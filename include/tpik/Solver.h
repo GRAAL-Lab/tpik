@@ -19,7 +19,8 @@ class Solver
 public:
 	/**
 	 * @brief Solver Class constructor.
-	 * @param[in] actionManager std::shared_ptr to the tpik::ActionManager containing the unified hierarchy and the action list.
+	 * @param[in] actionManager std::shared_ptr to the tpik::ActionManager containing the unified hierarchy and the action list. Before calling the constructor the
+	 * unified hierarchy must already have been specified.
 	 * @param[in] tpik std::shared_ptr to tpik::TPIK.
 	 *
 	 */

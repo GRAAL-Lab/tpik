@@ -104,7 +104,7 @@ const Eigen::MatrixXd& PriorityLevel::GetJacobian() const
 Eigen::MatrixXd PriorityLevel::GetActivationFunction()
 {
 
-	return Ae_ * Ai_;
+    return Ae_ * Ai_;
 }
 
 const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const

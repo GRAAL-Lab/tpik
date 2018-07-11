@@ -5,6 +5,8 @@ include(GNUInstallDirs)
 file(GLOB_RECURSE EXTRA_FILES */*)
 add_custom_target(${PROJECT_NAME}_OTHER_FILES ALL WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} SOURCES ${EXTRA_FILES})
 
+option(BUILD_TESTS "Compile tests" OFF)
+
 project (tpik)
 #include_directories(src)
 #include_directories(include)
@@ -43,7 +45,7 @@ install(EXPORT tpikConfig DESTINATION share/tpik/cmake)
 # This makes the project importable from the build directory
 export(TARGETS tpik FILE tpikConfig.cmake)
 
-if(BUILD_TEST)
+if(BUILD_TESTS)
     # Every library has unit tests, of course
    add_executable(tpik_test
    test/tpikTest.cpp
@@ -52,7 +54,7 @@ if(BUILD_TEST)
 target_link_libraries(tpik_test tpik)
     
 add_test(tpik_test tpik_test)
-endif(BUILD_TEST)
+endif(BUILD_TESTS)
 
 
 
