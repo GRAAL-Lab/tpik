@@ -105,6 +105,7 @@ Eigen::MatrixXd PriorityLevel::GetActivationFunction()
 {
 
     return Ae_ * Ai_;
+    //return  Ai_;
 }
 
 const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const

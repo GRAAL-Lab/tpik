@@ -22,6 +22,7 @@ add_library(tpik SHARED
 	src/Action.cpp
 	src/iCAT.cpp
 	src/CoordinationArmVehicleSolver.cpp
+        src/CartesianTask.cpp
 )
 target_link_libraries(tpik rml)
 set_target_properties(tpik PROPERTIES LINKER_LANGUAGE CXX)

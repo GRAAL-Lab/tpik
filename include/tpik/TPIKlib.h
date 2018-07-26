@@ -14,4 +14,5 @@
 #include "EqualityTask.h"
 #include "CoordinationArmVehicleSolver.h"
 #include "TPIKExceptions.h"
+#include "CartesianTask.h"
 #endif

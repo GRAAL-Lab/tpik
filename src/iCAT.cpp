@@ -18,6 +18,7 @@ iCAT::~iCAT()
 void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot,
 		rml::RegularizationData regularizationData)
 {
+
 	if (!A.isZero()) {
 		Eigen::MatrixXd barG = J * Q_;
 		Eigen::MatrixXd barGtraspAA = barG.transpose() * A * A;
@@ -29,6 +30,7 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
 		Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd) (barGtraspAA * barG + H),
 				regularizationData);
 		y_ = y_ + Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
+
 		Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
 	}
 
