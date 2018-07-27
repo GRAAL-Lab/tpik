@@ -67,12 +67,23 @@ void InequalityTask::CheckInitialization() throw (std::exception)
 		bellShapeIncreasingNotInitilized.SetID(ID_);
 		throw(bellShapeIncreasingNotInitilized);
 	}
+    if(increasingBellShape_.xmax.size()!=taskSpace_ && bellShapeIncreasingUsed_){
+        WrongBellShapeParameterSizeException wrongSizeException;
+        wrongSizeException.SetID(ID_);
+        throw (wrongSizeException);
+    }
 	if (!initializedDecreasingBellShapeParameter_ & bellShapeDecreasingUsed_)
 	{
 		BellShapedDecreasingNotInitializedException bellShapedDecreasingNotInitialized;
 		bellShapedDecreasingNotInitialized.SetID(ID_);
 		throw(bellShapedDecreasingNotInitialized);
 	}
+
+    if(decreasingBellShape_.xmax.size()!=taskSpace_ && bellShapeDecreasingUsed_){
+        WrongBellShapeParameterSizeException wrongSizeException;
+        wrongSizeException.SetID(ID_);
+        throw (wrongSizeException);
+    }
 
 }
 

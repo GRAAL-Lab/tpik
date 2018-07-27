@@ -94,6 +94,17 @@ class BellShapedIncreasingNotInitializedException: public ExceptionWithID
 	}
 };
 
+/**
+ * @brief Exception to be thrown when the transformation matrix wTg has not been initialized.
+ */
+
+class WrongBellShapeParameterSizeException: public tpik::ExceptionWithID
+{
+    virtual const char* what() const throw ()
+    {
+        return "wrong size bell shape parameters";
+    }
+};
 }
 
 #endif

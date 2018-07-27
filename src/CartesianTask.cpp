@@ -1,12 +1,6 @@
 #include "tpik/CartesianTask.h"
 #include "tpik/TPIKExceptions.h"
-/*
-Eigen::Vector3d error_;
-Eigen::MatrixXd JObserver_;
-BellShapedParameter increasingBellShape_;
-TaskParameter taskParameter_;
-bool oneDimensionTask_{ false };
-*/
+
 namespace tpik {
 CartesianTask::CartesianTask(const std::string ID, int DoF, TaskType taskType)
     : Task(ID, 3, DoF)
@@ -58,6 +52,11 @@ void CartesianTask::CheckInitialization() throw(std::exception)
             bellShapeIncreasingNotInitilized.SetID(ID_);
             throw(bellShapeIncreasingNotInitilized);
         }
+        if(increasingBellShape_.xmax.size()!=taskSpace_){
+            WrongBellShapeParameterSizeException wrongSizeException;
+            wrongSizeException.SetID(ID_);
+            throw (wrongSizeException);
+        }
     }
 }
 
@@ -78,10 +77,10 @@ void CartesianTask::UpdateInternalActivationFunction()
 {
     if (taskType_ == Inequality) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::IncreasingBellShapedFunction(increasingBellShape_.xmin(0), increasingBellShape_.xmax(0), 0, 1, error_.norm());
+            Ai_(0, 0) = rml::IncreasingBellShapedFunction(increasingBellShape_.xmin(0), increasingBellShape_.xmax(0), 0, 1, std::fabs(error_.norm()));
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShape_.xmin(i), increasingBellShape_.xmax(i), 0, 1, error_(i));
+                Ai_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShape_.xmin(i), increasingBellShape_.xmax(i), 0, 1, std::fabs(error_(i)));
             }
         }
 
