@@ -47,7 +47,7 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
         notInitializedTaskParameter.SetHow(how);
         throw(notInitializedTaskParameter);
     }
-    if (taskType_ == Inequality) {
+    if (taskType_ == TaskType::Inequality) {
         if (!initializedIncreasingBellShapeParameter_) {
             NotInitialziedTaskParameterException notInitializedBellShapeIncreasing;
             std::string how = "[CartesianTask] Not initialized incresingBellShape struct, use SetIncreasingBellShapedParameter() for task "+ ID_ ;
@@ -78,7 +78,7 @@ void CartesianTask::ChangeObserver()
 
 void CartesianTask::UpdateInternalActivationFunction()
 {
-    if (taskType_ == Inequality) {
+    if (taskType_ == TaskType::Inequality) {
         if (useErrorNorm_) {
             Ai_(0, 0) = rml::IncreasingBellShapedFunction(increasingBellShape_.xmin(0), increasingBellShape_.xmax(0), 0, 1, std::fabs(error_.norm()));
         } else {
@@ -87,7 +87,7 @@ void CartesianTask::UpdateInternalActivationFunction()
             }
         }
 
-    } else if (taskType_ == Equality) {
+    } else if (taskType_ == TaskType::Equality) {
         Ai_.setIdentity();
     }
 }
