@@ -39,23 +39,26 @@ const BellShapedParameter& CartesianTask::GetIncreasingBellShapedParameter()
     return increasingBellShape_;
 }
 
-void CartesianTask::CheckInitialization() throw(std::exception)
+void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
 {
     if (!initializedTaskParameter_) {
-        TaskParameterNotInitializedException taskParameterException;
-        taskParameterException.SetID(ID_);
-        throw(taskParameterException);
+        NotInitialziedTaskParameterException notInitializedTaskParameter;
+        std::string how = "[CartesianTask] Not initialized taskParameter struct, use SetTaskParameter() for task "+ ID_ ;
+        notInitializedTaskParameter.SetHow(how);
+        throw(notInitializedTaskParameter);
     }
     if (taskType_ == Inequality) {
         if (!initializedIncreasingBellShapeParameter_) {
-            BellShapedIncreasingNotInitializedException bellShapeIncreasingNotInitilized;
-            bellShapeIncreasingNotInitilized.SetID(ID_);
-            throw(bellShapeIncreasingNotInitilized);
+            NotInitialziedTaskParameterException notInitializedBellShapeIncreasing;
+            std::string how = "[CartesianTask] Not initialized incresingBellShape struct, use SetIncreasingBellShapedParameter() for task "+ ID_ ;
+             notInitializedBellShapeIncreasing.SetHow(how);
+            throw( notInitializedBellShapeIncreasing);
         }
         if(increasingBellShape_.xmax.size()!=taskSpace_){
-            WrongBellShapeParameterSizeException wrongSizeException;
-            wrongSizeException.SetID(ID_);
-            throw (wrongSizeException);
+            NotInitialziedTaskParameterException wrongBellShapeIcreasingSize;
+            std::string how = "[CartesianTask] Wrong size incresingBellShape struct, task space = " + std::to_string(taskSpace_)+" use SetIncreasingBellShapedParameter() for task "+ ID_ ;
+             wrongBellShapeIcreasingSize.SetHow(how);
+            throw( wrongBellShapeIcreasingSize);
         }
     }
 }

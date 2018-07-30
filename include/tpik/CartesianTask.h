@@ -2,6 +2,7 @@
 #include <iostream>
 #include <rml/RML.h>
 #include <eigen3/Eigen/Dense>
+#include "TPIKExceptions.h"
 
 namespace tpik {
 enum TaskType  {Equality, Inequality};
@@ -20,7 +21,7 @@ public:
 
     const BellShapedParameter& GetIncreasingBellShapedParameter();
 
-    void CheckInitialization() throw (std::exception);
+    void CheckInitialization() throw (ExceptionWithHow);
 
     void SetUseErrorNorm();
 protected:

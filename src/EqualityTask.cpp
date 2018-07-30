@@ -33,12 +33,13 @@ void EqualityTask::SaturateReference()
 	rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
 }
 
-void EqualityTask::CheckInitialization() throw (std::exception)
+void EqualityTask::CheckInitialization() throw (ExceptionWithHow)
 {
 	if (!initializedTaskParameter_) {
-		TaskParameterNotInitializedException taskParameterException;
-		taskParameterException.SetID(ID_);
-		throw(taskParameterException);
+        NotInitialziedTaskParameterException notInitializedTaskParameter;
+        std::string how = "[EqualityTask] Not initialized taskParameter struct, use SetTaskParameter() for task "+ ID_ ;
+        notInitializedTaskParameter.SetHow(how);
+        throw(notInitializedTaskParameter);
 	}
 }
 

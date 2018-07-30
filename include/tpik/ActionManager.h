@@ -7,6 +7,7 @@
 #include "PriorityLevel.h"
 #include <chrono>
 #include "TPIKDefines.h"
+#include "TPIKExceptions.h"
 
 namespace tpik
 {
@@ -65,13 +66,13 @@ public:
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
 	 * @note An exception is thrown if the unified hierarchy has not been specified yet.
 	 */
-	void ComputeExternalActivation() throw (std::exception);
+    void ComputeExternalActivation() throw (ExceptionWithHow);
 	/**
 	 * @brief Method which returns the unified hierarchy.
 	 * @return Unified Hierarchy.
 	 * @note  An exception is thrown if the unified hierarchy has not been specified yet.
 	 */
-	const Hierarchy& GetHierarchy() const throw (std::exception);
+    const Hierarchy& GetHierarchy() const throw (ExceptionWithHow);
 	/**
 	 * @brief Method which returns a tpik::PriorityLevel.
 	 * @param[in] priorityLevelID ID of the tpik::PriorityLevel to find.
@@ -79,7 +80,7 @@ public:
 	 * @note An exception is thrown if the priority level does not exist in the unified hierarchy.
 	 */
 
-	std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID) throw (std::exception);
+    std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID) throw (ExceptionWithHow);
 	/**
 	 * @brief Method to set whether the actionManager is used in a simulation.
 	 * @param[in] isSimulated true if it is simulated, false otherwise.
@@ -97,7 +98,7 @@ public:
 	 * @return std::shared_ptr to Action.
 	 * @note An exception is thrown if the action set is not present in the action list.
 	 */
-	std::shared_ptr<Action> GetAction(std::string ActionID) throw (std::exception);
+    std::shared_ptr<Action> GetAction(std::string ActionID) throw (ExceptionWithHow);
 	/**
 	 * @brief Overload of the cout operator
 	 */

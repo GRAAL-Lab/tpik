@@ -5,6 +5,7 @@
 #include <iostream>
 #include "TPIKDefines.h"
 #include "Task.h"
+#include "TPIKExceptions.h"
 
 namespace tpik
 {
@@ -45,7 +46,7 @@ public:
 	 * @brief Method which check whether all the needed variables have been initialized.
 	 * @note An exception is thrown if the Task parameter has not been initialized yet.
 	 */
-	void CheckInitialization() throw (std::exception);
+    void CheckInitialization() throw (ExceptionWithHow);
 	/**
 	 * @brief Method that returns the TaskEquality Parameter
 	 * @returns tpik::TaskParameter

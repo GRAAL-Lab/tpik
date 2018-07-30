@@ -6,6 +6,7 @@
 #include <iostream>
 #include "TPIKDefines.h"
 #include "Task.h"
+#include "TPIKExceptions.h"
 
 namespace tpik
 {
@@ -71,7 +72,7 @@ public:
 	 * @brief Method which chek whether all the needed variables have been initialized.
 	 * @note An exception is thrown if either the bellShapedParameter or the Task parameter have not been initialized yet.
 	 */
-	void CheckInitialization() throw (std::exception);
+    void CheckInitialization() throw (ExceptionWithHow);
 	/**
 	 * Method stating whether the increasing bell shape parameter are used.
 	 * @return true if the bell shape increasing parameter are used, false otherwise.
