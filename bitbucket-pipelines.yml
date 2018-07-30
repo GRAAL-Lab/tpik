@@ -17,6 +17,7 @@ pipelines:
           - cd dependencies
           - git clone git@bitbucket.org:isme_robotics/rml.git
           - cd rml
+          - git checkout devel
           - cmake .
           - make install
           - cd ../..
