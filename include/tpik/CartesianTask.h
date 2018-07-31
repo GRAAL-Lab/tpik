@@ -3,17 +3,17 @@
 #include <eigen3/Eigen/Dense>
 #include <iostream>
 #include <rml/RML.h>
+#include "TPIKDefines.h"
 
 namespace tpik {
-/**
- * @brief The TaskType enum to state whether the task is equality or inequality
- */
-enum  class TaskType { Equality,
-    Inequality };
+
 /**
  * @brief The CartesianTask class .
  * @details The cartesian task is aimed to implement the basic operation for the cartesian task, as the change of observer and the possibility to implement
  * either the three dimensional task or the one dimensional task. i.e. project the jacobian on the error direction. \n
+ * Depending on the task type the implemented task could either be :Equality task, Inequality increasing, hence the task tries to drives the error close to 0, Inequality Decreasing hence the
+ * task tries to increase the error. The name increasing and decreasing derives from the activation functionw which will be an increasing bell shape in the first case and a decreasing bell shaped in
+ * the second one.
  * The tasks aimed to implement a cartesian control(as position, velocity, obstacle avoidance) can derived from the cartesianTask class and implement the pure virtual methods.
  */
 class CartesianTask : public Task {
@@ -24,7 +24,7 @@ public:
      * @param DoF degrees of freedom
      * @param taskType task type stating whether the class is equality or inequality
      */
-    CartesianTask(const std::string ID, int DoF, TaskType taskType);
+    CartesianTask(const std::string ID, int DoF, CartesianTaskType taskType);
     /* @brief  ~CartesianTask default deconstructor
     */
     ~CartesianTask();
@@ -39,15 +39,15 @@ public:
      */
     const TaskParameter& GetTaskParameter();
     /**
-     * @brief SetIncreasingBellShapedParameter Method used to set the increasing bell shape parameter if the task is of type inequality
-     * @param increasingBellShapedParameters
+     * @brief SetBellShapedParameter Method used to set the increasing bell shape parameter if the task is of type inequality
+     * @param BellShapedParameters
      */
-    void SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShapedParameters);
+    void SetBellShapedParameter(BellShapedParameter increasingBellShapedParameters);
     /**
-     * @brief GetIncreasingBellShapedParameter method returning the bell shape parameter
-     * @return  increasing bell shape parameter
+     * @brief GetBellShapedParameter method returning the bell shape parameter
+     * @return  bell shape parameter
      */
-    const BellShapedParameter& GetIncreasingBellShapedParameter();
+    const BellShapedParameter& GetBellShapedParameter();
 
     /**
      * @brief SetUseErrorNorm Method used in order to make the task one dimensional, i.e. project the jacobian along the error direction
@@ -77,10 +77,15 @@ public:
            << "Use Error Norm  \n"
            << "\033[0m" << cartesianTask.useErrorNorm_ << "\n";
 
-        if (cartesianTask.taskType_ == TaskType::Inequality) {
+        if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing  ) {
             os << "\033[1;37m"
-               << "increasing bell shape\n"
-               << "\033[0m" << cartesianTask.increasingBellShape_ << "\n";
+               << "DECREASING bell shape parameters\n"
+               << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
+        }
+        if ( cartesianTask.taskType_==CartesianTaskType::InequalityIncreasing) {
+            os << "\033[1;37m"
+               << "INCREASING bell shape parameters\n"
+               << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
         }
         return os;
     }
@@ -101,9 +106,13 @@ protected:
      */
     void UpdateReference() override;
     /**
-     * @brief SaturateReference Method used to saturate the reference, such method must be called in the update function after the update reference method
+     * @brief SaturateReference Method used to saturate the reference, such method must be called in the update function after the update reference method.
      */
     void SaturateReference();
+    /**
+     * @brief UseErrorNormJacobian Method use to project the jacobian along the error direction.
+     */
+    void UseErrorNormJacobian();
     /**
      * @brief CheckInitialization Method used to check the initialization hence that all the task parameters have been initializated before update the task.\n
      * Such meethod must be called in the upate function.
@@ -112,11 +121,11 @@ protected:
 
     Eigen::Vector3d error_;//!< The error vector
     Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
-    BellShapedParameter increasingBellShape_;//!< The increasing bell shape struct
+    BellShapedParameter bellShapeParameter_;//!< The increasing bell shape struct
     TaskParameter taskParameter_; //!< The task parameter struct
     bool useErrorNorm_{ false };//!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false };//!< Boolean stating whether the task parameter have been initialized
-    bool initializedIncreasingBellShapeParameter_{ false };//!< Boolean stating whether the increasing bell shaped parameters have been initialized
-    TaskType taskType_;//!< Enum stating whether the task type is either inequality or equality
+    bool initializedBellShapeParameter_{ false };//!< Boolean stating whether the increasing bell shaped parameters have been initialized
+    CartesianTaskType taskType_;//!< Enum stating whether the task type is either inequality or equality
 };
 }

@@ -9,10 +9,7 @@
 #include <iostream>
 
 namespace tpik {
-enum class InequalityType { Increasing,
-    Decreasing,
-    Inbetween,
-    None };
+
 /**
  * @brief InequalityTask class, derived from the Abstract class Task.\n
  * Implementation of the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
@@ -35,7 +32,7 @@ public:
 	 * @param[in] bellShapeDecreasingUsed : boolean stating whether the decreasing bell shaped parameter are used and needed to be set;
 	 * @parma[in] bellShapedIncreasingUsed : boolean stating whether the increasing bell shaped parameter are used and needed to be set.
 	 */
-    InequalityTask(const std::string ID, int taskSpace, int DoF, InequalityType inequalityType);
+    InequalityTask(const std::string ID, int taskSpace, int DoF, InequalityTaskType inequalityType);
     /**
 	 * @brief Default De-constructor of InequalityTask Class.
 	 */
@@ -103,12 +100,12 @@ public:
            << "\033[0m" << inequality.x_dot_ << "\n"
            << "\033[0m" << inequality.taskParameter_;
 
-        if (inequality.inequalityType_ == InequalityType::Decreasing || inequality.inequalityType_ == InequalityType::Inbetween) {
+        if (inequality.inequalityType_ == InequalityTaskType::Decreasing || inequality.inequalityType_ == InequalityTaskType::Inbetween) {
             os << "\033[1;37m"
                << "decreasing bell shape\n"
                << "\033[0m" << inequality.decreasingBellShape_ << "\n";
         }
-        if (inequality.inequalityType_ == InequalityType::Increasing || inequality.inequalityType_ == InequalityType::Inbetween) {
+        if (inequality.inequalityType_ == InequalityTaskType::Increasing || inequality.inequalityType_ == InequalityTaskType::Inbetween) {
             os << "\033[1;37m"
                << "increasing bell shape\n"
                << "\033[0m" << inequality.increasingBellShape_ << "\n";
@@ -126,7 +123,7 @@ protected:
     bool initializedTaskParameter_{ false }; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
     bool initializedDecreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
     bool initializedIncreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
-    InequalityType inequalityType_; //!< variable stating the kind of inequality task.
+    InequalityTaskType inequalityType_; //!< variable stating the kind of inequality task.
     BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve.
     BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve.
 };

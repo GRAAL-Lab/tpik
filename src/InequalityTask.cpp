@@ -5,7 +5,7 @@
 
 namespace tpik {
 
-InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF, InequalityType inequalityType)
+InequalityTask::InequalityTask(const std::string ID, int taskSpace, int DoF, InequalityTaskType inequalityType)
     : Task(ID, taskSpace, DoF)
     , initializedTaskParameter_(false)
     , initializedDecreasingBellShapeParameter_(false)
@@ -59,26 +59,26 @@ void InequalityTask::CheckInitialization() throw(ExceptionWithHow)
         notInitializedTaskParameter.SetHow(how);
         throw(notInitializedTaskParameter);
     }
-    if (!initializedIncreasingBellShapeParameter_ && (inequalityType_==InequalityType::Increasing || inequalityType_==InequalityType::Inbetween)) {
+    if (!initializedIncreasingBellShapeParameter_ && (inequalityType_==InequalityTaskType::Increasing || inequalityType_==InequalityTaskType::Inbetween)) {
         NotInitialziedTaskParameterException notInitializedBellShapeIncreasing;
         std::string how = "[InequalityTask] Not initialized incresingBellShape struct, use SetIncreasingBellShapedParameter() for task " + ID_;
         notInitializedBellShapeIncreasing.SetHow(how);
         throw(notInitializedBellShapeIncreasing);
     }
-    if (increasingBellShape_.xmax.size() != taskSpace_ && (inequalityType_==InequalityType::Increasing || inequalityType_==InequalityType::Inbetween)) {
+    if (increasingBellShape_.xmax.size() != taskSpace_ && (inequalityType_==InequalityTaskType::Increasing || inequalityType_==InequalityTaskType::Inbetween)) {
         NotInitialziedTaskParameterException wrongBellShapeIcreasingSize;
         std::string how = "[InequalityTask] Wrong size incresingBellShape struct, task space = " + std::to_string(taskSpace_) + " use SetIncreasingBellShapedParameter() for task " + ID_;
         wrongBellShapeIcreasingSize.SetHow(how);
         throw(wrongBellShapeIcreasingSize);
     }
-    if (!initializedDecreasingBellShapeParameter_ && (inequalityType_==InequalityType::Decreasing || inequalityType_==InequalityType::Inbetween)) {
+    if (!initializedDecreasingBellShapeParameter_ && (inequalityType_==InequalityTaskType::Decreasing || inequalityType_==InequalityTaskType::Inbetween)) {
         NotInitialziedTaskParameterException notInitializedBellShapeDecreasing;
         std::string how = "[InequalityTask] Not initialized decreasingBellShape struct, use SetDecreasingBellShapedParameter() for task " + ID_;
         notInitializedBellShapeDecreasing.SetHow(how);
         throw(notInitializedBellShapeDecreasing);
     }
 
-    if (decreasingBellShape_.xmax.size() != taskSpace_ && (inequalityType_==InequalityType::Decreasing || inequalityType_==InequalityType::Inbetween)) {
+    if (decreasingBellShape_.xmax.size() != taskSpace_ && (inequalityType_==InequalityTaskType::Decreasing || inequalityType_==InequalityTaskType::Inbetween)) {
         NotInitialziedTaskParameterException wrongBellShapeDecreasingSize;
         std::string how = "[InequalityTask] Wrong size decreasingBellShape struct, task space = " + std::to_string(taskSpace_) + " use SetDecreasingBellShapedParameter() for task " + ID_;
         wrongBellShapeDecreasingSize.SetHow(how);
@@ -88,12 +88,12 @@ void InequalityTask::CheckInitialization() throw(ExceptionWithHow)
 
 bool InequalityTask::GetBellShapeIncreasingUsed()
 {
-    return (inequalityType_==InequalityType::Increasing || inequalityType_==InequalityType::Inbetween);
+    return (inequalityType_==InequalityTaskType::Increasing || inequalityType_==InequalityTaskType::Inbetween);
 }
 
 bool InequalityTask::GetBellShapeDecreasingUsed()
 {
-    return (inequalityType_==InequalityType::Decreasing || inequalityType_==InequalityType::Inbetween);
+    return (inequalityType_==InequalityTaskType::Decreasing || inequalityType_==InequalityTaskType::Inbetween);
 }
 
 void InequalityTask::SaturateReference()
