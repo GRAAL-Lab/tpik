@@ -8,9 +8,10 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
     , initializedBellShapeParameter_(false)
     , taskType_(taskType)
 {
-    JObserver_.setZero(3, DoF_);
+    // JObserver_.setZero(taskSpace_, DoF_);
     useErrorNorm_ = false;
-    J_.setZero(3, DoF_);
+    J_.setZero(taskSpace_, DoF_);
+    xReference_.resize(taskSpace_);
 }
 
 CartesianTask::~CartesianTask()
@@ -63,47 +64,54 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
     }
 }
 
+void CartesianTask::SetControlVectorReference(Eigen::VectorXd xReference)
+{
+    xReference_ = xReference;
+}
+
 void CartesianTask::SetUseErrorNorm()
 {
     useErrorNorm_ = true;
     taskSpace_ = 1;
     Ai_.setZero(taskSpace_, taskSpace_);
     x_dot_.setZero(taskSpace_);
+    xReference_.resize(taskSpace_);
 }
 
-void CartesianTask::ChangeObserver()
+//void CartesianTask::ChangeObserver()
+//{
+//    J_ = rml::ChangeJacobianObserver(J_, JObserver_, x_);
+//}
+
+void CartesianTask::UseErrorNormJacobian()
 {
-    J_ = rml::ChangeJacobianObserver(J_, JObserver_, error_);
-}
-
-void CartesianTask::UseErrorNormJacobian(){
     if (useErrorNorm_) {
-        if (error_.norm() == 0.0) {
-            J_.resize(1,1);
+        if (x_.norm() == 0.0) {
+            J_.resize(1, 1);
             J_(0, 0) = 0.0;
         } else {
-            J_ = (error_.transpose() / error_.norm()) * J_;
+            J_ = (x_.transpose() / x_.norm()) * J_;
         }
     }
-
 }
+
 void CartesianTask::UpdateInternalActivationFunction()
 {
     if (taskType_ == CartesianTaskType::InequalityIncreasing) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0, 1, std::fabs(error_.norm()));
+            Ai_(0, 0) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0, 1, std::fabs(x_.norm()));
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0, 1, std::fabs(error_(i)));
+                Ai_(i, i) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0, 1, std::fabs(x_(i)));
             }
         }
 
     } else if (taskType_ == CartesianTaskType::InequalityDecreasing) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0, 1, std::fabs(error_.norm()));
+            Ai_(0, 0) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0, 1, std::fabs(x_.norm()));
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0, 1, std::fabs(error_(i)));
+                Ai_(i, i) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0, 1, std::fabs(x_(i)));
             }
         }
 
@@ -116,15 +124,15 @@ void CartesianTask::UpdateReference()
 {
     if (taskType_ == CartesianTaskType::InequalityDecreasing) {
         if (useErrorNorm_) {
-            x_dot_(0) = -taskParameter_.gain * (error_.norm());
+            x_dot_(0) = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm());
         } else {
-            x_dot_ = -taskParameter_.gain * (error_);
+            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax - x_);
         }
     } else {
         if (useErrorNorm_) {
-            x_dot_(0) = taskParameter_.gain * (error_.norm());
+            x_dot_(0) = taskParameter_.gain * (xReference_(0) - x_.norm());
         } else {
-            x_dot_ = taskParameter_.gain * (error_);
+            x_dot_ = taskParameter_.gain * (xReference_ - x_);
         }
     }
 }
@@ -133,5 +141,15 @@ void CartesianTask::SaturateReference()
 {
 
     rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
+}
+
+void CartesianTask::SetControlVariable(Eigen::Vector3d x)
+{
+    x_ = x;
+}
+
+Eigen::Vector3d CartesianTask::GetError()
+{
+    return x_;
 }
 }

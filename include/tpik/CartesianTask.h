@@ -34,6 +34,11 @@ public:
      */
     void SetTaskParameter(TaskParameter taskParameters);
     /**
+     * @brief SetControlVectorReference Method used to set the control vector reference in case of equality tasks.
+     * @param xReference control vector reference.
+     */
+    void SetControlVectorReference(Eigen::VectorXd xReference);
+    /**
      * @brief GetTaskParameter Method returning the task parameter
      * @return  task parameter
      */
@@ -54,6 +59,11 @@ public:
      */
     void SetUseErrorNorm();
     /**
+    * @brief Method returning the task error express as (desired - actual).
+    * @return Orientation error expressed wrt to the robot frame .
+    */
+    Eigen::Vector3d GetError();
+    /**
      * @brief Overload of the cout operator.
      */
     friend std::ostream& operator<<(std::ostream& os, CartesianTask const& cartesianTask)
@@ -71,7 +81,7 @@ public:
            << "\033[0m" << cartesianTask.x_dot_ << "\n"
            << "\033[1;37m"
            << "Error \n"
-           << "\033[0m" << cartesianTask.error_ << "\n"
+           << "\033[0m" << cartesianTask.x_ << "\n"
            << "\033[0m" << cartesianTask.taskParameter_<<"\n"
            << "\033[1;37m"
            << "Use Error Norm  \n"
@@ -94,7 +104,7 @@ protected:
     /**
      * @brief ChangeObserver Method used to change the observer
      */
-    void ChangeObserver();
+    //void ChangeObserver();
     /**
      * @brief UpdateInternalActivationFunction Implementation of the pure virtual method of the base class Task used to update the internal activation function.
      * Such method must be called in the update function
@@ -118,14 +128,22 @@ protected:
      * Such meethod must be called in the upate function.
      */
     void CheckInitialization() throw(ExceptionWithHow);
+    /**
+     * @brief SetControlVariable Method to set the task control variable.
+     * @details Protected method to be used in the derived task in order to set the task control variable.
+     * @param x the task control vector e.g. the distance, the misalignment vector...
+     */
+    void SetControlVariable(Eigen::Vector3d x);
 
-    Eigen::Vector3d error_;//!< The error vector
-    Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
+    //Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_;//!< The increasing bell shape struct
     TaskParameter taskParameter_; //!< The task parameter struct
     bool useErrorNorm_{ false };//!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false };//!< Boolean stating whether the task parameter have been initialized
     bool initializedBellShapeParameter_{ false };//!< Boolean stating whether the increasing bell shaped parameters have been initialized
     CartesianTaskType taskType_;//!< Enum stating whether the task type is either inequality or equality
+private:
+    Eigen::Vector3d x_;//!< The control vector
+    Eigen::VectorXd xReference_; //!< The control vector reference
 };
 }
