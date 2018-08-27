@@ -11,7 +11,7 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
     // JObserver_.setZero(taskSpace_, DoF_);
     useErrorNorm_ = false;
     J_.setZero(taskSpace_, DoF_);
-    xReference_.resize(taskSpace_);
+    xReference_.setZero(taskSpace_);
 }
 
 CartesianTask::~CartesianTask()
@@ -75,7 +75,7 @@ void CartesianTask::SetUseErrorNorm()
     taskSpace_ = 1;
     Ai_.setZero(taskSpace_, taskSpace_);
     x_dot_.setZero(taskSpace_);
-    xReference_.resize(taskSpace_);
+    xReference_.setZero(taskSpace_);
 }
 
 //void CartesianTask::ChangeObserver()
