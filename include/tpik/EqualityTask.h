@@ -11,11 +11,17 @@ namespace tpik
 {
 
 /**
- * @brief EqualityTask class, derived from the Abstract class tpik::Task.\n
- * Implementation of the Equality tasks. The derived classes must implement the pure virtual methods
- * UpdateJacobian and UpdateReference.\n
- * Furthermore the class is provided with methods to set and get the tpik::TaskParameter, composed by gain, reference saturation value and
- * a boolean stating whether the task is enabled.
+ * @brief EqualityTask class, derived from the Abstract class tpik::Task
+ * @details Implementation of the Equality tasks provided with an internal activation function equal to 1 and the TaskParameter struct
+ * aimed to store the saturation value, the gain for the reference computation and a boolean stating whether the task is active. \n
+ * The derived classes must implement the following pure virtual methods:
+ *
+ * * UpdateJacobian() where the user must update the variable J_ which stores the task jacobian;
+ *
+ * * UpdateReference() where the user must update the variable x_ which stores the task reference.
+ *
+ * * Update() public method used to update the task variables, hence the implementation of the previous pure virtual method must be called in order to update all the class variables.
+ *
  */
 
 class EqualityTask: public Task
@@ -24,11 +30,11 @@ class EqualityTask: public Task
 public:
 	/**
 	 * @brief Constructor of TaskEquality Class.
-	 * Initialization of the class variables:\n
+     * @details Initialization of the class variables:\n
 	 * Jacobian (taskSpace x DoF)\n
 	 * Internal Activation Function eye(taskSpace x taskSpace)\n
 	 * Reference (taskSpace x 1)
-	 * @param[in] ID Task ID.
+     * @param[in] ID task ID
 	 * @param[in] taskSpace
 	 * @param[in] DoF
 	 */
@@ -38,17 +44,18 @@ public:
 	 */
 	virtual ~EqualityTask();
 	/**
-	 * @brief Method that sets the TaskEquality Parameter (gain, bell shaped function parameter, Task enable boolean).
+     * @brief Method setting the TaskEquality Parameter.
 	 * @param[in] taskParameter tpik::TaskParameter struct.
 	 */
 	void SetTaskParameter(TaskParameter taskParameter);
-	/**
-	 * @brief Method which check whether all the needed variables have been initialized.
-	 * @note An exception is thrown if the Task parameter has not been initialized yet.
-	 */
+    /**
+     * @brief  Method used to check the initialization, hence that all the task parameters have been initializated before updating the task.\n
+     * Such meethod must be called in the Update() method before any other method.
+     * @note An exception is thrown if the task parameter has not been initialized yet.
+     */
     void CheckInitialization() throw (ExceptionWithHow);
 	/**
-	 * @brief Method that returns the TaskEquality Parameter
+     * @brief Method that returns the task Parameter
 	 * @returns tpik::TaskParameter
 	 */
 	TaskParameter GetTaskParameter();
@@ -63,15 +70,15 @@ public:
 				<< "\033[0m" << equality.taskParameter_ <<"\n";
 	}
 protected:
-	/**
-	 * @brief Method saturating the reference using the member variable saturation of the tpik::TaskParameter struct.
-	 */
+    /**
+     * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference method.
+     */
 	void SaturateReference();
 	/**
 	 * @brief Method updating the internal activation function.
-	 * Implementation of the pure virtual method of the base class task.
+     * @details Implementation of the pure virtual method of the base class task.
 	 * For the equality tasks the internal activation function is equal to identity since their always active.
-	 * for this reason such method is called in the class constructor.
+     * For this reason such method is called in the class constructor and there is no need to call it again.
 	 */
 	void UpdateInternalActivationFunction() override;
 

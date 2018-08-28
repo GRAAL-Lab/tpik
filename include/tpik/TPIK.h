@@ -8,8 +8,8 @@
 namespace tpik
 {
 /**
- * @brief TPIK class.\n
- * Implementation of the TPIK (Task Priority Inverse Kinematic) Abstract class containing the pure virtual method ComputeYSingleLevel
+ * @brief TPIK class.
+ * @details Implementation of the TPIK (Task Priority Inverse Kinematic) Abstract class containing the pure virtual method ComputeYSingleLevel
  * to compute the inverse kinematic control for a single priority level.
  */
 class TPIK

@@ -2,16 +2,20 @@
 #include "tpik/TPIKExceptions.h"
 
 namespace tpik {
+
+// public
+
 CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType taskType)
     : Task(ID, 3, DoF)
     , initializedTaskParameter_(false)
     , initializedBellShapeParameter_(false)
     , taskType_(taskType)
+    , referenceControlVector_(false)
 {
     // JObserver_.setZero(taskSpace_, DoF_);
     useErrorNorm_ = false;
-    J_.setZero(taskSpace_, DoF_);
-    xReference_.setZero(taskSpace_);
+    xReference_.resize(taskSpace_);
+    xReference_.setZero();
 }
 
 CartesianTask::~CartesianTask()
@@ -37,8 +41,30 @@ void CartesianTask::SetBellShapedParameter(BellShapedParameter increasingBellSha
 
 const BellShapedParameter& CartesianTask::GetBellShapedParameter()
 {
+    if (taskType_ == CartesianTaskType::Equality) {
+        std::cerr << "[WARNING] asking bell shape parameter of an equality task " << ID_ << std::endl;
+        bellShapeParameter_.xmax.setZero(taskSpace_);
+        bellShapeParameter_.xmin.setZero(taskSpace_);
+    }
     return bellShapeParameter_;
 }
+
+Eigen::Vector3d CartesianTask::GetControlVariable()
+{
+    return x_;
+}
+
+void CartesianTask::SetOneDimensional()
+{
+    useErrorNorm_ = true;
+    taskSpace_ = 1;
+    Ai_.setZero(taskSpace_, taskSpace_);
+    x_dot_.setZero(taskSpace_);
+    J_.setZero(taskSpace_, DoF_);
+    xReference_.setZero(taskSpace_);
+}
+
+// protected
 
 void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
 {
@@ -61,27 +87,18 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
             wrongBellShapeIcreasingSize.SetHow(how);
             throw(wrongBellShapeIcreasingSize);
         }
+    } else if (taskType_ == CartesianTaskType::Equality) {
+        if (!referenceControlVector_) {
+            std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " << std::endl;
+        }
     }
 }
 
 void CartesianTask::SetControlVectorReference(Eigen::VectorXd xReference)
 {
     xReference_ = xReference;
+    referenceControlVector_ = true;
 }
-
-void CartesianTask::SetUseErrorNorm()
-{
-    useErrorNorm_ = true;
-    taskSpace_ = 1;
-    Ai_.setZero(taskSpace_, taskSpace_);
-    x_dot_.setZero(taskSpace_);
-    xReference_.setZero(taskSpace_);
-}
-
-//void CartesianTask::ChangeObserver()
-//{
-//    J_ = rml::ChangeJacobianObserver(J_, JObserver_, x_);
-//}
 
 void CartesianTask::UseErrorNormJacobian()
 {
@@ -139,17 +156,20 @@ void CartesianTask::UpdateReference()
 
 void CartesianTask::SaturateReference()
 {
-
     rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
 }
+
+// private
 
 void CartesianTask::SetControlVariable(Eigen::Vector3d x)
 {
     x_ = x;
 }
 
-Eigen::Vector3d CartesianTask::GetError()
-{
-    return x_;
+
 }
-}
+
+//void CartesianTask::ChangeObserver()
+//{
+//    J_ = rml::ChangeJacobianObserver(J_, JObserver_, x_);
+//}

@@ -19,7 +19,7 @@ struct BellShapedParameter
 	friend std::ostream& operator <<(std::ostream& os, BellShapedParameter const& bellShape)
 	{
 		return os << "\033[1;37m" << "xmin \n" << "\033[0m" << bellShape.xmin << "\n"
-				<< "\033[1;37m" << "xmax \n" << "\033[0m" << bellShape.xmax << "\n";
+                << "\033[1;37m" << "xmax \n" << "\033[0m" << bellShape.xmax ;
 	}
 };
 
@@ -38,7 +38,7 @@ struct TaskParameter
 	{
 		return os << "\033[1;37m" << "gain \n" << "\033[0m" << taskParam.gain << "\n"
 				<< "\033[1;37m" << "taskEnable \n" << "\033[0m" << taskParam.taskEnable << "\n"
-				<< "\033[1;37m" << "saturation \n" << "\033[0m" << taskParam.saturation << "\n";
+                << "\033[1;37m" << "saturation \n" << "\033[0m" << taskParam.saturation ;
 	}
 };
 

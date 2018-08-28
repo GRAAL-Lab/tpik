@@ -10,8 +10,8 @@
 namespace tpik
 {
 /**
- * @brief CoordinationArmVehicleSolver class.\n
- * Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
+ * @brief CoordinationArmVehicleSolver class.
+ * @details Implementation of the CoordinationArmVehicleSolver class. Such class computes the kinematic control for a vehicle
  * and arms by optimizing the arms velocities wrt to the vehicle current velocities.\n
  * In order to achieve such result, an implementation of the Task class which provides the vehicle teleoperation
  * with the actual vehicle velocities is needed.\n

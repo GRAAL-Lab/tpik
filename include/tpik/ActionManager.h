@@ -12,11 +12,11 @@
 namespace tpik
 {
 /**
- * @brief Action Manager Class.\n
- * Implementation of the Action Manager class. Such class offers an API in order to create the tpik::PriorityLevel, create the unified hierarchy,
+ * @brief Action Manager Class.
+ * @details Implementation of the Action Manager class. Such class offers an API in order to create the tpik::PriorityLevel, create the unified hierarchy,
  * define the tpik::Action.\n
  * The tpik::ActionManager can be used in simulation by setting the related boolean to true (via SetIsSimulation()) and setting the simulationTime
- * (via SetTime()).\n
+ * (via SetTime()).
  * @note The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
  */
 class ActionManager
@@ -24,7 +24,7 @@ class ActionManager
 public:
 	/**
 	 * @brief Action Manager Default constructor.\n
-	 * The ActionManager is, by default, NOT used in a simulation, hence the time is syncronized with the system clock time.
+     * @details The ActionManager is, by default, NOT used in a simulation, hence the time is syncronized with the system clock time.
 	 * @note The default current action is an empty action.
 	 */
 	ActionManager();

@@ -3,7 +3,7 @@
 ## Description
 This library implements the task priority inverse kinematic thanks to the definition of the abstract class tpik::Task. The class deriving form the Task base Class must implement the pure virtual methods in order to compute the task Jacobian, Activation Function and Reference.
   
-  The abstract classes tpik::InequalityTask and tpik::EqualityTask are also provided. In such classes the task is described by more parameters but the pure virtual methods to compute the Jacobian, Activation function and Reference must still be implemented.
+  The abstract classes tpik::InequalityTask, tpik::EqualityTask and tpik::CartesianTask are also provided. In such classes the task is described by more parameters and some virtual methods are implemented.
  
  Thanks to the tpik::ActionManager it is possible to gather tasks sharing the same priority into priority levels, define a unified hierarchy which contains all the priority level ordered by priority and define a set of actions that the reference scenario requires.
  

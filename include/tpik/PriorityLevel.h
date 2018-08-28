@@ -10,8 +10,8 @@
 namespace tpik
 {
 /**
- * @brief PriorityLevel class.\n
- * Implementation of the PriorityLevel Class. Starting form a vector of tpik::Task which have the same priority, it computes the
+ * @brief PriorityLevel class.
+ * @details Implementation of the PriorityLevel Class. Starting form a vector of tpik::Task which have the same priority, it computes the
  * Jacobian, internal activation function and reference by juxtaposing the related task matrices.\n
  * Methods to set the external Activation Function are provided. It is assumed that all the Tasks have the same
  * behavior wrt the external activation function (hence either they are all present or none of them are present in an action).\n

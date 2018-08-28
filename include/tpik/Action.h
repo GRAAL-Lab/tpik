@@ -14,8 +14,8 @@ namespace tpik
 typedef std::vector<std::shared_ptr<tpik::PriorityLevel> > Hierarchy;
 
 /**
- * @brief Action class.\n
- * Implementation of the Action class. Each action is composed by an ID and a vector of std::shared_ptr to tpik::PriorityLevels defining the
+ * @brief Action class.
+ * @details Implementation of the Action class. Each action is composed by an ID and a vector of std::shared_ptr to tpik::PriorityLevels defining the
  * action hierarchy.
  */
 

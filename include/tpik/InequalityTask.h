@@ -11,27 +11,34 @@
 namespace tpik {
 
 /**
- * @brief InequalityTask class, derived from the Abstract class Task.\n
- * Implementation of the inequality task. The derived classes must implement the pure virtual methods UpdateActivationFunction,
- * UpdateJacobian and UpdateReference.\n
- * Such class is provided with method to set and get the increasing bell shaped parameter and the decreasing bell shaped parameter in order to state the interval
- * where the task is active.\n
+ * @brief InequalityTask class, derived from the Abstract class Task \n
+ * @details Implementation of the inequality task, such class is provided with methods to set and get the increasing bell shaped parameter and the decreasing bell shaped parameter in order to state the interval
+ * where the task is active. \n
+ * The derived classes must implement the following pure virtual methods:
+ *
+ * * UpdateJacobian() where the user must update the variable J_ which stores the task jacobian;
+ *
+ * * UpdateInternalActivationFunction() where the user must update the class variabel Ai_ which stores the task activation function. The user can decide to implement either an increasing, decreasing or in between bell shape activation function by using the bell shape parameter struct;
+ *
+ * * UpdateReference() where the user must update the variable x_ which stores the task reference;
+ *
+ * * Update() public method used to update the task variables, hence the implementation of the previous pure virtual method must be called in order to update all the class variables.
+ *
  * Furthermore methods to set and get the task parameter (gain, reference saturation and a boolean stating whether the task is enabled) are implemented.
  */
 class InequalityTask : public Task {
 public:
     /**
-	 * @brief Constructor of Task Class.\n
-	 * Initialization of the class variables:\n
+     * @brief Constructor of Task Class.
+     * @details Initialization of the class variables:\n
 	 * Jacobian (taskSpace x DoF)\n
 	 * Internal Activation Function (taskSpace x taskSpace)\n
 	 * Reference (taskSpace x 1)\n
 	 * @param[in] ID Task ID.
 	 * @param[in] taskSpace;
 	 * @param[in] DoF;
-	 * @param[in] bellShapeDecreasingUsed : boolean stating whether the decreasing bell shaped parameter are used and needed to be set;
-	 * @parma[in] bellShapedIncreasingUsed : boolean stating whether the increasing bell shaped parameter are used and needed to be set.
-	 */
+     * @param[in] Inequality type enum stating whether the task is an increasing, decreasing, inbetween or none of the above inequality task.
+     */
     InequalityTask(const std::string ID, int taskSpace, int DoF, InequalityTaskType inequalityType);
     /**
 	 * @brief Default De-constructor of InequalityTask Class.
@@ -68,9 +75,10 @@ public:
 	 */
     const BellShapedParameter& GetDecreasingBellShapedParameter();
     /**
-	 * @brief Method which chek whether all the needed variables have been initialized.
-	 * @note An exception is thrown if either the bellShapedParameter or the Task parameter have not been initialized yet.
-	 */
+     * @brief  Method used to check the initialization, hence that all the task parameters have been initializated before updating the task.\n
+     * Such meethod must be called in the Update() method before any other method.
+     * @note An exception is thrown if the task parameter has not been initialized yet.
+     */
     void CheckInitialization() throw(ExceptionWithHow);
     /**
 	 * Method stating whether the increasing bell shape parameter are used.
@@ -115,17 +123,17 @@ public:
 
 protected:
     /**
-	 * @brief Method saturating the reference using the member variable saturation of the taskParameter struct.
-	 */
+     * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference() method.
+     */
     void SaturateReference();
 
-    TaskParameter taskParameter_; //!< The tpik::TaskParameter.
-    bool initializedTaskParameter_{ false }; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized.
-    bool initializedDecreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized.
-    bool initializedIncreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized.
-    InequalityTaskType inequalityType_; //!< variable stating the kind of inequality task.
-    BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve.
-    BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve.
+    TaskParameter taskParameter_; //!< The tpik::TaskParameter
+    bool initializedTaskParameter_{ false }; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized
+    bool initializedDecreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized
+    bool initializedIncreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized
+    InequalityTaskType inequalityType_; //!< variable stating the kind of inequality task
+    BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve
+    BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve
 };
 }
 
