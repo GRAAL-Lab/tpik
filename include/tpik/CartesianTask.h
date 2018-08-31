@@ -74,6 +74,11 @@ public:
     */
     Eigen::Vector3d GetControlVariable();
     /**
+    * @brief Method returning the task typw.
+    * @return cartesian task type, could be inequality increasing, equality increasing, equality .
+    */
+    CartesianTaskType GetType();
+    /**
      * @brief Overload of the cout operator.
      */
     friend std::ostream& operator<<(std::ostream& os, CartesianTask const& cartesianTask)

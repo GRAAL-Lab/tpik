@@ -167,6 +167,10 @@ void CartesianTask::SetControlVariable(Eigen::Vector3d x)
 }
 
 
+CartesianTaskType CartesianTask::GetType(){
+    return taskType_;
+
+}
 }
 
 //void CartesianTask::ChangeObserver()

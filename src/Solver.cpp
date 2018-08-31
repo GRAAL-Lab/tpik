@@ -1,36 +1,48 @@
 #include "tpik/Solver.h"
-namespace tpik
-{
+namespace tpik {
 
-Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik): actionManager_(actionManager), tpik_(tpik)
+Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik)
+    : actionManager_(actionManager)
+    , tpik_(tpik)
 {
-	hierarchy_ = actionManager_->GetHierarchy();
+    hierarchy_ = actionManager_->GetHierarchy();
 }
 
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik)
 {
-	tpik_ = tpik;
+    tpik_ = tpik;
 }
 
 void Solver::SetAction(std::string action)
 {
-	actionManager_->SetAction(action);
+    actionManager_->SetAction(action);
 }
 
 const Eigen::VectorXd& Solver::ComputeVelocities() const
 {
-	actionManager_->ComputeExternalActivation();
-	tpik_->Reset();
-	for (auto& priorityLevel : hierarchy_) {
-		priorityLevel->Update();
-		Eigen::MatrixXd J = priorityLevel->GetJacobian();
-		Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
-		Eigen::MatrixXd x_dot = priorityLevel->GetReference();
-		rml::RegularizationData regularizationData = priorityLevel->GetRegularizationData();
+    actionManager_->ComputeExternalActivation();
+    tpik_->Reset();
+    Eigen::MatrixXd JMinimization;
+    Eigen::MatrixXd AMinimization;
+    Eigen::VectorXd XMinimization;
+    rml::RegularizationData regularizationDataMinimization;
 
-		tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
-	}
-	return tpik_->GetY();
+    AMinimization.Identity(tpik_->GetDoF(), tpik_->GetDoF());
+    JMinimization.Identity(tpik_->GetDoF(), tpik_->GetDoF());
+    XMinimization.Zero(tpik_->GetDoF());
+    regularizationDataMinimization.params.lambda = 0.0;
+    regularizationDataMinimization.params.threshold = 0.0;
+
+    for (auto& priorityLevel : hierarchy_) {
+        priorityLevel->Update();
+        Eigen::MatrixXd J = priorityLevel->GetJacobian();
+        Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
+        Eigen::MatrixXd x_dot = priorityLevel->GetReference();
+        rml::RegularizationData regularizationData = priorityLevel->GetRegularizationData();
+
+        tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
+    }
+    tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
+    return tpik_->GetY();
 }
-
 }
