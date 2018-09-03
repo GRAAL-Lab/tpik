@@ -145,7 +145,13 @@ void CartesianTask::UpdateReference()
         } else {
             x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax - x_);
         }
-    } else {
+    } else if (taskType_ == CartesianTaskType::InequalityIncreasing) {
+        if (useErrorNorm_) {
+            x_dot_(0) = taskParameter_.gain * ( x_.norm() - bellShapeParameter_.xmin(0));
+        } else {
+            x_dot_ = taskParameter_.gain * ( x_ - bellShapeParameter_.xmin );
+        }
+    } else  {
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (xReference_(0) - x_.norm());
         } else {
@@ -166,10 +172,9 @@ void CartesianTask::SetControlVariable(Eigen::Vector3d x)
     x_ = x;
 }
 
-
-CartesianTaskType CartesianTask::GetType(){
+CartesianTaskType CartesianTask::GetType()
+{
     return taskType_;
-
 }
 }
 
