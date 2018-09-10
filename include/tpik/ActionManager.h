@@ -61,6 +61,11 @@ public:
 	 * @note An exception is thrown if the action set is not present in the action list (via getAction exception).
 	 */
 	void SetAction(std::string newAction);
+    /**
+     * @brief Method returning the current Action ID.
+     * @return current action id
+     */
+    const std::string GetCurrentAction();
 	/**
 	 * @brief Method which computes and sets the external activation functions in the unified hierarchy tpik::PriorityLevel.\n
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.

@@ -51,7 +51,9 @@ void ActionManager::SetAction(std::string newAction)
     currentAction_ = GetAction(newAction);
     time_ = GetTime();
 }
-
+const std::string ActionManager::GetCurrentAction(){
+    return currentAction_->GetID();
+}
 void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
 {
     if (hierarchy_.empty()) {
@@ -72,12 +74,12 @@ void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
             // The PL must be activated: increasing.
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
             // In 500 ms the PL is completely active.
-            Ae = rml::IncreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
+            Ae = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
             priorityLevel->SetExternalActivationFunction(Ae);
         } else if (isInOldAction && !isInNewAction) {
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
             //The PL must be deactivated: decreasing.
-            Ae = rml::DecreasingBellShapedFunction(0.00, 500, 0, 1, diff.count());
+            Ae = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
             priorityLevel->SetExternalActivationFunction(Ae);
 
         } else {
