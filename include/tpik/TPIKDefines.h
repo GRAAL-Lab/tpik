@@ -46,7 +46,7 @@ struct TaskParameter
  * @brief The TaskType enum to state whether the task is equality or inequality
  */
 enum  class CartesianTaskType { Equality,
-    InequalityDecreasing, InequalityIncreasing };
+    InequalityDecreasing, InequalityIncreasing, InequalityInBetween};
 
 /**
  * @brief The InequalityType enum to state wheether an inequality task is increasing decreasing in beteween or none of the aformentioned

@@ -58,6 +58,12 @@ public:
      * @param bellShapedParameter struct.
      */
     void SetBellShapedParameter(BellShapedParameter bellShapedParameters);
+
+    /**
+     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or decreasing).
+     * @param bellShapedParameter struct.
+     */
+    void SetBellShapedParameterInBetween(BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter);
     /**
      * @brief Method returning the bell shape parameter.
      * @return  BellShapedParameter struct of the task.
@@ -94,10 +100,16 @@ public:
            << "\033[1;37m"
            << "Reference \n"
            << "\033[0m" << cartesianTask.x_dot_ << "\n"
-           << "\033[1;37m"
-           << "x_ \n"
-           << "\033[0m" << cartesianTask.x_ << "\n"
-           << "\033[0m" << cartesianTask.taskParameter_ << "\n"
+           << "\033[1;37m";
+        if (cartesianTask.useErrorNorm_) {
+            os << "x_ \n"
+               << "\033[0m" << cartesianTask.x_.norm() << "\n";
+        } else {
+            os << "x_ \n"
+               << "\033[0m" << cartesianTask << "\n";
+        }
+
+        os << "\033[0m" << cartesianTask.taskParameter_ << "\n"
            << "\033[1;37m"
            << "Use Error Norm  \n"
            << "\033[0m" << cartesianTask.useErrorNorm_ << "\n";
@@ -157,6 +169,7 @@ protected:
 
     //Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_; //!< The bell shape struct
+    BellShapedParameter decreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
     TaskParameter taskParameter_; //!< The task parameter struct
     bool useErrorNorm_{ false }; //!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false }; //!< Boolean stating whether the task parameter have been initialized
