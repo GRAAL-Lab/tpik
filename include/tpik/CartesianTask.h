@@ -78,7 +78,7 @@ public:
     * @brief Method returning the task control variable.
     * @return Orientation error expressed wrt to the robot frame .
     */
-    Eigen::Vector3d GetControlVariable();
+    Eigen::VectorXd GetControlVariable();
     /**
     * @brief Method returning the task typw.
     * @return cartesian task type, could be inequality increasing, equality increasing, equality .

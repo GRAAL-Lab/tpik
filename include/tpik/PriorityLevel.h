@@ -128,7 +128,7 @@ private:
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
 	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< The reference.
-	double Ae_{0}; //!< The external activation function.
+    double Ae_{0.0}; //!< The external activation function.
 	int taskNumber_{0}; //!< The priority level number of tasks.
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
 };

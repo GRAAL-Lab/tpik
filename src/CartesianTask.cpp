@@ -20,7 +20,6 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
 
 CartesianTask::~CartesianTask()
 {
-
 }
 
 void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
@@ -56,9 +55,16 @@ const BellShapedParameter& CartesianTask::GetBellShapedParameter()
     return bellShapeParameter_;
 }
 
-Eigen::Vector3d CartesianTask::GetControlVariable()
+Eigen::VectorXd CartesianTask::GetControlVariable()
 {
-    return x_;
+    if (useErrorNorm_) {
+        Eigen::VectorXd x;
+        x.resize(1);
+        x(0) = x_.norm();
+        return x;
+    } else {
+        return x_;
+    }
 }
 
 void CartesianTask::SetOneDimensional()
@@ -94,11 +100,12 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
             wrongBellShapeIcreasingSize.SetHow(how);
             throw(wrongBellShapeIcreasingSize);
         }
-    } else if (taskType_ == CartesianTaskType::Equality) {
-        if (!referenceControlVector_) {
-            std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " << std::endl;
-        }
     }
+    //else if (taskType_ == CartesianTaskType::Equality) {
+    //    if (!referenceControlVector_) {
+    //        std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " << std::endl;
+    //    }
+    //}
 }
 
 void CartesianTask::SetControlVectorReference(Eigen::VectorXd xReference)
@@ -169,10 +176,10 @@ void CartesianTask::UpdateReference()
     } else if (taskType_ == CartesianTaskType::InequalityInBetween) {
 
         if (useErrorNorm_) {
-            double desired = ((bellShapeParameter_.xmax(0)-decreasingBellShapeParameter_.xmax(0))/2)+decreasingBellShapeParameter_.xmax(0);
+            double desired = ((bellShapeParameter_.xmax(0) - decreasingBellShapeParameter_.xmax(0)) / 2) + decreasingBellShapeParameter_.xmax(0);
             x_dot_(0) = taskParameter_.gain * (desired - x_.norm());
         } else {
-            Eigen::Vector3d desired = ((bellShapeParameter_.xmax-decreasingBellShapeParameter_.xmax)/2)+ decreasingBellShapeParameter_.xmax;
+            Eigen::Vector3d desired = ((bellShapeParameter_.xmax - decreasingBellShapeParameter_.xmax) / 2) + decreasingBellShapeParameter_.xmax;
             x_dot_ = taskParameter_.gain * (desired - x_);
         }
     } else if (taskType_ == CartesianTaskType::Equality) {
