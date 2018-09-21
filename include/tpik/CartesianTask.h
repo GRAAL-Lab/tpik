@@ -101,34 +101,34 @@ public:
            << "Reference \n"
            << "\033[0m" << cartesianTask.x_dot_ << "\n"
            << "\033[1;37m";
-        if (cartesianTask.useErrorNorm_) {
-            os << "x_ \n"
-               << "\033[0m" << cartesianTask.x_.norm() << "\n";
-        } else {
-            os << "x_ \n"
-               << "\033[0m" << cartesianTask << "\n";
-        }
-
+           if (cartesianTask.useErrorNorm_) {
+               os << "x_ \n"
+                  << "\033[0m" << cartesianTask.x_.norm() << "\n";
+           } else {
+               os << "x_ \n"
+                  << "\033[0m" << cartesianTask.x_ << "\n";
+           }
+        //
         os << "\033[0m" << cartesianTask.taskParameter_ << "\n"
            << "\033[1;37m"
            << "Use Error Norm  \n"
            << "\033[0m" << cartesianTask.useErrorNorm_ << "\n";
 
-        if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing) {
-            os << "\033[1;37m"
-               << "DECREASING bell shape parameters\n"
-               << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
-        }
-        if (cartesianTask.taskType_ == CartesianTaskType::InequalityIncreasing) {
-            os << "\033[1;37m"
-               << "INCREASING bell shape parameters\n"
-               << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
-        }
-        if (cartesianTask.taskType_ == CartesianTaskType::Equality) {
-            os << "\033[1;37m"
-               << "EQUALITY control reference value \n"
-               << "\033[0m" << cartesianTask.xReference_ << "\n";
-        }
+        //if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing) {
+        //    os << "\033[1;37m"
+        //       << "DECREASING bell shape parameters\n"
+        //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
+        //}
+        //if (cartesianTask.taskType_ == CartesianTaskType::InequalityIncreasing) {
+        //    os << "\033[1;37m"
+        //       << "INCREASING bell shape parameters\n"
+        //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
+        //}
+        //if (cartesianTask.taskType_ == CartesianTaskType::Equality) {
+        //    os << "\033[1;37m"
+        //       << "EQUALITY control reference value \n"
+        //       << "\033[0m" << cartesianTask.xReference_ << "\n";
+        //}
         return os;
     }
 
