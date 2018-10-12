@@ -126,6 +126,10 @@ protected:
      * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference() method.
      */
     void SaturateReference();
+    /**
+     * @brief Method saturating reference component wise  i.e. saturating each element of the vector individually.
+     */
+    void SaturateReferenceComponentWise();
 
     TaskParameter taskParameter_; //!< The tpik::TaskParameter
     bool initializedTaskParameter_{ false }; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized

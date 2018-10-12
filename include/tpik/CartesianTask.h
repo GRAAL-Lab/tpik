@@ -149,6 +149,10 @@ protected:
      */
     void SaturateReference();
     /**
+     * @brief Method saturating reference component wise  i.e. saturating each element of the vector individually.
+     */
+    void SaturateReferenceComponentWise();
+    /**
      * @brief  Method use to project the jacobian along the error direction. Such method must be called in the Update() method in order to allow the change
      * from 3 dimensional task to 1 dimensional task.
      */

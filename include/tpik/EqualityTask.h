@@ -74,6 +74,10 @@ protected:
      * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference method.
      */
 	void SaturateReference();
+    /**
+     * @brief Method saturating reference component wise  i.e. saturating each element of the vector individually.
+     */
+    void SaturateReferenceComponentWise();
 	/**
 	 * @brief Method updating the internal activation function.
      * @details Implementation of the pure virtual method of the base class task.

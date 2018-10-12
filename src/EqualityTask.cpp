@@ -33,6 +33,16 @@ void EqualityTask::SaturateReference()
 	rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
 }
 
+void EqualityTask::SaturateReferenceComponentWise()
+{
+    for (int i = 0; i < taskSpace_; i++) {
+        Eigen::VectorXd x_dot_element(1);
+        x_dot_element(0) = x_dot_(i);
+        rml::SaturateScalar(taskParameter_.saturation,x_dot_element(0));
+        x_dot_(i)=x_dot_element(0);
+    }
+}
+
 void EqualityTask::CheckInitialization() throw (ExceptionWithHow)
 {
 	if (!initializedTaskParameter_) {
