@@ -18,10 +18,11 @@ void Solver::SetAction(std::string action)
     actionManager_->SetAction(action);
 }
 
-const Eigen::VectorXd& Solver::ComputeVelocities() const
+const Eigen::VectorXd& Solver::ComputeVelocities()
 {
     actionManager_->ComputeExternalActivation();
     tpik_->Reset();
+    delta_y.erase(delta_y.begin(), delta_y.end());
     Eigen::MatrixXd JMinimization;
     Eigen::MatrixXd AMinimization;
     Eigen::VectorXd XMinimization;
@@ -39,10 +40,15 @@ const Eigen::VectorXd& Solver::ComputeVelocities() const
         Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
         Eigen::MatrixXd x_dot = priorityLevel->GetReference();
         rml::RegularizationData regularizationData = priorityLevel->GetRegularizationData();
-
         tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
+        priorityLevel->SetDeltaY(tpik_->GetDeltaY());
+        delta_y.push_back(tpik_->GetDeltaY());
+
     }
     tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
     return tpik_->GetY();
+}
+std::vector<Eigen::VectorXd> Solver::GetDeltaYs(){
+    return delta_y;
 }
 }

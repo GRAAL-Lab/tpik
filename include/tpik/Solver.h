@@ -40,7 +40,12 @@ public:
 	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.
 	 * @return Computed Velocity Vector.
 	 */
-	const Eigen::VectorXd& ComputeVelocities() const;
+    const Eigen::VectorXd& ComputeVelocities();
+    /**
+     * @brief Method returning the delta y computed at each level.
+     * @return std vector of eigen vector containing the y increments computed for each priority level.
+     */
+    std::vector<Eigen::VectorXd> GetDeltaYs();
 	/**
 	 * @brief Overloading of the cout operator
 	 */
@@ -53,6 +58,7 @@ private:
 	std::shared_ptr<ActionManager> actionManager_; //!< The std::shared_ptr to the tpik::ActionManager.
 	std::shared_ptr<TPIK> tpik_; //!< The std::shared_ptr to the tpik::TPIK.
 	Hierarchy hierarchy_; //!< The unified hierarhcy.
+    std::vector<Eigen::VectorXd> delta_y; //!<y computed at each priority level.
 };
 }
 

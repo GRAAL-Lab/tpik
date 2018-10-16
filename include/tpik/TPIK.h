@@ -58,12 +58,15 @@ public:
 				<< "Y \n" << "\033[0m" << tpik.y_ << "\n" << "\033[1;37m"
 				<< "Q \n" << "\033[0m" << tpik.Q_ << "\n";
 	}
+    Eigen::VectorXd GetDeltaY();
 
 protected:
 	Eigen::VectorXd y_; //!< The velocity.
 	Eigen::MatrixXd Q_; //!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
 	Eigen::MatrixXd I_; //!< The identity Matrix (DoF x DoF).
-	int DoF_{0}; //!< The degrees of freedom.
+    int DoF_{0}; //!< The degrees of freedom.
+    Eigen::VectorXd deltaY_;
+
 };
 }
 

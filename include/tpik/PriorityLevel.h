@@ -94,6 +94,16 @@ public:
 	 * @return PriorityLevel rml::SVDParameter.
 	 */
 	const rml::RegularizationData& GetRegularizationData();
+
+    /**
+     * @brief Method used to set the last increment computed for the priority level.
+     */
+    void SetDeltaY (Eigen::VectorXd deltaY);
+    /**
+     * @brief Method used to get the last increment computed for the priority level.
+     * @return delta y
+     */
+    Eigen::VectorXd GetDeltaY();
 	/**
 	 * @brief Function overloading the cout operator
 	 */
@@ -105,7 +115,7 @@ public:
 				<< "\033[1;37m" << "Jacobian \n" << "\033[0m" << priorityLevel.J_ << "\n" << "\033[1;37m"
 				<< "Reference \n" << "\033[0m" << priorityLevel.x_dot_ << "\n" << "\033[1;37m"
 				<< "svdParameters\nThrehsold " << "\033[0m" << priorityLevel.regularizationData_.params.threshold
-				<< "\n" << "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.regularizationData_.params.threshold
+                << "\n" << "\033[1;37m" << "lambda " << "\033[0m" << priorityLevel.regularizationData_.params.lambda
 				<< "\n";
 	}
 
@@ -131,6 +141,7 @@ private:
     double Ae_{0.0}; //!< The external activation function.
 	int taskNumber_{0}; //!< The priority level number of tasks.
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
+    Eigen::VectorXd deltaY_; //!< The last delta y comptued for the priority level.
 };
 }
 
