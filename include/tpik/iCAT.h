@@ -34,6 +34,14 @@ public:
 	 */
 	void ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd x_dot,
 			rml::RegularizationData regularizationData) override;
+
+protected:
+  /**
+   * @brief Method saturating the y taking into account the saturation performed for the higher priority levels.
+   */
+  void Saturate();
+
+
 };
 }
 #endif

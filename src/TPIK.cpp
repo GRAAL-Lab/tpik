@@ -23,7 +23,17 @@ void TPIK::Reset()
 {
 	y_.setZero();
 	Q_.setIdentity();
-    deltaY_.setZero();
+  deltaY_.setZero();
+  saturationMax_=originalSaturationMax_;
+  saturationMin_=originalSaturationMin_;
+
+}
+void TPIK::SetSaturation(Eigen::VectorXd saturationMax, Eigen::VectorXd saturationMin)
+{
+  saturationMax_=saturationMax;
+  originalSaturationMax_=saturationMax;
+  saturationMin_= saturationMin;
+  originalSaturationMin_=saturationMin;
 
 }
 

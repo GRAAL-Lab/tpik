@@ -30,10 +30,40 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
 		Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd) (barGtraspAA * barG + H),
 				regularizationData);
         deltaY_=  Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
+        Saturate();
         y_ = y_ + deltaY_;
 		Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
 	}
 
 }
 
+void iCAT::Saturate(){
+
+  double min_factor = 1.0;
+  for (int i = 0; i<DoF_; i++)
+  {
+    double factor = 1.0;
+    if (deltaY_(i)>saturationMax_(i) && (deltaY_(i)>1e-6))
+    {
+      factor = std::fabs(saturationMax_(i)/deltaY_(i));
+
+    }
+    else if (deltaY_(i)<saturationMin_(i) && (deltaY_(i))<-1e-6){
+      factor = std::fabs(saturationMin_(i)/deltaY_(i));
+    }
+    if(factor<min_factor){
+      min_factor= factor;
+    }
+  }
+  for (int i = 0; i< DoF_; i++)
+  {
+    deltaY_= deltaY_*min_factor;
+    saturationMax_(i)=saturationMax_(i)-deltaY_(i);
+    saturationMin_(i)= saturationMin_(i)-deltaY_(i);
+  }
 }
+
+}
+///protected
+
+

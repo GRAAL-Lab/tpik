@@ -49,6 +49,12 @@ public:
 	 * @return Degrees of freedom.
 	 */
 	int GetDoF();
+  /**
+   * @brief Method used to set the saturation values for each dof
+   * @param saturationMax maximum value
+   * @param saturationMin minimum value
+   */
+  void SetSaturation(Eigen::VectorXd saturationMax, Eigen::VectorXd saturationMin);
 	/**
 	 * @brief Overload of the cout function
 	 */
@@ -64,8 +70,13 @@ protected:
 	Eigen::VectorXd y_; //!< The velocity.
 	Eigen::MatrixXd Q_; //!< The Q matrix stating the space in which the following velocities must be generated in order not to affect the velocities generated for the higher priority levels.
 	Eigen::MatrixXd I_; //!< The identity Matrix (DoF x DoF).
-    int DoF_{0}; //!< The degrees of freedom.
-    Eigen::VectorXd deltaY_;
+  int DoF_{0}; //!< The degrees of freedom.
+  Eigen::VectorXd deltaY_;
+  Eigen::VectorXd originalSaturationMax_;
+  Eigen::VectorXd originalSaturationMin_;
+  Eigen::VectorXd saturationMax_;//!< vector containing the maximum value for saturation.
+  Eigen::VectorXd saturationMin_;//!< vector containing the minimum value for saturation.
+
 
 };
 }
