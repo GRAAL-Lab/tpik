@@ -30,10 +30,12 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
             regularizationData);
         deltaY_ = Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
 
-        Saturate();
+       Saturate();
 
         y_ = y_ + deltaY_;
         Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
+    } else {
+        deltaY_.setZero();
     }
 }
 
