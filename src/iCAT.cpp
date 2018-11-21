@@ -19,21 +19,29 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
 {
 
     if (!A.isZero()) {
+
         Eigen::MatrixXd barG = J * Q_;
+
         Eigen::MatrixXd barGtraspAA = barG.transpose() * A * A;
+
         Eigen::MatrixXd T = (I_ - Q_).transpose() * (I_ - Q_);
+
         Eigen::MatrixXd H = barG.transpose() * (Eigen::MatrixXd::Identity(J.rows(), J.rows()) - A) * A * barG;
+
         Eigen::MatrixXd W = barG
             * rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + T + H), regularizationData)
             * barGtraspAA;
+
         Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H),
             regularizationData);
+
         deltaY_ = Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
 
-       Saturate();
+        Saturate();
 
         y_ = y_ + deltaY_;
         Q_ = Q_ * (I_ - barGpinv * barGtraspAA * barG);
+
     } else {
         deltaY_.setZero();
     }

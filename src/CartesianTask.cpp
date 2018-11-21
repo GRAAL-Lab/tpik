@@ -118,8 +118,8 @@ void CartesianTask::UseErrorNormJacobian()
 {
     if (useErrorNorm_) {
         if (x_.norm() == 0.0) {
-            J_.resize(1, 1);
-            J_(0, 0) = 0.0;
+            J_.resize(1, DoF_);
+            J_.setZero();
         } else {
             J_ = (x_.transpose() / x_.norm()) * J_;
         }
