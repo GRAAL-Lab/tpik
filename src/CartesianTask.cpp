@@ -25,6 +25,7 @@ CartesianTask::~CartesianTask()
 void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
 {
     taskParameter_ = taskParameters;
+    isActive_ = taskParameter_.taskEnable;
     initializedTaskParameter_ = true;
 }
 
@@ -57,14 +58,14 @@ const BellShapedParameter& CartesianTask::GetBellShapedParameter()
 
 Eigen::VectorXd CartesianTask::GetControlVariable()
 {
-    if (useErrorNorm_) {
-        Eigen::VectorXd x;
-        x.resize(1);
-        x(0) = x_.norm();
-        return x;
-    } else {
+   // if (useErrorNorm_) {
+   //     Eigen::VectorXd x;
+   //     x.resize(1);
+   //     x(0) = x_.norm();
+   //     return x;
+   // } else {
         return x_;
-    }
+    //}
 }
 
 void CartesianTask::SetOneDimensional()
