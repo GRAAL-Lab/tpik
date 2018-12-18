@@ -15,22 +15,25 @@ ActionManager::ActionManager()
     simulationTime_ = simulationBegin_;
 }
 
-void ActionManager::AddPriorityLevelToHierarchy(const std::string priorityLevelID)
+void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
 {
-    hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
+    //hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
+    priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID))));
 }
 
-void ActionManager::AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID,
+void ActionManager::AddPriorityLevelWithRegularization(const std::string priorityLevelID,
     rml::RegularizationData regularizationData)
 {
     auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
     pl->SetRegularizationData(regularizationData);
-    hierarchy_.push_back(pl);
+    priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, pl));
+   // hierarchy_.push_back(pl);
 }
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
 {
-    std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
+    //std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
+    auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
 }
 
@@ -39,12 +42,18 @@ void ActionManager::AddAction(std::string actionID, std::vector<std::string> pri
     auto newAction = std::make_shared<Action>(Action());
     newAction->SetID(actionID);
     for (auto& pl : priorityLevelsID) {
-        std::shared_ptr<PriorityLevel> plToAdd = GetPriorityLevel(pl);
+        std::shared_ptr<PriorityLevel> plToAdd = priorityLevelIDMap_.at(pl);
         newAction->AddPriorityLevel(plToAdd);
     }
     actions_.push_back(newAction);
 }
+void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy){
+    hierarchy_.clear();
+    for(auto& id:unifiedHierarchy){
+        hierarchy_.push_back(priorityLevelIDMap_.at(id));
+    }
 
+}
 void ActionManager::SetAction(std::string newAction)
 {
     oldAction_ = currentAction_;
@@ -115,20 +124,12 @@ std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) throw(Exc
     throw(nullAction);
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID) throw(ExceptionWithHow)
+std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID)
 {
 
 
-    for (auto& priorityLevel : hierarchy_) {
-        if (priorityLevel->GetID() == priorityLevelID) {
-            return priorityLevel;
-        }
-    }
-    ActionManagerException missingPL;
-    std::string how = "PriorityLevel "+ priorityLevelID+" not present in the unified hierarcy,  to add priorityLevel to the hierarhcy use either AddPriorityLevelToHierarchyWithRegularization() or"
-                      "AddPriorityLevelToHierarchyWithRegularization ";
-    missingPL.SetHow(how);
-    throw(missingPL);
+    return priorityLevelIDMap_.at(priorityLevelID);
+
 }
 
 void ActionManager::SetIsSimulation(bool isSimulated)

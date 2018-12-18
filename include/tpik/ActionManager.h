@@ -33,14 +33,14 @@ public:
 	 * The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
 	 * @param[in] priorityLevelID priority level id.
 	 */
-	void AddPriorityLevelToHierarchy(const std::string priorityLevelID);
+    void AddPriorityLevel(const std::string priorityLevelID);
 	/**
 	 * @brief Method creating a new tpik::PriorityLevel in the unified hierarchy and specifies its rml::RegularizationData.\n
 	 * The order in which the tpik::PriorityLevel are created defines their priority in the unified hierarchy.
 	 * @param[in] priorityLevelID priority level id.
 	 * @param[in] regularizationData rml::RegularizationData of the PriorityLevel.
 	 */
-	void AddPriorityLevelToHierarchyWithRegularization(const std::string priorityLevelID,
+    void AddPriorityLevelWithRegularization(const std::string priorityLevelID,
 			rml::RegularizationData regularizationData);
 	/**
 	 * @brief Method adding a tpik::Task to a tpik::PriorityLevel.
@@ -49,6 +49,11 @@ public:
 	 * @param[in] priorityLevelID tpik::PriorityLevel ID.
 	 */
 	void AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID);
+    /**
+     * @brief Method setting the unified hierarhcy
+     * @param unifiedHierarchy pl id ordered by priority
+     */
+    void SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy);
 	/**
 	 * @brief Method adding a tpik::Action to the action list.
 	 * @param[in] actionID Action ID.
@@ -85,7 +90,7 @@ public:
 	 * @note An exception is thrown if the priority level does not exist in the unified hierarchy.
 	 */
 
-    std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID) throw (ExceptionWithHow);
+    std::shared_ptr<PriorityLevel> GetPriorityLevel(std::string priorityLevelID);
 	/**
 	 * @brief Method to set whether the actionManager is used in a simulation.
 	 * @param[in] isSimulated true if it is simulated, false otherwise.
@@ -119,10 +124,10 @@ public:
 	 * else the current system clock is returned.
 	 * @return current time.
 	 */
-	//TODO it is private, only for debug purpose
+    //TODO it is private, only for debug purposes
 	std::chrono::system_clock::time_point GetTime();
 protected:
-
+    std::unordered_map<std::string, std::shared_ptr<tpik::PriorityLevel>> priorityLevelIDMap_;
 	std::vector<std::shared_ptr<Action>> actions_; //!< The action list.
 	Hierarchy hierarchy_; //!< The unified hierarchy.
 	std::shared_ptr<Action> currentAction_; //!< The current action.
