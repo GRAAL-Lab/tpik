@@ -173,7 +173,7 @@ protected:
 
     //Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_; //!< The bell shape struct
-    BellShapedParameter decreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
+    BellShapedParameter inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
     TaskParameter taskParameter_; //!< The task parameter struct
     bool useErrorNorm_{ false }; //!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false }; //!< Boolean stating whether the task parameter have been initialized
