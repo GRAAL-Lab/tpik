@@ -12,15 +12,12 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
     , taskType_(taskType)
     , referenceControlVector_(false)
 {
-
     useErrorNorm_ = false;
     xReference_.resize(taskSpace_);
     xReference_.setZero();
 }
 
-CartesianTask::~CartesianTask()
-{
-}
+CartesianTask::~CartesianTask() {}
 
 void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
 {
@@ -29,10 +26,7 @@ void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
     initializedTaskParameter_ = true;
 }
 
-const TaskParameter& CartesianTask::GetTaskParameter()
-{
-    return taskParameter_;
-}
+const TaskParameter& CartesianTask::GetTaskParameter() { return taskParameter_; }
 
 void CartesianTask::SetBellShapedParameter(BellShapedParameter increasingBellShapedParameters)
 {
@@ -40,7 +34,8 @@ void CartesianTask::SetBellShapedParameter(BellShapedParameter increasingBellSha
     initializedBellShapeParameter_ = true;
 }
 
-void CartesianTask::SetBellShapedParameterInBetween(BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter)
+void CartesianTask::SetBellShapedParameterInBetween(
+    BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter)
 {
     inequalityDecreasingBellShapeParameter_ = decreasingBellShapedParameter;
     bellShapeParameter_ = increasingBellShapedParameters;
@@ -58,13 +53,13 @@ const BellShapedParameter& CartesianTask::GetBellShapedParameter()
 
 Eigen::VectorXd CartesianTask::GetControlVariable()
 {
-   // if (useErrorNorm_) {
-   //     Eigen::VectorXd x;
-   //     x.resize(1);
-   //     x(0) = x_.norm();
-   //     return x;
-   // } else {
-        return x_;
+    // if (useErrorNorm_) {
+    //     Eigen::VectorXd x;
+    //     x.resize(1);
+    //     x(0) = x_.norm();
+    //     return x;
+    // } else {
+    return x_;
     //}
 }
 
@@ -84,27 +79,33 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
 {
     if (!initializedTaskParameter_) {
         NotInitialziedTaskParameterException notInitializedTaskParameter;
-        std::string how = "[CartesianTask] Not initialized taskParameter struct, use SetTaskParameter() for task " + ID_;
+        std::string how
+            = "[CartesianTask] Not initialized taskParameter struct, use SetTaskParameter() for task " + ID_;
         notInitializedTaskParameter.SetHow(how);
         throw(notInitializedTaskParameter);
     }
-    if (taskType_ == CartesianTaskType::InequalityDecreasing || taskType_ == CartesianTaskType::InequalityIncreasing || taskType_ == CartesianTaskType::InequalityInBetween) {
+    if (taskType_ == CartesianTaskType::InequalityDecreasing || taskType_ == CartesianTaskType::InequalityIncreasing
+        || taskType_ == CartesianTaskType::InequalityInBetween) {
         if (!initializedBellShapeParameter_) {
             NotInitialziedTaskParameterException notInitializedBellShapeIncreasing;
-            std::string how = "[CartesianTask] Not initialized incresingBellShape struct, use SetIncreasingBellShapedParameter() for task " + ID_;
+            std::string how = "[CartesianTask] Not initialized incresingBellShape struct, use "
+                              "SetIncreasingBellShapedParameter() for task "
+                + ID_;
             notInitializedBellShapeIncreasing.SetHow(how);
             throw(notInitializedBellShapeIncreasing);
         }
         if (bellShapeParameter_.xmax.size() != taskSpace_) {
             NotInitialziedTaskParameterException wrongBellShapeIcreasingSize;
-            std::string how = "[CartesianTask] Wrong size incresingBellShape struct, task space = " + std::to_string(taskSpace_) + " use SetIncreasingBellShapedParameter() for task " + ID_;
+            std::string how = "[CartesianTask] Wrong size incresingBellShape struct, task space = "
+                + std::to_string(taskSpace_) + " use SetIncreasingBellShapedParameter() for task " + ID_;
             wrongBellShapeIcreasingSize.SetHow(how);
             throw(wrongBellShapeIcreasingSize);
         }
     }
-    //else if (taskType_ == CartesianTaskType::Equality) {
+    // else if (taskType_ == CartesianTaskType::Equality) {
     //    if (!referenceControlVector_) {
-    //        std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " << std::endl;
+    //        std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " <<
+    //        std::endl;
     //    }
     //}
 }
@@ -131,27 +132,37 @@ void CartesianTask::UpdateInternalActivationFunction()
 {
     if (taskType_ == CartesianTaskType::InequalityIncreasing) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())); //removed fabs
+            Ai_(0, 0) = rml::IncreasingBellShapedFunction(
+                bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())); // removed fabs
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i))); //removed fabs
+                Ai_(i, i) = rml::IncreasingBellShapedFunction(
+                    bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i))); // removed fabs
             }
         }
 
     } else if (taskType_ == CartesianTaskType::InequalityDecreasing) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0,(x_.norm())); //removed fabs
+            Ai_(0, 0) = rml::DecreasingBellShapedFunction(
+                bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())); // removed fabs
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::DecreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i))); //removed fabs
+                Ai_(i, i) = rml::DecreasingBellShapedFunction(
+                    bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i))); // removed fabs
             }
         }
     } else if (taskType_ == CartesianTaskType::InequalityInBetween) {
         if (useErrorNorm_) {
-            Ai_(0, 0) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(0), inequalityDecreasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())) + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()));//removed fabs
+            Ai_(0, 0) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(0),
+                            inequalityDecreasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()))
+                + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0,
+                            (x_.norm())); // removed fabs
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                Ai_(i, i) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(i), inequalityDecreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i))) + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));//removed fabs
+                Ai_(i, i) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(i),
+                                inequalityDecreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)))
+                    + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0,
+                                1.0, (x_(i))); // removed fabs
             }
         }
 
@@ -177,10 +188,12 @@ void CartesianTask::UpdateReference()
     } else if (taskType_ == CartesianTaskType::InequalityInBetween) {
 
         if (useErrorNorm_) {
-            double desired = ((bellShapeParameter_.xmax(0) - inequalityDecreasingBellShapeParameter_.xmax(0)) / 2) + inequalityDecreasingBellShapeParameter_.xmax(0);
+            double desired = ((bellShapeParameter_.xmax(0) - inequalityDecreasingBellShapeParameter_.xmax(0)) / 2)
+                + inequalityDecreasingBellShapeParameter_.xmax(0);
             x_dot_(0) = taskParameter_.gain * (desired - x_.norm());
         } else {
-            Eigen::Vector3d desired = ((bellShapeParameter_.xmax - inequalityDecreasingBellShapeParameter_.xmax) / 2) + inequalityDecreasingBellShapeParameter_.xmax;
+            Eigen::Vector3d desired = ((bellShapeParameter_.xmax - inequalityDecreasingBellShapeParameter_.xmax) / 2)
+                + inequalityDecreasingBellShapeParameter_.xmax;
             x_dot_ = taskParameter_.gain * (desired - x_);
         }
     } else if (taskType_ == CartesianTaskType::Equality) {
@@ -192,33 +205,24 @@ void CartesianTask::UpdateReference()
     }
 }
 
-void CartesianTask::SaturateReference()
-{
-    rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
-}
+void CartesianTask::SaturateReference() { rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_); }
 void CartesianTask::SaturateReferenceComponentWise()
 {
     for (int i = 0; i < taskSpace_; i++) {
         Eigen::VectorXd x_dot_element(1);
         x_dot_element(0) = x_dot_(i);
-        rml::SaturateScalar(taskParameter_.saturation,x_dot_element(0));
-        x_dot_(i)=x_dot_element(0);
+        rml::SaturateScalar(taskParameter_.saturation, x_dot_element(0));
+        x_dot_(i) = x_dot_element(0);
     }
 }
 // private
 
-void CartesianTask::SetControlVariable(Eigen::Vector3d x)
-{
-    x_ = x;
+void CartesianTask::SetControlVariable(Eigen::Vector3d x) { x_ = x; }
+
+CartesianTaskType CartesianTask::GetType() { return taskType_; }
 }
 
-CartesianTaskType CartesianTask::GetType()
-{
-    return taskType_;
-}
-}
-
-//void CartesianTask::ChangeObserver()
+// void CartesianTask::ChangeObserver()
 //{
 //    J_ = rml::ChangeJacobianObserver(J_, JObserver_, x_);
 //}

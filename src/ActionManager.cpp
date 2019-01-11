@@ -17,22 +17,23 @@ ActionManager::ActionManager()
 
 void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
 {
-    //hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
-    priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID))));
+    // hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
+    priorityLevelIDMap_.insert(
+        std::make_pair(priorityLevelID, std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID))));
 }
 
-void ActionManager::AddPriorityLevelWithRegularization(const std::string priorityLevelID,
-    rml::RegularizationData regularizationData)
+void ActionManager::AddPriorityLevelWithRegularization(
+    const std::string priorityLevelID, rml::RegularizationData regularizationData)
 {
     auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
     pl->SetRegularizationData(regularizationData);
     priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, pl));
-   // hierarchy_.push_back(pl);
+    // hierarchy_.push_back(pl);
 }
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
 {
-    //std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
+    // std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
     auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
 }
@@ -47,12 +48,12 @@ void ActionManager::AddAction(std::string actionID, std::vector<std::string> pri
     }
     actions_.push_back(newAction);
 }
-void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy){
+void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy)
+{
     hierarchy_.clear();
-    for(auto& id:unifiedHierarchy){
+    for (auto& id : unifiedHierarchy) {
         hierarchy_.push_back(priorityLevelIDMap_.at(id));
     }
-
 }
 void ActionManager::SetAction(std::string newAction)
 {
@@ -60,14 +61,13 @@ void ActionManager::SetAction(std::string newAction)
     currentAction_ = GetAction(newAction);
     time_ = GetTime();
 }
-const std::string ActionManager::GetCurrentAction(){
-    return currentAction_->GetID();
-}
+const std::string ActionManager::GetCurrentAction() { return currentAction_->GetID(); }
 void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
 {
     if (hierarchy_.empty()) {
         ActionManagerException nullHierarchyExcpetion;
-        std::string how = "No unified heirarcy initialized, to add priorityLevel to the hierarhcy use either AddPriorityLevelToHierarchyWithRegularization() or"
+        std::string how = "No unified heirarcy initialized, to add priorityLevel to the hierarhcy use either "
+                          "AddPriorityLevelToHierarchyWithRegularization() or"
                           "AddPriorityLevelToHierarchyWithRegularization ";
         nullHierarchyExcpetion.SetHow(how);
         throw(nullHierarchyExcpetion);
@@ -87,12 +87,12 @@ void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
             priorityLevel->SetExternalActivationFunction(Ae);
         } else if (isInOldAction && !isInNewAction) {
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
-            //The PL must be deactivated: decreasing.
+            // The PL must be deactivated: decreasing.
             Ae = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
             priorityLevel->SetExternalActivationFunction(Ae);
 
         } else {
-            //The PL is already deactivated:zeros.
+            // The PL is already deactivated:zeros.
             priorityLevel->SetExternalActivationFunction(0.0);
         }
     }
@@ -102,7 +102,8 @@ const Hierarchy& ActionManager::GetHierarchy() const throw(ExceptionWithHow)
 {
     if (hierarchy_.empty()) {
         ActionManagerException nullHierarchyExcpetion;
-        std::string how = "No unified heirarcy initialized, to add priorityLevel to the hierarhcy use either AddPriorityLevelToHierarchyWithRegularization() or"
+        std::string how = "No unified heirarcy initialized, to add priorityLevel to the hierarhcy use either "
+                          "AddPriorityLevelToHierarchyWithRegularization() or"
                           "AddPriorityLevelToHierarchyWithRegularization ";
         nullHierarchyExcpetion.SetHow(how);
         throw(nullHierarchyExcpetion);
@@ -112,7 +113,6 @@ const Hierarchy& ActionManager::GetHierarchy() const throw(ExceptionWithHow)
 
 std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) throw(ExceptionWithHow)
 {
-
     for (auto& act : actions_) {
         if (act->GetID() == actionID) {
             return act;
@@ -126,16 +126,10 @@ std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) throw(Exc
 
 std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID)
 {
-
-
     return priorityLevelIDMap_.at(priorityLevelID);
-
 }
 
-void ActionManager::SetIsSimulation(bool isSimulated)
-{
-    isSimulated_ = isSimulated;
-}
+void ActionManager::SetIsSimulation(bool isSimulated) { isSimulated_ = isSimulated; }
 
 void ActionManager::SetTime(long simulationTime)
 {
@@ -145,7 +139,6 @@ void ActionManager::SetTime(long simulationTime)
 
 std::chrono::system_clock::time_point ActionManager::GetTime()
 {
-
     if (isSimulated_) {
         return simulationTime_;
     } else {

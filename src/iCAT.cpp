@@ -10,14 +10,11 @@ iCAT::iCAT(int DoF)
 {
 }
 
-iCAT::~iCAT()
-{
-}
+iCAT::~iCAT() {}
 
-void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot,
-    rml::RegularizationData regularizationData)
+void iCAT::ComputeYSingleLevel(
+    Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot, rml::RegularizationData regularizationData)
 {
-
     if (!A.isZero()) {
 
         Eigen::MatrixXd barG = J * Q_;
@@ -32,8 +29,8 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
             * rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + T + H), regularizationData)
             * barGtraspAA;
 
-        Eigen::MatrixXd barGpinv = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H),
-            regularizationData);
+        Eigen::MatrixXd barGpinv
+            = rml::RegularizedPseudoInverse((Eigen::MatrixXd)(barGtraspAA * barG + H), regularizationData);
 
         deltaY_ = Q_ * barGpinv * barGtraspAA * W * (xdot - J * y_);
 
@@ -49,7 +46,6 @@ void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::Vect
 
 void iCAT::Saturate()
 {
-
     double min_factor = 1.0;
     for (int i = 0; i < DoF_; i++) {
         double factor = 1.0;
@@ -74,4 +70,4 @@ void iCAT::Saturate()
     }
 }
 }
-///protected
+/// protected

@@ -8,15 +8,9 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPI
     hierarchy_ = actionManager_->GetHierarchy();
 }
 
-void Solver::SetTPIK(std::shared_ptr<TPIK> tpik)
-{
-    tpik_ = tpik;
-}
+void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
 
-void Solver::SetAction(std::string action)
-{
-    actionManager_->SetAction(action);
-}
+void Solver::SetAction(std::string action) { actionManager_->SetAction(action); }
 
 const Eigen::VectorXd& Solver::ComputeVelocities()
 {
@@ -43,12 +37,9 @@ const Eigen::VectorXd& Solver::ComputeVelocities()
         tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
         priorityLevel->SetDeltaY(tpik_->GetDeltaY());
         delta_y.push_back(tpik_->GetDeltaY());
-
     }
     tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
     return tpik_->GetY();
 }
-std::vector<Eigen::VectorXd> Solver::GetDeltaYs(){
-    return delta_y;
-}
+std::vector<Eigen::VectorXd> Solver::GetDeltaYs() { return delta_y; }
 }
