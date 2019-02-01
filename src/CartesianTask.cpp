@@ -43,14 +43,22 @@ void CartesianTask::SetBellShapedParameterInBetween(
 }
 const BellShapedParameter& CartesianTask::GetBellShapedParameter()
 {
+
     if (taskType_ == CartesianTaskType::Equality) {
         std::cerr << "[WARNING] asking bell shape parameter of an equality task " << ID_ << std::endl;
-        bellShapeParameter_.xmax.setZero(taskSpace_);
-        bellShapeParameter_.xmin.setZero(taskSpace_);
+
     }
+
     return bellShapeParameter_;
 }
+const BellShapedParameter& CartesianTask::GetInBetweenDecreasingBellShapedParameter(){
 
+    if (!(taskType_==CartesianTaskType::InequalityInBetween)) {
+        std::cerr << "[WARNING] the task is not an inequality in between task " << ID_ << std::endl;
+
+    }
+    return inequalityDecreasingBellShapeParameter_;
+}
 Eigen::VectorXd CartesianTask::GetControlVariable()
 {
     // if (useErrorNorm_) {

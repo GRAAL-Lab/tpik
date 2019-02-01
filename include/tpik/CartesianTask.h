@@ -69,6 +69,7 @@ public:
      * @return  BellShapedParameter struct of the task.
      */
     const BellShapedParameter& GetBellShapedParameter();
+    const BellShapedParameter& GetInBetweenDecreasingBellShapedParameter();
 
     /**
      * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error direction.
