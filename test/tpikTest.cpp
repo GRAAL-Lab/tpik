@@ -18,8 +18,8 @@ int main()
 	int DoF = 6;
 
 	rml::RegularizationData regularizationData;
-	regularizationData.params.lambda = 0.00;
-	regularizationData.params.threshold = 0.00;
+    regularizationData.params.lambda = 0.001;
+    regularizationData.params.threshold = 0.0001;
 	auto testTask1 = std::make_shared<TestTask>(TestTask(ID1));
 	auto testTask2 = std::make_shared<TestTask>(TestTask(ID2));
 	auto gain1 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(taskSpace, DoF));
@@ -32,18 +32,25 @@ int main()
 	testTask2->Update();
 	//Action Manager Defintion
 	auto actionManager = std::make_shared<tpik::ActionManager>(tpik::ActionManager());
-	actionManager->AddPriorityLevelToHierarchyWithRegularization(IDPL1, regularizationData);
+    actionManager->AddPriorityLevelWithRegularization(IDPL1, regularizationData);
 	actionManager->AddTaskToPriorityLevel(testTask1, IDPL1);
 	actionManager->AddTaskToPriorityLevel(testTask2, IDPL1);
-	actionManager->AddPriorityLevelToHierarchyWithRegularization(IDPL2, regularizationData);
+    actionManager->AddPriorityLevelWithRegularization(IDPL2, regularizationData);
 	actionManager->AddTaskToPriorityLevel(testTask1, IDPL2);
 	actionManager->AddTaskToPriorityLevel(testTask2, IDPL2);
+    actionManager->SetUnifiedHierarchy(std::vector<std::string>{IDPL1, IDPL2});
 	actionManager->AddAction(IDAction1, std::vector<std::string> { IDPL1 });
-	actionManager->AddAction(IDAction2, std::vector<std::string> { IDPL1 });
+    //actionManager->AddAction(IDAction2, std::vector<std::string> { IDPL1 });
 	actionManager->AddAction(IDAction3, std::vector<std::string> { IDPL2 });
+
 	//SOLVER AND TPIK TRIAL
 	auto iCat = std::make_shared<tpik::iCAT>(tpik::iCAT(6));
-	auto solver = std::make_shared<tpik::Solver>(tpik::Solver(actionManager, iCat));
+    Eigen::VectorXd satMin;
+    satMin.setZero(6);
+    Eigen::VectorXd satMax;
+    satMax.setOnes(6);
+    iCat->SetSaturation(satMin,satMax);
+    auto solver = std::make_shared<tpik::Solver>(tpik::Solver(actionManager, iCat));
 	std::cout << *solver << std::endl;
 	//TEST CHANGING ACTION
 	std::cout << "************Testing changing of action**********" << std::endl;
@@ -54,9 +61,9 @@ int main()
 	std::cout << *solver << std::endl;
 	std::cout << "COMPUTED VELOCITY" << std::endl;
 	std::cout << "ACTION: act1" << std::endl;
-	solver->SetAction(IDAction1);
-	std::cout << *solver << std::endl;
-	y = solver->ComputeVelocities();
+    solver->SetAction(IDAction1);
+    std::cout << *solver << std::endl;
+    y = solver->ComputeVelocities();
 	std::cout << "COMPUTED VELOCITY" << std::endl;
 	//TEST CHANGING PARAMETER OF JACOBIAN
 	std::cout << "************Testing changing of jacobian**********" << std::endl;
@@ -76,7 +83,18 @@ int main()
 	testTask2->Update();
 	y = solver->ComputeVelocities();
 	std::cout << "SOLVER\n" << *solver << std::endl;
-	std::cout << "DESIRED VELOCITY \n" << y << std::endl;
 
-	return 0;
+    //TEST CHANGING PARAMETER OF JACOBIAN
+    std::cout << "************Testing changing AeRows**********" << std::endl;
+
+    Eigen::VectorXd AeRows;
+    AeRows.resize(12);
+    AeRows<<0,0,0,0,0,1,0,0,1,0,0,0;
+    std::cout<<"AeRows: "<<AeRows.transpose()<<std::endl;
+    Eigen::MatrixXd A = actionManager->GetPriorityLevel(IDPL1)->GetActivationFunction();
+    std::cout<<"A before settin AeRows =\n "<<A<<std::endl;
+    actionManager->GetPriorityLevel(IDPL1)->SetExternalActivationFunctionRows(AeRows);
+    A = actionManager->GetPriorityLevel(IDPL1)->GetActivationFunction();
+    std::cout<<"A after settin AeRows =\n "<<A<<std::endl;
+    return 0;
 }

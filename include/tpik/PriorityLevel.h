@@ -54,6 +54,11 @@ public:
 	 * @param[in] regularizationData rml::RegularizationData struct.
 	 */
 	void SetRegularizationData(rml::RegularizationData regularizationData);
+    /**
+     * @brief Method setting the external activation function for the rows i.e. decide whether force the de activation of priority level rows
+     * @param AeRows mask 0 if the rows wants to be deactivated, ones otherwise.
+     */
+    void SetExternalActivationFunctionRows(Eigen::VectorXd AeRows);
 	/**
 	 * @brief Method Returning the PriorityLevel Jacobian.
 	 * @return PriorityLevel Jacobian.
@@ -136,12 +141,14 @@ private:
 	std::vector<std::shared_ptr<Task> > level_; //!< The vector containing the std::shared_ptr to tpik::Task objects.
 	std::string ID_{" "}; //!< The PriorityLevel ID.
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
+    Eigen::MatrixXd Aerows_;//!< The activation function used to de activate priority level rows;
 	Eigen::MatrixXd J_; //!< The jacobian.
 	Eigen::VectorXd x_dot_; //!< The reference.
     double Ae_{0.0}; //!< The external activation function.
 	int taskNumber_{0}; //!< The priority level number of tasks.
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
     Eigen::VectorXd deltaY_; //!< The last delta y comptued for the priority level.
+    int priorityLevelSpace_;
 };
 }
 

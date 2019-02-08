@@ -3,7 +3,7 @@
 #include <rml/RML.h>
 
 TestTask::TestTask(const std::string ID) :
-		tpik::InequalityTask(ID, 6, 6,false,false)
+        tpik::EqualityTask(ID, 6, 6)
 {
 	ID_ = "TestTask" + ID_;
 

@@ -6,6 +6,7 @@ PriorityLevel::PriorityLevel(const std::string ID)
     : taskNumber_(0)
     , Ae_(0)
     , ID_(ID)
+    , priorityLevelSpace_(0)
 {
 }
 
@@ -15,9 +16,23 @@ void PriorityLevel::AddTask(std::shared_ptr<Task> task)
 {
     level_.push_back(task);
     taskNumber_ = level_.size();
+    priorityLevelSpace_ += task->GetTaskSpace();
+    Aerows_ = Eigen::MatrixXd::Identity(priorityLevelSpace_, priorityLevelSpace_);
 }
 
 std::string PriorityLevel::GetID() const { return ID_; }
+
+void PriorityLevel::SetExternalActivationFunctionRows(Eigen::VectorXd AeRows)
+{
+    if (AeRows.size() != priorityLevelSpace_) {
+        std::cerr << "[PRIORITY LEVEL ] ID: " << ID_
+                  << " Aerows wrong dimension, priorityLevelSpace = " << priorityLevelSpace_ << " activating all rows"
+                  << std::endl;
+    }
+    else {
+        Aerows_ = AeRows.asDiagonal();
+    }
+}
 
 void PriorityLevel::UpdateJacobian()
 {
@@ -87,7 +102,7 @@ const Eigen::MatrixXd& PriorityLevel::GetJacobian() const { return J_; }
 Eigen::MatrixXd PriorityLevel::GetActivationFunction()
 {
 
-    return Ae_ * Ai_;
+    return Ae_ * Ai_ * Aerows_;
     // return  Ai_;
 }
 

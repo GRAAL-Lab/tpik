@@ -5,7 +5,7 @@ include(GNUInstallDirs)
 file(GLOB_RECURSE EXTRA_FILES */*)
 add_custom_target(${PROJECT_NAME}_OTHER_FILES ALL WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} SOURCES ${EXTRA_FILES})
 
-option(BUILD_TESTS "Compile tests" OFF)
+option(BUILD_TESTS "Compile tests" ON)
 
 project (tpik)
 #include_directories(src)
