@@ -1,4 +1,4 @@
-# TPIKlib: Task Priority Inverse Kinematic Library
+# TPIK: Task Priority Inverse Kinematic Library
 
 ## Description
 This library implements the task priority inverse kinematic thanks to the definition of the abstract class tpik::Task. The class deriving form the tpik::Task base Class must implement the pure virtual methods in order to compute the task Jacobian, Activation Function and Reference.
