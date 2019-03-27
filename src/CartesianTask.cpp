@@ -186,6 +186,7 @@ void CartesianTask::UseErrorNormJacobian()
 
 void CartesianTask::UpdateInternalActivationFunction()
 {
+    Ai_.setZero(taskSpace_, taskSpace_);
     if (taskType_ == CartesianTaskType::InequalityIncreasing) {
         if (useErrorNorm_) {
             Ai_(0, 0) = rml::IncreasingBellShapedFunction(
@@ -315,6 +316,8 @@ void CartesianTask::UpdateProjector()
 void CartesianTask::SetControlVariable(Eigen::Vector3d x) { x_ = x; }
 
 CartesianTaskType CartesianTask::GetType() { return taskType_; }
+
+ProjectorType CartesianTask::GetProjectorType(){return projectorType_;}
 }
 
 // void CartesianTask::ChangeObserver()

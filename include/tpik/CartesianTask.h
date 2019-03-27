@@ -117,6 +117,12 @@ public:
     CartesianTaskType GetType();
 
     /**
+     * @brief Method returning the projector type
+     * @return
+     */
+    ProjectorType GetProjectorType();
+
+    /**
      * @brief Method setting the projector parameters
      * @param vector in case of line the vector is the line itself, in case of plane the vector is the normal to the
      * plane
@@ -222,6 +228,7 @@ protected:
      * @brief Method updating the projector
      */
     void UpdateProjector();
+
 
     // Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_; //!< The bell shape struct
