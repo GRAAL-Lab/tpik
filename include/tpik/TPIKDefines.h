@@ -49,6 +49,10 @@ enum  class CartesianTaskType { Equality,
     InequalityDecreasing, InequalityIncreasing, InequalityInBetween};
 
 /**
+ * @brief The ProjectorType enum definig the projector type
+ */
+enum class ProjectorType { Default, OnPlane, OnLine };
+/**
  * @brief The InequalityType enum to state wheether an inequality task is increasing decreasing in beteween or none of the aformentioned
  */
 enum class InequalityTaskType { Increasing,

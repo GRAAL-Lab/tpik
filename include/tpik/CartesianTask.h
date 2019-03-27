@@ -11,18 +11,26 @@ namespace tpik {
  * @brief The CartesianTask pure virtual class.
  * @details The class is aimed to implement the basic common methods needed by a cartesian task. \n
  * It allows to decide whether implement the three  or the one dimensional task when instantiating the obect.  \n
- * The task is by default a three dimensional task, in order to have a one dimensional task, hence projecting the jacobian along the error direction, one must call the method SetOneDimensional().\n
+ * The task is by default a three dimensional task, in order to have a one dimensional task, hence projecting the
+ * jacobian along the error direction, one must call the method SetOneDimensional().\n
  * When instantiating the object the user can decide to create one of the following task:\n
- * * Equality task: The task tries to drive the control variabel towards the reference value. If no reference value is setted via the dedicated method SetControlVectorReference() , the default value 0 is used;
+ * * Equality task: The task tries to drive the control variabel towards the reference value. If no reference value is
+ * setted via the dedicated method SetControlVectorReference() , the default value 0 is used;
  *
- * * Inequality increasing task: The task tries to decrease the control variable towards the reference value. The reference value is stored in the member xmin of the bellShapeParameter struct that must be
- * setted via the dedicated method SetBellShapedParameter(). The name "Inequality Increasing" derives from the fact that the task activation function is an increasing bell shape function wrt the control variable;
+ * * Inequality increasing task: The task tries to decrease the control variable towards the reference value. The
+ * reference value is stored in the member xmin of the bellShapeParameter struct that must be
+ * setted via the dedicated method SetBellShapedParameter(). The name "Inequality Increasing" derives from the fact that
+ * the task activation function is an increasing bell shape function wrt the control variable;
  *
- * * Inequality Decreasing: The task tries to increae the control variable towards the reference value. The reference value is stored in the member xmax of the bellShapeParameter struct that must be
- * setted via the dedicated method SetBellShapedParameter(). The name "Ineqaulity Decreasing" derives from the fact that the task activation function is a decreasing bell shape function wrt the control variable;
+ * * Inequality Decreasing: The task tries to increae the control variable towards the reference value. The reference
+ * value is stored in the member xmax of the bellShapeParameter struct that must be
+ * setted via the dedicated method SetBellShapedParameter(). The name "Ineqaulity Decreasing" derives from the fact that
+ * the task activation function is a decreasing bell shape function wrt the control variable;
  *
- * When instantiating the object, the user must also set the taskParameter by using the dedicated method SetTaskParameter().\n
- * The tasks aimed to implement a cartesian control (e.g. position, velocity... ) can derive from the cartesianTask class and implement the pure virtual methods Update() and UpdateJacobian().
+ * When instantiating the object, the user must also set the taskParameter by using the dedicated method
+ * SetTaskParameter().\n
+ * The tasks aimed to implement a cartesian control (e.g. position, velocity... ) can derive from the cartesianTask
+ * class and implement the pure virtual methods Update() and UpdateJacobian().
  */
 class CartesianTask : public Task {
 public:
@@ -32,7 +40,7 @@ public:
      * @param DoF degrees of freedom
      * @param taskType task type stating whether the class is equality, inequality increasing, inequality decreasing.
      */
-    CartesianTask(const std::string ID, int DoF, CartesianTaskType taskType);
+    CartesianTask(const std::string ID, int DoF, CartesianTaskType taskType, ProjectorType projectorType);
 
     /* @brief  ~CartesianTask default deconstructor.
     */
@@ -54,25 +62,47 @@ public:
      */
     const TaskParameter& GetTaskParameter();
     /**
-     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or decreasing).
+     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or
+     * decreasing).
      * @param bellShapedParameter struct.
      */
     void SetBellShapedParameter(BellShapedParameter bellShapedParameters);
 
     /**
-     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or decreasing).
+     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or
+     * decreasing).
      * @param bellShapedParameter struct.
      */
-    void SetBellShapedParameterInBetween(BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter);
+    void SetBellShapedParameterInBetween(
+        BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter);
+    /**
+     * @brief Method setting the scalar bell shape when the task must be activate and deactivate by looking at the error
+     * norm
+     * @param bellShapedParameters
+     */
+    void SetBellShapedParameterScalar(double bellShapedParametersXmin, double bellShapedParametersXmax);
+
+    /**
+     * @brief Method setting the scalar bell shape when the task must be activate and deactivate by looking at the error
+     * norm
+     * @param bellShapedParameters
+     */
+    void SetBellShapedParameterInBetweenScalar(double increasingBellShapedParametersXmin,
+        double increasingbellShapedParametersXmax, double decreasingBellShapedParametersXmin, double decreasingBellShapedParametersXmax);
     /**
      * @brief Method returning the bell shape parameter.
      * @return  BellShapedParameter struct of the task.
      */
     const BellShapedParameter& GetBellShapedParameter();
+    /**
+     * @brief MEthod returning the bell shape decreasing parameter when dealing with a in between task
+     * @return
+     */
     const BellShapedParameter& GetInBetweenDecreasingBellShapedParameter();
 
     /**
-     * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error direction.
+     * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error
+     * direction.
      */
     void SetOneDimensional();
     /**
@@ -85,6 +115,14 @@ public:
     * @return cartesian task type, could be inequality increasing, equality increasing, equality .
     */
     CartesianTaskType GetType();
+
+    /**
+     * @brief Method setting the projector parameters
+     * @param vector in case of line the vector is the line itself, in case of plane the vector is the normal to the
+     * plane
+     * @param frameID id of the frame wrt which the vector is expressed
+     */
+    void SetProjectorParameters(Eigen::Vector3d vector, std::string frameID);
     /**
      * @brief Overload of the cout operator.
      */
@@ -92,8 +130,7 @@ public:
     {
         os << "\033[1;37m"
            << "CARTESIAN TASK : " << cartesianTask.ID_ << "\n"
-           << std::setprecision(4)
-           << "Internal Activation Function \n"
+           << std::setprecision(4) << "Internal Activation Function \n"
            << "\033[0m" << cartesianTask.Ai_ << "\n"
            << "\033[1;37m"
            << "Jacobian \n"
@@ -102,30 +139,30 @@ public:
            << "Reference \n"
            << "\033[0m" << cartesianTask.x_dot_ << "\n"
            << "\033[1;37m";
-           if (cartesianTask.useErrorNorm_) {
-               os << "x_ \n"
-                  << "\033[0m" << cartesianTask.x_.norm() << "\n";
-           } else {
-               os << "x_ \n"
-                  << "\033[0m" << cartesianTask.x_ << "\n";
-           }
+        if (cartesianTask.useErrorNorm_) {
+            os << "x_ \n"
+               << "\033[0m" << cartesianTask.x_.norm() << "\n";
+        } else {
+            os << "x_ \n"
+               << "\033[0m" << cartesianTask.x_ << "\n";
+        }
         //
         os << "\033[0m" << cartesianTask.taskParameter_ << "\n"
            << "\033[1;37m"
            << "Use Error Norm  \n"
            << "\033[0m" << cartesianTask.useErrorNorm_ << "\n";
 
-        //if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing) {
+        // if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing) {
         //    os << "\033[1;37m"
         //       << "DECREASING bell shape parameters\n"
         //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
         //}
-        //if (cartesianTask.taskType_ == CartesianTaskType::InequalityIncreasing) {
+        // if (cartesianTask.taskType_ == CartesianTaskType::InequalityIncreasing) {
         //    os << "\033[1;37m"
         //       << "INCREASING bell shape parameters\n"
         //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
         //}
-        //if (cartesianTask.taskType_ == CartesianTaskType::Equality) {
+        // if (cartesianTask.taskType_ == CartesianTaskType::Equality) {
         //    os << "\033[1;37m"
         //       << "EQUALITY control reference value \n"
         //       << "\033[0m" << cartesianTask.xReference_ << "\n";
@@ -134,9 +171,10 @@ public:
     }
 
 protected:
-    //void ChangeObserver();
+    // void ChangeObserver();
     /**
-     * @brief  Implementation of the pure virtual method of the base class Task used to update the internal activation function.
+     * @brief  Implementation of the pure virtual method of the base class Task used to update the internal activation
+     * function.
      * Such method must be called in the Update method.
      */
     void UpdateInternalActivationFunction() override;
@@ -146,7 +184,8 @@ protected:
      */
     void UpdateReference() override;
     /**
-     * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference method.
+     * @brief  Method used to saturate the reference, such method must be called in the Update() method after the
+     * UpdateReference method.
      */
     void SaturateReference();
     /**
@@ -154,12 +193,14 @@ protected:
      */
     void SaturateReferenceComponentWise();
     /**
-     * @brief  Method use to project the jacobian along the error direction. Such method must be called in the Update() method in order to allow the change
+     * @brief  Method use to project the jacobian along the error direction. Such method must be called in the Update()
+     * method in order to allow the change
      * from 3 dimensional task to 1 dimensional task.
      */
     void UseErrorNormJacobian();
     /**
-     * @brief  Method used to check the initialization, hence that all the task parameters have been initializated before updating the task.\n
+     * @brief  Method used to check the initialization, hence that all the task parameters have been initializated
+     * before updating the task.\n
      * Such meethod must be called in the Update() method before any other method.
      * @note An exception is thrown if the task parameter has not been initialized yet.
      */
@@ -168,22 +209,42 @@ protected:
      * @brief  Method to set the task control variable.
      * @details Protected method to be used in the derived task in order to set the task control variable.
      * @param x the task control vector e.g. the distance, the misalignment vector...
-     * @note such method must be called in the update method in the derived class in order to instantiate the control variable at each control loop.
+     * @note such method must be called in the update method in the derived class in order to instantiate the control
+     * variable at each control loop.
      */
     void SetControlVariable(Eigen::Vector3d x);
+    /**
+     * @brief Method setting the projector transformation
+     * @param bodyFrameTprojector transformation in between the body frame and the projector frame
+     */
+    void SetProjectorTransformation(Eigen::TransfMatrix bodyFrameTprojector);
+    /**
+     * @brief Method updating the projector
+     */
+    void UpdateProjector();
 
-    //Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
+    // Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_; //!< The bell shape struct
-    BellShapedParameter inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
+    BellShapedParameter
+        inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
     TaskParameter taskParameter_; //!< The task parameter struct
     bool useErrorNorm_{ false }; //!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false }; //!< Boolean stating whether the task parameter have been initialized
-    bool initializedBellShapeParameter_{ false }; //!< Boolean stating whether the bell shaped parameters have been initialized
-    CartesianTaskType taskType_; //!< Enum stating whether the task type is either inequality increasing, inequality decreasing or equality
+    bool initializedBellShapeParameter_{
+        false
+    }; //!< Boolean stating whether the bell shaped parameters have been initialized
+    CartesianTaskType taskType_; //!< Enum stating whether the task type is either inequality increasing, inequality
+    //! decreasing or equality
     bool referenceControlVector_; //!< Boolean stating whether the reference control vector has been initialized
-
+    ProjectorType projectorType_; //!< Enum stating which projector the task must implement
+    Eigen::MatrixXd P_; //!<The projector matrix
+    Eigen::Vector3d normalProjector_; //!< The projector parameters
+    std::string frameIDProjector_; //!< The frame wrt which the projector parameters are expressed
+    bool activateOnNorm_; //!< Boolean stating wherther activating or deactivating the task by looking at the error norm
 private:
     Eigen::Vector3d x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
+    Eigen::TransfMatrix
+        bodyFrameTProjectorFrame_; //!< The transformation matrix in between the body frame and the projector frame
 };
 }
