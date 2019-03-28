@@ -7,6 +7,7 @@ PriorityLevel::PriorityLevel(const std::string ID)
     , Ae_(0)
     , ID_(ID)
     , priorityLevelSpace_(0)
+    , AeRowsUserSetted_(false)
 {
 }
 
@@ -28,9 +29,9 @@ void PriorityLevel::SetExternalActivationFunctionRows(Eigen::VectorXd AeRows)
         std::cerr << "[PRIORITY LEVEL ] ID: " << ID_
                   << " Aerows wrong dimension, priorityLevelSpace = " << priorityLevelSpace_ << " activating all rows"
                   << std::endl;
-    }
-    else {
+    } else {
         Aerows_ = AeRows.asDiagonal();
+        AeRowsUserSetted_ = true;
     }
 }
 
@@ -97,13 +98,18 @@ void PriorityLevel::SetRegularizationData(rml::RegularizationData regularization
 {
     regularizationData_ = regularizationData;
 }
+
 const Eigen::MatrixXd& PriorityLevel::GetJacobian() const { return J_; }
 
 Eigen::MatrixXd PriorityLevel::GetActivationFunction()
 {
 
-    return Ae_ * Ai_ * Aerows_;
-    // return  Ai_;
+    if (AeRowsUserSetted_) {
+        return Ae_ * Ai_ * Aerows_;
+    }
+    else {
+        return Ae_*Ai_;
+    }
 }
 
 const Eigen::MatrixXd& PriorityLevel::GetInternalActivationFunction() const { return Ai_; }

@@ -138,6 +138,7 @@ private:
 	 */
 	void UpdateReference();
 
+
 	std::vector<std::shared_ptr<Task> > level_; //!< The vector containing the std::shared_ptr to tpik::Task objects.
 	std::string ID_{" "}; //!< The PriorityLevel ID.
 	Eigen::MatrixXd Ai_; //!< The internal activation function.
@@ -149,6 +150,7 @@ private:
 	rml::RegularizationData regularizationData_; //!< The rml::RegularizationData struct, used to compute the regularized pseudoinverse.
     Eigen::VectorXd deltaY_; //!< The last delta y comptued for the priority level.
     int priorityLevelSpace_;
+    bool AeRowsUserSetted_;
 };
 }
 

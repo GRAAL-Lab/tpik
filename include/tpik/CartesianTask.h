@@ -219,11 +219,7 @@ protected:
      * variable at each control loop.
      */
     void SetControlVariable(Eigen::Vector3d x);
-    /**
-     * @brief Method setting the projector transformation
-     * @param bodyFrameTprojector transformation in between the body frame and the projector frame
-     */
-    void SetProjectorTransformation(Eigen::TransfMatrix bodyFrameTprojector);
+
     /**
      * @brief Method updating the projector
      */
@@ -248,10 +244,11 @@ protected:
     Eigen::Vector3d normalProjector_; //!< The projector parameters
     std::string frameIDProjector_; //!< The frame wrt which the projector parameters are expressed
     bool activateOnNorm_; //!< Boolean stating wherther activating or deactivating the task by looking at the error norm
+    Eigen::TransfMatrix
+        bodyFrame_T_parameterProjector_; //!< The transformation matrix in between the body frame and the projector frame
 private:
     Eigen::Vector3d x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
-    Eigen::TransfMatrix
-        bodyFrameTProjectorFrame_; //!< The transformation matrix in between the body frame and the projector frame
+
 };
 }
