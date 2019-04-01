@@ -256,11 +256,12 @@ void CartesianTask::UpdateInternalActivationFunction()
 void CartesianTask::UpdateReference()
 {
 
+
     if (taskType_ == CartesianTaskType::InequalityDecreasing) {
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm());
         } else if (activateOnNorm_) {
-            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm()) * Eigen::Vector3d::Ones(); // TODO
+            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_); // TODO
         } else {
             x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax - x_);
         }
@@ -268,7 +269,7 @@ void CartesianTask::UpdateReference()
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm());
         } else if (activateOnNorm_) {
-            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm()) * Eigen::Vector3d::Ones(); // TODO
+            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_); // TODO
         } else {
             x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin - x_);
         }
@@ -281,10 +282,10 @@ void CartesianTask::UpdateReference()
         } else if (activateOnNorm_) {
             double desired = ((bellShapeParameter_.xmax(0) - inequalityDecreasingBellShapeParameter_.xmax(0)) / 2)
                 + inequalityDecreasingBellShapeParameter_.xmax(0);
-            x_dot_ = taskParameter_.gain*(desired -x_.norm())*Eigen::Vector3d::Ones();
+            x_dot_ = taskParameter_.gain*(desired -x_.norm())*Eigen::VectorXd::Ones(taskSpace_);
 
         } else {
-            Eigen::Vector3d desired = ((bellShapeParameter_.xmax - inequalityDecreasingBellShapeParameter_.xmax) / 2)
+            Eigen::VectorXd desired = ((bellShapeParameter_.xmax - inequalityDecreasingBellShapeParameter_.xmax) / 2)
                 + inequalityDecreasingBellShapeParameter_.xmax;
             x_dot_ = taskParameter_.gain * (desired - x_);
         }
@@ -292,7 +293,7 @@ void CartesianTask::UpdateReference()
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (xReference_(0) - x_.norm());
         } else if (activateOnNorm_){
-            x_dot_ = taskParameter_.gain*(xReference_(0)- x_.norm())*Eigen::Vector3d::Ones();
+            x_dot_ = taskParameter_.gain*(xReference_(0)- x_.norm())*Eigen::VectorXd::Ones(taskSpace_);
         } {
             x_dot_ = taskParameter_.gain * (xReference_ - x_);
         }
@@ -311,11 +312,9 @@ void CartesianTask::SaturateReferenceComponentWise()
     }
 }
 
-
-
 void CartesianTask::UpdateProjector()
 {
-    std::cout<<"Updating Projector"<<std::endl;
+
     switch (projectorType_) {
     case (ProjectorType::Default): {
         P_ = Eigen::Matrix3d::Identity();
@@ -334,7 +333,7 @@ void CartesianTask::UpdateProjector()
 }
 // private
 
-void CartesianTask::SetControlVariable(Eigen::Vector3d x) { x_ = x; }
+void CartesianTask::SetControlVariable(Eigen::VectorXd x) { x_ = x; }
 
 CartesianTaskType CartesianTask::GetType() { return taskType_; }
 

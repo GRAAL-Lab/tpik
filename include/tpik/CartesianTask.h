@@ -218,7 +218,7 @@ protected:
      * @note such method must be called in the update method in the derived class in order to instantiate the control
      * variable at each control loop.
      */
-    void SetControlVariable(Eigen::Vector3d x);
+    void SetControlVariable(Eigen::VectorXd x);
 
     /**
      * @brief Method updating the projector
@@ -247,7 +247,7 @@ protected:
     Eigen::TransfMatrix
         bodyFrame_T_parameterProjector_; //!< The transformation matrix in between the body frame and the projector frame
 private:
-    Eigen::Vector3d x_; //!< The control vector
+    Eigen::VectorXd x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
 
 };
