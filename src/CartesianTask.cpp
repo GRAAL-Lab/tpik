@@ -155,11 +155,6 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
         if (activateOnNorm_) {
             bellShapeExpectedSize = 1;
         }
-
-        if (projectorType_ == tpik::ProjectorType::OnLine) {
-            bellShapeExpectedSize = 1;
-        }
-
         if (bellShapeParameter_.xmax.size() != bellShapeExpectedSize) {
 
             NotInitialziedTaskParameterException wrongBellShapeIcreasingSize;
