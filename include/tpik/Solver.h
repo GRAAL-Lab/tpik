@@ -34,8 +34,9 @@ public:
 	/**
 	 * @brief Method which sets the current action.
 	 * @param[in] action current action ID.
+     * @param[in] transiction true if transiction in between action, false otherwise
 	 */
-	void SetAction(std::string action);
+    void SetAction(std::string action, bool transiction);
 	/**
 	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.
 	 * @return Computed Velocity Vector.

@@ -56,12 +56,12 @@ int main()
 	std::cout << "************Testing changing of action**********" << std::endl;
 	//WITH ACTION ACT 3
 	std::cout << "ACTION: act3" << std::endl;
-	solver->SetAction(IDAction3);
+    solver->SetAction(IDAction3, true);
 	Eigen::VectorXd y = solver->ComputeVelocities();
 	std::cout << *solver << std::endl;
 	std::cout << "COMPUTED VELOCITY" << std::endl;
 	std::cout << "ACTION: act1" << std::endl;
-    solver->SetAction(IDAction1);
+    solver->SetAction(IDAction1, true);
     std::cout << *solver << std::endl;
     y = solver->ComputeVelocities();
 	std::cout << "COMPUTED VELOCITY" << std::endl;
