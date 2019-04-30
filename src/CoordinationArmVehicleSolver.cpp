@@ -14,7 +14,7 @@ CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<Actio
     hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
 
-void CoordinationArmVehicleSolver::SetAction(std::string action) { actionManager_->SetAction(action); }
+void CoordinationArmVehicleSolver::SetAction(std::string action, bool transition) { actionManager_->SetAction(action, transition); }
 
 void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
 

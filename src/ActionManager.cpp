@@ -13,6 +13,7 @@ ActionManager::ActionManager()
     actions_.push_back(oldAction_);
     simulationBegin_ = std::chrono::system_clock::now();
     simulationTime_ = simulationBegin_;
+    transitionInBetweenActions_ = true;
 }
 
 void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
@@ -55,11 +56,12 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
         hierarchy_.push_back(priorityLevelIDMap_.at(id));
     }
 }
-void ActionManager::SetAction(std::string newAction)
+void ActionManager::SetAction(std::string newAction, bool transition)
 {
     oldAction_ = currentAction_;
     currentAction_ = GetAction(newAction);
     time_ = GetTime();
+    transitionInBetweenActions_ = transition;
 }
 const std::string ActionManager::GetCurrentAction() { return currentAction_->GetID(); }
 void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
@@ -77,24 +79,36 @@ void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
         bool isInNewAction = currentAction_->FindPriorityLevel(priorityLevel);
         double Ae;
         if (isInOldAction && isInNewAction) {
+
             // The PL is already active :identity.
-            priorityLevel->SetExternalActivationFunction(1.0);
+            Ae = 1.0;
         } else if (!isInOldAction && isInNewAction) {
+            //PL must be activated
+            if(transitionInBetweenActions_){
             // The PL must be activated: increasing.
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
             // In 500 ms the PL is completely active.
             Ae = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
-            priorityLevel->SetExternalActivationFunction(Ae);
+            }
+            else{
+                Ae = 1.0;
+            }
         } else if (isInOldAction && !isInNewAction) {
+            //PL must be deactivated
+            if(transitionInBetweenActions_){
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
             // The PL must be deactivated: decreasing.
             Ae = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
-            priorityLevel->SetExternalActivationFunction(Ae);
 
+}
+            else{
+                Ae = 0.0;
+            }
         } else {
             // The PL is already deactivated:zeros.
-            priorityLevel->SetExternalActivationFunction(0.0);
+           Ae = 0.0;
         }
+        priorityLevel->SetExternalActivationFunction(Ae);
     }
 }
 

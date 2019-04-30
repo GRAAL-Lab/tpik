@@ -65,7 +65,7 @@ public:
 	 * @param[in] newAction new current action ID.
 	 * @note An exception is thrown if the action set is not present in the action list (via getAction exception).
 	 */
-	void SetAction(std::string newAction);
+    void SetAction(std::string newAction, bool transition);
     /**
      * @brief Method returning the current Action ID.
      * @return current action id
@@ -136,7 +136,7 @@ protected:
 	bool isSimulated_{false}; //!< The boolean stating whether the action manager is used in a simulation.
 	std::chrono::system_clock::time_point simulationTime_; //!< The simulation time.
 	std::chrono::system_clock::time_point simulationBegin_; //!< The time when the simulation begin.
-
+    bool transitionInBetweenActions_;
 };
 }
 

@@ -10,7 +10,7 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPI
 
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
 
-void Solver::SetAction(std::string action) { actionManager_->SetAction(action); }
+void Solver::SetAction(std::string action, bool transition) { actionManager_->SetAction(action, transition); }
 
 const Eigen::VectorXd& Solver::ComputeVelocities()
 {
