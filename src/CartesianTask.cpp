@@ -333,6 +333,11 @@ void CartesianTask::SetControlVariable(Eigen::VectorXd x) { x_ = x; }
 CartesianTaskType CartesianTask::GetType() { return taskType_; }
 
 ProjectorType CartesianTask::GetProjectorType() { return projectorType_; }
+
+Eigen::VectorXd CartesianTask::GetControlVariableReference(){
+    return xReference_;
+
+}
 }
 
 // void CartesianTask::ChangeObserver()

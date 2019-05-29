@@ -129,6 +129,8 @@ public:
      * @param frameID id of the frame wrt which the vector is expressed
      */
     void SetProjectorParameters(Eigen::Vector3d vector, std::string frameID);
+
+    Eigen::VectorXd GetControlVariableReference();
     /**
      * @brief Overload of the cout operator.
      */
