@@ -242,7 +242,7 @@ protected:
     //! decreasing or equality
     bool referenceControlVector_; //!< Boolean stating whether the reference control vector has been initialized
     ProjectorType projectorType_; //!< Enum stating which projector the task must implement
-    Eigen::MatrixXd P_; //!<The projector matrix
+    Eigen::MatrixXd PBodyFrame_; //!<The projector matrix
     Eigen::Vector3d normalProjector_; //!< The projector parameters
     std::string frameIDProjector_; //!< The frame wrt which the projector parameters are expressed
     bool activateOnNorm_; //!< Boolean stating wherther activating or deactivating the task by looking at the error norm

@@ -312,17 +312,17 @@ void CartesianTask::UpdateProjector()
 
     switch (projectorType_) {
     case (ProjectorType::Default): {
-        P_ = Eigen::Matrix3d::Identity();
+        PBodyFrame_ = Eigen::Matrix3d::Identity();
 
     } break;
     case (ProjectorType::OnLine): {
         Eigen::Vector3d projectorBodyFrame = bodyFrame_T_parameterProjector_.GetRotMatrix() * normalProjector_;
-        P_ = ((projectorBodyFrame * projectorBodyFrame.transpose()));
+        PBodyFrame_ = ((projectorBodyFrame * projectorBodyFrame.transpose()));
     } break;
 
     case (ProjectorType::OnPlane): {
         Eigen::Vector3d projectorBodyFrame = bodyFrame_T_parameterProjector_.GetRotMatrix() * normalProjector_;
-        P_ = (Eigen::Matrix3d::Identity() - projectorBodyFrame * projectorBodyFrame.transpose());
+        PBodyFrame_ = (Eigen::Matrix3d::Identity() - projectorBodyFrame * projectorBodyFrame.transpose());
     } break;
     };
 }
