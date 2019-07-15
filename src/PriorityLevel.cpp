@@ -26,8 +26,9 @@ std::string PriorityLevel::GetID() const { return ID_; }
 void PriorityLevel::SetExternalActivationFunctionRows(Eigen::VectorXd AeRows)
 {
     if (AeRows.size() != priorityLevelSpace_) {
+        std::cout <<"Ae" <<AeRows.transpose()<<std::endl;
         std::cerr << "[PRIORITY LEVEL ] ID: " << ID_
-                  << " Aerows wrong dimension, priorityLevelSpace = " << priorityLevelSpace_ << " activating all rows"
+                  << " Aerows wrong dimension, priorityLevelSpace = " << priorityLevelSpace_ << "vector of size"<<AeRows.size()<<"activating all rows"
                   << std::endl;
     } else {
         Aerows_ = AeRows.asDiagonal();
