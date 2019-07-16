@@ -15,8 +15,6 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
     , activateOnNorm_(false)
 {
     useErrorNorm_ = false;
-    xReference_.resize(taskSpace_);
-    xReference_.setZero();
 }
 
 CartesianTask::~CartesianTask() {}
@@ -164,18 +162,23 @@ void CartesianTask::CheckInitialization() throw(ExceptionWithHow)
             throw(wrongBellShapeIcreasingSize);
         }
     }
-    // else if (taskType_ == CartesianTaskType::Equality) {
-    //    if (!referenceControlVector_) {
-    //        std::cerr << "[CartesianTask] Not initialized control vector reference, using default value 0 " <<
-    //        std::endl;
-    //    }
-    //}
+
+    else if (taskType_ == CartesianTaskType::Equality) {
+        if (!referenceControlVector_) {
+            xReference_.setZero(taskSpace_);
+        }
+    }
 }
 
 void CartesianTask::SetControlVectorReference(Eigen::VectorXd xReference)
 {
-    xReference_ = xReference;
-    referenceControlVector_ = true;
+    if (xReference.size() != taskSpace_) {
+        std::cerr << "wrong size xReference, task space = " << taskSpace_ << " task ID = " << ID_ << std::endl;
+        referenceControlVector_ = false;
+    } else {
+        xReference_ = xReference;
+        referenceControlVector_ = true;
+    }
 }
 
 void CartesianTask::UseErrorNormJacobian()
@@ -251,12 +254,12 @@ void CartesianTask::UpdateInternalActivationFunction()
 void CartesianTask::UpdateReference()
 {
 
-
     if (taskType_ == CartesianTaskType::InequalityDecreasing) {
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm());
         } else if (activateOnNorm_) {
-            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_); // TODO
+            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax(0) - x_.norm())
+                * Eigen::VectorXd::Ones(taskSpace_); // TODO
         } else {
             x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmax - x_);
         }
@@ -264,7 +267,8 @@ void CartesianTask::UpdateReference()
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm());
         } else if (activateOnNorm_) {
-            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_); // TODO
+            x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin(0) - x_.norm())
+                * Eigen::VectorXd::Ones(taskSpace_); // TODO
         } else {
             x_dot_ = taskParameter_.gain * (bellShapeParameter_.xmin - x_);
         }
@@ -277,7 +281,7 @@ void CartesianTask::UpdateReference()
         } else if (activateOnNorm_) {
             double desired = ((bellShapeParameter_.xmax(0) - inequalityDecreasingBellShapeParameter_.xmax(0)) / 2)
                 + inequalityDecreasingBellShapeParameter_.xmax(0);
-            x_dot_ = taskParameter_.gain*(desired -x_.norm())*Eigen::VectorXd::Ones(taskSpace_);
+            x_dot_ = taskParameter_.gain * (desired - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_);
 
         } else {
             Eigen::VectorXd desired = ((bellShapeParameter_.xmax - inequalityDecreasingBellShapeParameter_.xmax) / 2)
@@ -287,9 +291,10 @@ void CartesianTask::UpdateReference()
     } else if (taskType_ == CartesianTaskType::Equality) {
         if (useErrorNorm_) {
             x_dot_(0) = taskParameter_.gain * (xReference_(0) - x_.norm());
-        } else if (activateOnNorm_){
-            x_dot_ = taskParameter_.gain*(xReference_(0)- x_.norm())*Eigen::VectorXd::Ones(taskSpace_);
-        } {
+        } else if (activateOnNorm_) {
+            x_dot_ = taskParameter_.gain * (xReference_(0) - x_.norm()) * Eigen::VectorXd::Ones(taskSpace_);
+        }
+        {
             x_dot_ = taskParameter_.gain * (xReference_ - x_);
         }
     }
@@ -334,10 +339,7 @@ CartesianTaskType CartesianTask::GetType() { return taskType_; }
 
 ProjectorType CartesianTask::GetProjectorType() { return projectorType_; }
 
-Eigen::VectorXd CartesianTask::GetControlVariableReference(){
-    return xReference_;
-
-}
+Eigen::VectorXd CartesianTask::GetControlVariableReference() { return xReference_; }
 }
 
 // void CartesianTask::ChangeObserver()

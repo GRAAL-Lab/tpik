@@ -252,5 +252,7 @@ private:
     Eigen::VectorXd x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
 
+
+
 };
 }
