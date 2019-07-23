@@ -56,7 +56,9 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
         hierarchy_.push_back(priorityLevelIDMap_.at(id));
     }
 }
+
 void ActionManager::SetAction(std::string newAction, bool transition)
+
 {
     oldAction_ = currentAction_;
     currentAction_ = GetAction(newAction);
@@ -64,6 +66,7 @@ void ActionManager::SetAction(std::string newAction, bool transition)
     transitionInBetweenActions_ = transition;
 }
 const std::string ActionManager::GetCurrentAction() { return currentAction_->GetID(); }
+
 void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
 {
     if (hierarchy_.empty()) {
@@ -86,6 +89,7 @@ void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
             //PL must be activated
             if(transitionInBetweenActions_){
             // The PL must be activated: increasing.
+
             std::chrono::duration<double, std::milli> diff = GetTime() - time_;
             // In 500 ms the PL is completely active.
             Ae = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
@@ -100,13 +104,15 @@ void ActionManager::ComputeExternalActivation() throw(ExceptionWithHow)
             // The PL must be deactivated: decreasing.
             Ae = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
 
+
 }
             else{
                 Ae = 0.0;
             }
         } else {
+            Ae = 0.0;
             // The PL is already deactivated:zeros.
-           Ae = 0.0;
+
         }
         priorityLevel->SetExternalActivationFunction(Ae);
     }

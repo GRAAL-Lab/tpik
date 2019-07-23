@@ -37,8 +37,11 @@ public:
 	/**
 	 * @brief Method setting the current tpik::Action.
 	 * @param[in] action current action ID.
+     * @param[in] transaaction true if transaction false otherwise
 	 */
+
     void SetAction(std::string action, bool transition);
+
 	/**
 	 * @brief Method setting the tpik::TPIK .
 	 * @param[in] tpik std::shared_ptr to tpik::TPIK object.
