@@ -14,7 +14,7 @@ void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
 void Solver::SetAction(std::string action, bool transition) { actionManager_->SetAction(action, transition); }
 
 
-const Eigen::VectorXd& Solver::ComputeVelocities()
+const Eigen::VectorXd Solver::ComputeVelocities()
 {
     actionManager_->ComputeExternalActivation();
     tpik_->Reset();
@@ -41,7 +41,20 @@ const Eigen::VectorXd& Solver::ComputeVelocities()
         delta_y.push_back(tpik_->GetDeltaY());
     }
     tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
-    return tpik_->GetY();
+    Eigen::VectorXd SaturationMin;
+    Eigen::VectorXd SaturationMax;
+    Eigen::VectorXd y = tpik_->GetY();
+    tpik_->GetSaturation(SaturationMax, SaturationMin);
+    for (int i = 0 ; i < y.size(); i ++){
+        if(y(i)>SaturationMax(i)){
+            y(i) = SaturationMax(i);
+        }
+        else if (y(i)< SaturationMin(i)){
+            y(i) = SaturationMin(i);
+        }
+
+    }
+    return y;
 }
 std::vector<Eigen::VectorXd> Solver::GetDeltaYs() { return delta_y; }
 }

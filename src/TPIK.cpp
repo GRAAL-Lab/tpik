@@ -29,7 +29,11 @@ void TPIK::SetSaturation(Eigen::VectorXd saturationMax, Eigen::VectorXd saturati
     saturationMin_ = saturationMin;
     originalSaturationMin_ = saturationMin;
 }
+void TPIK::GetSaturation(Eigen::VectorXd& saturationMax, Eigen::VectorXd& saturationMin){
+    saturationMax = originalSaturationMax_;
+    saturationMin = originalSaturationMin_;
 
+}
 int TPIK::GetDoF() { return DoF_; }
 Eigen::VectorXd TPIK::GetDeltaY() { return deltaY_; }
 }

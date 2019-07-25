@@ -55,6 +55,7 @@ public:
    * @param saturationMin minimum value
    */
   void SetSaturation(Eigen::VectorXd saturationMax, Eigen::VectorXd saturationMin);
+  void GetSaturation(Eigen::VectorXd& saturationMax, Eigen::VectorXd& saturationMin);
 	/**
 	 * @brief Overload of the cout function
 	 */

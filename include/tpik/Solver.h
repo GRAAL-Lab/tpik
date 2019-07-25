@@ -42,7 +42,7 @@ public:
 	 * @brief Method which implements the kinematic control by computing and returning the desired velocities.
 	 * @return Computed Velocity Vector.
 	 */
-    const Eigen::VectorXd& ComputeVelocities();
+    const Eigen::VectorXd ComputeVelocities();
     /**
      * @brief Method returning the delta y computed at each level.
      * @return std vector of eigen vector containing the y increments computed for each priority level.

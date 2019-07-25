@@ -65,8 +65,10 @@ void iCAT::Saturate()
 
     for (int i = 0; i < DoF_; i++) {
         deltaY_(i) = deltaY_(i) * min_factor;
-        saturationMax_(i) = saturationMax_(i) - deltaY_(i);
-        saturationMin_(i) = saturationMin_(i) - deltaY_(i);
+        double newMax = saturationMax_(i) - deltaY_(i);
+        double newMin = saturationMin_(i) - deltaY_(i);
+        saturationMax_(i) = std::max(newMax, 0.1*originalSaturationMax_(i)); //saturationMax_(i) - deltaY_(i);
+        saturationMin_(i) = std::min(newMin, 0.1*originalSaturationMin_(i)); //saturationMin_(i) - deltaY_(i);
     }
 }
 }
