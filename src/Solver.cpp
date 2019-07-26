@@ -10,9 +10,7 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPI
 
 void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
 
-
 void Solver::SetAction(std::string action, bool transition) { actionManager_->SetAction(action, transition); }
-
 
 const Eigen::VectorXd Solver::ComputeVelocities()
 {
@@ -41,19 +39,32 @@ const Eigen::VectorXd Solver::ComputeVelocities()
         delta_y.push_back(tpik_->GetDeltaY());
     }
     tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
-    Eigen::VectorXd SaturationMin;
-    Eigen::VectorXd SaturationMax;
+    Eigen::VectorXd saturationMin;
+    Eigen::VectorXd saturationMax;
     Eigen::VectorXd y = tpik_->GetY();
-    tpik_->GetSaturation(SaturationMax, SaturationMin);
-    for (int i = 0 ; i < y.size(); i ++){
-        if(y(i)>SaturationMax(i)){
-            y(i) = SaturationMax(i);
-        }
-        else if (y(i)< SaturationMin(i)){
-            y(i) = SaturationMin(i);
-        }
+    tpik_->GetSaturation(saturationMax, saturationMin);
 
+    double min_factor = 1.0;
+    for (int i = 0; i < y.size(); i++) {
+        double factor = 1.0;
+        if (y(i) > saturationMax(i)) {
+            if (y(i) != 0.0) {
+                factor = std::fabs(saturationMax(i) / y(i));
+            }
+        } else if (y(i) < saturationMin(i)) {
+            if (y(i) != 0.0) {
+                factor = std::fabs(saturationMin(i) / y(i));
+            }
+        }
+        if (factor < min_factor) {
+            min_factor = factor;
+        }
     }
+
+    for (int i = 0; i < y.size(); i++) {
+        y(i) = y(i) * min_factor;
+    }
+
     return y;
 }
 std::vector<Eigen::VectorXd> Solver::GetDeltaYs() { return delta_y; }
