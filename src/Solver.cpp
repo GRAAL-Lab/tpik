@@ -14,7 +14,7 @@ void Solver::SetAction(std::string action, bool transition) { actionManager_->Se
 
 const Eigen::VectorXd Solver::ComputeVelocities()
 {
-    actionManager_->ComputeExternalActivation();
+    actionManager_->ComputeActionTransitionActivation();
     tpik_->Reset();
     delta_y.erase(delta_y.begin(), delta_y.end());
     Eigen::MatrixXd JMinimization;

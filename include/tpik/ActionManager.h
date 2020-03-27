@@ -78,7 +78,7 @@ public:
 	 * The external activation functions depend on the current action, the past action and the time elapsed since the last change of action.
 	 * @note An exception is thrown if the unified hierarchy has not been specified yet.
 	 */
-    void ComputeExternalActivation() throw (ExceptionWithHow);
+    void ComputeActionTransitionActivation() throw (ExceptionWithHow);
 	/**
 	 * @brief Method which returns the unified hierarchy.
 	 * @return Unified Hierarchy.

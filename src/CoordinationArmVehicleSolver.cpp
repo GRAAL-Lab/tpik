@@ -9,7 +9,7 @@ CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(std::shared_ptr<Actio
     , vehiclePriorityLevel_(vehiclePriorityLevel)
 {
     hierarchy_ = actionManager_->GetHierarchy();
-    vehiclePriorityLevel_->SetExternalActivationFunction(1.0);
+    vehiclePriorityLevel_->SetActionTransitionActivation(1.0);
     hierarchyArm_.push_back(vehiclePriorityLevel_);
     hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
@@ -22,7 +22,7 @@ void CoordinationArmVehicleSolver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ =
 
 Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()
 {
-    actionManager_->ComputeExternalActivation();
+    actionManager_->ComputeActionTransitionActivation();
     tpik_->Reset();
     for (auto& plHierarchy : hierarchy_) {
         plHierarchy->Update();
