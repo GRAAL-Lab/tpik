@@ -52,6 +52,11 @@ public:
      */
     void SetTaskParameter(TaskParameter taskParameters);
     /**
+     * @brief Method to set the gain parameter.
+     * @param double gain.
+     */
+    void SetTaskParameter(double gain);
+    /**
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
      */

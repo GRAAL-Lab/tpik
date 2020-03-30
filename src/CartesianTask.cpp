@@ -26,6 +26,10 @@ void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
     initializedTaskParameter_ = true;
 }
 
+void CartesianTask::SetTaskParameter(double gain){
+    taskParameter_.gain = gain;
+}
+
 const TaskParameter& CartesianTask::GetTaskParameter() { return taskParameter_; }
 
 void CartesianTask::SetBellShapedParameter(BellShapedParameter increasingBellShapedParameters)
