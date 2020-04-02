@@ -23,6 +23,11 @@ void InequalityTask::SetTaskParameter(TaskParameter taskParameters)
     initializedTaskParameter_ = true;
 }
 
+void InequalityTask::SetTaskParameter(double gain)
+{
+    taskParameter_.gain = gain;
+}
+
 const TaskParameter& InequalityTask::GetTaskParameter() { return taskParameter_; }
 
 void InequalityTask::SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShaped)

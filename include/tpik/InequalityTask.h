@@ -6,7 +6,6 @@
 #include "Task.h"
 #include <eigen3/Eigen/Dense>
 #include <iostream>
-#include <iostream>
 
 namespace tpik {
 
@@ -49,6 +48,13 @@ public:
 	 * @param[in] taskParameters tpik::TaskParameter struct.
 	 */
     void SetTaskParameter(TaskParameter taskParameters);
+
+    /**
+     * @brief Method setting the gain Parameter.
+     * @param[in] gain taskParameter.
+     */
+    void SetTaskParameter(double gain);
+
     /**
 	 * @brief Method that returns the TaskEquality Parameter
 	 * @returns TaskParameter

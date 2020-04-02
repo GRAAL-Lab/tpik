@@ -20,6 +20,11 @@ void EqualityTask::SetTaskParameter(TaskParameter taskParameter)
     initializedTaskParameter_ = true;
 }
 
+void EqualityTask::SetTaskParameter(double gain)
+{
+    taskParameter_.gain = gain;
+}
+
 TaskParameter EqualityTask::GetTaskParameter() { return taskParameter_; }
 
 void EqualityTask::SaturateReference() { rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_); }
