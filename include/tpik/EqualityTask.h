@@ -21,7 +21,6 @@ namespace tpik {
  * * Update() public method used to update the task variables, hence the implementation of the previous pure virtual method must be called in order to update all the class variables.
  *
  */
-
 class EqualityTask : public Task {
 
 public:
@@ -35,6 +34,7 @@ public:
 	 * @param[in] taskSpace
 	 * @param[in] DoF
 	 */
+
     EqualityTask(const std::string ID, int taskSpace, int DoF);
     /**
 	 * @brief Default De-Constructor of TaskEquality Class
@@ -44,12 +44,12 @@ public:
      * @brief Method setting the TaskEquality Parameter.
 	 * @param[in] taskParameter tpik::TaskParameter struct.
 	 */
-    void SetTaskParameter(TaskParameter taskParameter);
+    void SetTaskParameter(TaskParameter taskParameter) override;
     /**
      * @brief Method setting the gain Parameter.
      * @param[in] gain taskParameter.
      */
-    void SetTaskParameter(double gain);
+    void SetTaskParameter(double gain) override;
     /**
      * @brief  Method used to check the initialization, hence that all the task parameters have been initializated before updating the task.\n
      * Such meethod must be called in the Update() method before any other method.
@@ -61,6 +61,9 @@ public:
 	 * @returns tpik::TaskParameter
 	 */
     TaskParameter GetTaskParameter();
+
+    TaskType GetTaskType() override;
+
     /**
 	 * @brief Overload of the cout operator.
 	 */
@@ -96,7 +99,6 @@ protected:
 	 */
     void UpdateInternalActivationFunction() override;
 
-    TaskParameter taskParameter_; //!< The tpik::TaskParameter.
     bool initializedTaskParameter_{ false }; //!< The boolean used to check whether the task parameter have been initialized.
 };
 }

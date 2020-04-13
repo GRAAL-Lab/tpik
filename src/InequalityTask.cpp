@@ -28,6 +28,8 @@ void InequalityTask::SetTaskParameter(double gain)
     taskParameter_.gain = gain;
 }
 
+InequalityTaskType InequalityTask::GetType() { return inequalityType_; }
+
 const TaskParameter& InequalityTask::GetTaskParameter() { return taskParameter_; }
 
 void InequalityTask::SetIncreasingBellShapedParameter(BellShapedParameter increasingBellShaped)
@@ -110,5 +112,15 @@ void InequalityTask::SaturateReferenceComponentWise()
         rml::SaturateScalar(taskParameter_.saturation, x_dot_element(0));
         x_dot_(i) = x_dot_element(0);
     }
+}
+
+TaskType InequalityTask::GetTaskType()
+{
+    if (inequalityType_ == InequalityTaskType::Decreasing)
+        return TaskType::InequalityDecreasing;
+    else if (inequalityType_ == InequalityTaskType::Increasing)
+        return TaskType::InequalityIncreasing;
+
+    return TaskType::InequalityInBetween;
 }
 }

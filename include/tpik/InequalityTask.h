@@ -47,13 +47,13 @@ public:
 	 * @brief Method that sets the Task Parameter (gain, task enable boolean).
 	 * @param[in] taskParameters tpik::TaskParameter struct.
 	 */
-    void SetTaskParameter(TaskParameter taskParameters);
+    void SetTaskParameter(TaskParameter taskParameters) override;
 
     /**
      * @brief Method setting the gain Parameter.
      * @param[in] gain taskParameter.
      */
-    void SetTaskParameter(double gain);
+    void SetTaskParameter(double gain) override;
 
     /**
 	 * @brief Method that returns the TaskEquality Parameter
@@ -96,6 +96,11 @@ public:
 	 * @return true if the bell shape decreasing parameter are used, false otherwise.
 	 */
     bool GetBellShapeDecreasingUsed();
+
+    InequalityTaskType GetType();
+
+    TaskType GetTaskType() override;
+
     /**
 	 * @brief Overload of the cout operator.
 	 */
@@ -137,7 +142,6 @@ protected:
      */
     void SaturateReferenceComponentWise();
 
-    TaskParameter taskParameter_; //!< The tpik::TaskParameter
     bool initializedTaskParameter_{ false }; //!< The boolean stating whether the tpik::TaskParameter struct has been initialized
     bool initializedDecreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for increasing curve has been initialized
     bool initializedIncreasingBellShapeParameter_{ false }; //!< The boolean stating whether the tpik::BellShapedParameter struct for decreasing curve has been initialized

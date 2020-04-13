@@ -7,6 +7,7 @@ namespace tpik {
 EqualityTask::EqualityTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
     , initializedTaskParameter_{ false }
+
 {
     UpdateInternalActivationFunction();
 }
@@ -47,6 +48,11 @@ void EqualityTask::CheckInitialization() throw(ExceptionWithHow)
         notInitializedTaskParameter.SetHow(how);
         throw(notInitializedTaskParameter);
     }
+}
+
+TaskType EqualityTask::GetTaskType()
+{
+    return TaskType::Equality;
 }
 
 void EqualityTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }

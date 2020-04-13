@@ -50,12 +50,12 @@ public:
      * @brief Method to set the task parameters.
      * @param taskParameters.
      */
-    void SetTaskParameter(TaskParameter taskParameters);
+    void SetTaskParameter(TaskParameter taskParameters) override;
     /**
      * @brief Method to set the gain parameter.
      * @param double gain.
      */
-    void SetTaskParameter(double gain);
+    void SetTaskParameter(double gain) override;
     /**
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
@@ -119,6 +119,7 @@ public:
     * @brief Method returning the task typw.
     * @return cartesian task type, could be inequality increasing, equality increasing, equality .
     */
+
     CartesianTaskType GetType();
 
     /**
@@ -136,6 +137,8 @@ public:
     void SetProjectorParameters(Eigen::Vector3d vector, std::string frameID);
 
     Eigen::VectorXd GetControlVariableReference();
+
+    TaskType GetTaskType() override;
     /**
      * @brief Overload of the cout operator.
      */
@@ -232,17 +235,13 @@ protected:
      */
     void UpdateProjector();
 
-
     // Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
     BellShapedParameter bellShapeParameter_; //!< The bell shape struct
-    BellShapedParameter
-        inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
-    TaskParameter taskParameter_; //!< The task parameter struct
+    BellShapedParameter inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
+
     bool useErrorNorm_{ false }; //!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false }; //!< Boolean stating whether the task parameter have been initialized
-    bool initializedBellShapeParameter_{
-        false
-    }; //!< Boolean stating whether the bell shaped parameters have been initialized
+    bool initializedBellShapeParameter_{ false }; //!< Boolean stating whether the bell shaped parameters have been initialized
     CartesianTaskType taskType_; //!< Enum stating whether the task type is either inequality increasing, inequality
     //! decreasing or equality
     bool referenceControlVector_; //!< Boolean stating whether the reference control vector has been initialized
@@ -251,13 +250,9 @@ protected:
     Eigen::Vector3d normalProjector_; //!< The projector parameters
     std::string frameIDProjector_; //!< The frame wrt which the projector parameters are expressed
     bool activateOnNorm_; //!< Boolean stating wherther activating or deactivating the task by looking at the error norm
-    Eigen::TransfMatrix
-        bodyFrame_T_parameterProjector_; //!< The transformation matrix in between the body frame and the projector frame
+    Eigen::TransfMatrix bodyFrame_T_parameterProjector_; //!< The transformation matrix in between the body frame and the projector frame
 private:
     Eigen::VectorXd x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
-
-
-
 };
 }

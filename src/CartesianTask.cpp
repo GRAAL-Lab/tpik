@@ -26,7 +26,8 @@ void CartesianTask::SetTaskParameter(TaskParameter taskParameters)
     initializedTaskParameter_ = true;
 }
 
-void CartesianTask::SetTaskParameter(double gain){
+void CartesianTask::SetTaskParameter(double gain)
+{
     taskParameter_.gain = gain;
 }
 
@@ -37,6 +38,8 @@ void CartesianTask::SetBellShapedParameter(BellShapedParameter increasingBellSha
     bellShapeParameter_ = increasingBellShapedParameters;
     initializedBellShapeParameter_ = true;
 }
+
+CartesianTaskType CartesianTask::GetType() { return taskType_; }
 
 void CartesianTask::SetBellShapedParameterScalar(double bellShapedParametersXmin, double bellShapedParametersXmax)
 {
@@ -234,19 +237,19 @@ void CartesianTask::UpdateInternalActivationFunction()
             Ai_(0, 0) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(0),
                             inequalityDecreasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()))
                 + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0,
-                            (x_.norm())); // removed fabs
+                      (x_.norm())); // removed fabs
         } else if (activateOnNorm_) {
             double a = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(0),
                            inequalityDecreasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()))
                 + rml::IncreasingBellShapedFunction(
-                           bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()));
+                      bellShapeParameter_.xmin(0), bellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm()));
             Ai_ = a * Eigen::Matrix3d::Identity();
         } else {
             for (int i = 0; i < taskSpace_; i++) {
                 Ai_(i, i) = rml::DecreasingBellShapedFunction(inequalityDecreasingBellShapeParameter_.xmin(i),
                                 inequalityDecreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)))
                     + rml::IncreasingBellShapedFunction(bellShapeParameter_.xmin(i), bellShapeParameter_.xmax(i), 0.0,
-                                1.0, (x_(i))); // removed fabs
+                          1.0, (x_(i))); // removed fabs
             }
         }
 
@@ -335,11 +338,22 @@ void CartesianTask::UpdateProjector()
     } break;
     };
 }
+
+TaskType CartesianTask::GetTaskType()
+{
+    if (taskType_ == CartesianTaskType::InequalityDecreasing)
+        return TaskType::InequalityDecreasing;
+    else if (taskType_ == CartesianTaskType::InequalityIncreasing)
+        return TaskType::InequalityIncreasing;
+    else if (taskType_ == CartesianTaskType::InequalityInBetween)
+        return TaskType::InequalityInBetween;
+
+    return TaskType::Equality;
+}
+
 // private
 
 void CartesianTask::SetControlVariable(Eigen::VectorXd x) { x_ = x; }
-
-CartesianTaskType CartesianTask::GetType() { return taskType_; }
 
 ProjectorType CartesianTask::GetProjectorType() { return projectorType_; }
 
