@@ -30,60 +30,60 @@ int main()
     auto gain2 = std::make_shared<Eigen::MatrixXd>(Eigen::MatrixXd::Identity(taskSpace, DoF));
     testTask2->SetGain(gain2);
     testTask2->Update();
-//    //Action Manager Defintion
-//    auto actionManager = std::make_shared<tpik::ActionManager>(tpik::ActionManager());
-//    actionManager->AddPriorityLevelWithRegularization(IDPL1, regularizationData);
-//    actionManager->AddTaskToPriorityLevel(testTask1, IDPL1);
-//    actionManager->AddTaskToPriorityLevel(testTask2, IDPL1);
-//    actionManager->AddPriorityLevelWithRegularization(IDPL2, regularizationData);
-//    actionManager->AddTaskToPriorityLevel(testTask1, IDPL2);
-//    actionManager->AddTaskToPriorityLevel(testTask2, IDPL2);
-//    actionManager->SetUnifiedHierarchy(std::vector<std::string>{ IDPL1, IDPL2 });
-//    actionManager->AddAction(IDAction1, std::vector<std::string>{ IDPL1 });
-//    actionManager->AddAction(IDAction2, std::vector<std::string>{ IDPL1 });
-//    actionManager->AddAction(IDAction3, std::vector<std::string>{ IDPL2 });
+    //Action Manager Defintion
+    auto actionManager = std::make_shared<tpik::ActionManager>(tpik::ActionManager());
+    actionManager->AddPriorityLevelWithRegularization(IDPL1, regularizationData);
+    actionManager->AddTaskToPriorityLevel(testTask1, IDPL1);
+    actionManager->AddTaskToPriorityLevel(testTask2, IDPL1);
+    actionManager->AddPriorityLevelWithRegularization(IDPL2, regularizationData);
+    actionManager->AddTaskToPriorityLevel(testTask1, IDPL2);
+    actionManager->AddTaskToPriorityLevel(testTask2, IDPL2);
+    actionManager->SetUnifiedHierarchy(std::vector<std::string>{ IDPL1, IDPL2 });
+    actionManager->AddAction(IDAction1, std::vector<std::string>{ IDPL1 });
+    actionManager->AddAction(IDAction2, std::vector<std::string>{ IDPL1 });
+    actionManager->AddAction(IDAction3, std::vector<std::string>{ IDPL2 });
 
-    //        //SOLVER AND TPIK TRIAL
-    //        auto iCat = std::make_shared<tpik::iCAT>(tpik::iCAT(6));
-    //        Eigen::VectorXd satMin;
-    //        satMin.setZero(6);
-    //        Eigen::VectorXd satMax;
-    //        satMax.setOnes(6);
-    //        iCat->SetSaturation(satMin, satMax);
-    //        auto solver = std::make_shared<tpik::Solver>(tpik::Solver(actionManager, iCat));
-    //        std::cout << *solver << std::endl;
-    //        //TEST CHANGING ACTION
-    //        std::cout << "************Testing changing of action**********" << std::endl;
-    //        //WITH ACTION ACT 3
-    //        std::cout << "ACTION: act3" << std::endl;
-    //        solver->SetAction(IDAction3, true);
-    //        Eigen::VectorXd y = solver->ComputeVelocities();
-    //        std::cout << *solver << std::endl;
-    //        std::cout << "COMPUTED VELOCITY" << std::endl;
-    //        std::cout << "ACTION: act1" << std::endl;
-    //        solver->SetAction(IDAction1, true);
-    //        std::cout << *solver << std::endl;
-    //        y = solver->ComputeVelocities();
-    //        std::cout << "COMPUTED VELOCITY" << std::endl;
-    //        //TEST CHANGING PARAMETER OF JACOBIAN
-    //        std::cout << "************Testing changing of jacobian**********" << std::endl;
-    //        testTask1->SetGain(gain1);
-    //        testTask2->SetGain(gain2);
-    //        *gain1 = 0.01 * Eigen::MatrixXd::Identity(6, 6);
-    //        *gain2 = 0.02 * Eigen::MatrixXd::Identity(6, 6);
-    //        testTask1->SetGain(gain1);
-    //        testTask2->SetGain(gain2);
-    //        testTask1->Update();
-    //        testTask2->Update();
-    //        y = solver->ComputeVelocities();
-    //        std::cout << "Computed vel" << std::endl;
-    //        *gain1 = 0.1 * Eigen::MatrixXd::Identity(6, 6);
-    //        *gain2 = 0.1 * Eigen::MatrixXd::Identity(6, 6);
-    //        testTask1->Update();
-    //        testTask2->Update();
-    //        y = solver->ComputeVelocities();
-    //        std::cout << "SOLVER\n"
-    //                  << *solver << std::endl;
+            //SOLVER AND TPIK TRIAL
+            auto iCat = std::make_shared<tpik::iCAT>(tpik::iCAT(6));
+            Eigen::VectorXd satMin;
+            satMin.setZero(6);
+            Eigen::VectorXd satMax;
+            satMax.setOnes(6);
+            iCat->SetSaturation(satMin, satMax);
+            auto solver = std::make_shared<tpik::Solver>(tpik::Solver(actionManager, iCat));
+            std::cout << *solver << std::endl;
+            //TEST CHANGING ACTION
+            std::cout << "************Testing changing of action**********" << std::endl;
+            //WITH ACTION ACT 3
+            std::cout << "ACTION: act3" << std::endl;
+            solver->SetAction(IDAction3, true);
+            Eigen::VectorXd y = solver->ComputeVelocities();
+            std::cout << *solver << std::endl;
+            std::cout << "COMPUTED VELOCITY" << std::endl;
+            std::cout << "ACTION: act1" << std::endl;
+            solver->SetAction(IDAction1, true);
+            std::cout << *solver << std::endl;
+            y = solver->ComputeVelocities();
+            std::cout << "COMPUTED VELOCITY" << std::endl;
+//            //TEST CHANGING PARAMETER OF JACOBIAN
+//            std::cout << "************Testing changing of jacobian**********" << std::endl;
+//            testTask1->SetGain(gain1);
+//            testTask2->SetGain(gain2);
+//            *gain1 = 0.01 * Eigen::MatrixXd::Identity(6, 6);
+//            *gain2 = 0.02 * Eigen::MatrixXd::Identity(6, 6);
+//            testTask1->SetGain(gain1);
+//            testTask2->SetGain(gain2);
+//            testTask1->Update();
+//            testTask2->Update();
+//            y = solver->ComputeVelocities();
+//            std::cout << "Computed vel" << std::endl;
+//            *gain1 = 0.1 * Eigen::MatrixXd::Identity(6, 6);
+//            *gain2 = 0.1 * Eigen::MatrixXd::Identity(6, 6);
+//            testTask1->Update();
+//            testTask2->Update();
+//            y = solver->ComputeVelocities();
+            std::cout << "SOLVER\n"
+                      << *solver << std::endl;
 
     //    TEST CHANGING PARAMETER OF JACOBIAN
 //    std::cout << "************Testing changing AeRows**********" << std::endl;
