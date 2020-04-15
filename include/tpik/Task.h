@@ -106,18 +106,9 @@ public:
    */
     virtual void Update() = 0;
     /**
-     * @brief Method returning the type of the task.
-     */
-    //    template <typename T>
-    //    T GetType()
-    //    {
-    //        if (taskType_.inequalityType == InequalityTaskType::Decreasing || taskType_.inequalityType == InequalityTaskType::Increasing
-    //            || taskType_.inequalityType == InequalityTaskType::Inbetween)
-    //            return taskType_.cartesianType;
-    //        else
-    //            return taskType_.inequalityType;
-    //    }
-
+   * @brief Pure Virtual Method to config from file the task
+   */
+    virtual void ConfigFromFile(libconfig::Config& confObj) = 0;
     /**
    * @brief Overload of the cout operator.
    */
@@ -135,20 +126,6 @@ public:
                   << "Reference \n"
                   << "\033[0m" << task.x_dot_ << "\n";
     }
-    /**
-     * @brief Method to set the task parameters.
-     * @param taskParameters.
-     */
-    virtual void SetTaskParameter(TaskParameter taskParameters) = 0;
-    /**
-     * @brief Method to set the gain task parameters.
-     * @param double gain.
-     */
-    virtual void SetTaskParameter(double gain) = 0;
-    /**
-     * @brief Method to get the type of the task.
-     */
-    virtual TaskType GetTaskType() = 0;
 
 protected:
     /**
@@ -176,8 +153,6 @@ protected:
     int taskSpace_{ 0 }; //!< The task Space.
     int DoF_{ 0 }; //!< The degrees of freedom.
     bool isActive_{ true }; //!< The flag stating whether the task is active.
-    TaskParameter taskParameter_{ 0, 0, 0 }; //!< The tpik::TaskParameter.
-    BellShapedParameter bellshapedParam;
 };
 } // namespace tpik
 

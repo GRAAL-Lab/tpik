@@ -47,13 +47,13 @@ public:
 	 * @brief Method that sets the Task Parameter (gain, task enable boolean).
 	 * @param[in] taskParameters tpik::TaskParameter struct.
 	 */
-    void SetTaskParameter(TaskParameter taskParameters) override;
+    void SetTaskParameter(TaskParameter taskParameters);
 
     /**
      * @brief Method setting the gain Parameter.
      * @param[in] gain taskParameter.
      */
-    void SetTaskParameter(double gain) override;
+    void SetTaskParameter(double gain);
 
     /**
 	 * @brief Method that returns the TaskEquality Parameter
@@ -97,9 +97,15 @@ public:
 	 */
     bool GetBellShapeDecreasingUsed();
 
+    /**
+   * @brief Method to get the task typek
+   */
     InequalityTaskType GetType();
 
-    TaskType GetTaskType() override;
+    /**
+   * @brief Method to config from file the task
+   */
+    void ConfigFromFile(libconfig::Config& confObj) override;
 
     /**
 	 * @brief Overload of the cout operator.
@@ -148,6 +154,7 @@ protected:
     InequalityTaskType inequalityType_; //!< variable stating the kind of inequality task
     BellShapedParameter increasingBellShape_; //!< The tpik::BellShapedParameter for increasing curve
     BellShapedParameter decreasingBellShape_; //!< The tpik::BellShapedParameter for decreasing curve
+    TaskParameter taskParameter_{ 0, 0, 0 }; //!< The tpik::TaskParameter.
 };
 }
 

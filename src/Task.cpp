@@ -13,7 +13,7 @@ Task::Task(const std::string ID, int taskSpace, int DoF)
     x_dot_.setZero(taskSpace_);
     J_.setZero(taskSpace_, DoF_);
     Aexternal_.setZero(taskSpace_, taskSpace_);
-    Aexternal_ = Eigen::Vector3d::Ones(taskSpace_).asDiagonal();
+    Aexternal_ = Eigen::VectorXd::Ones(taskSpace_).asDiagonal();
 }
 
 Task::~Task() {}

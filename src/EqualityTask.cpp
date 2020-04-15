@@ -50,9 +50,25 @@ void EqualityTask::CheckInitialization() throw(ExceptionWithHow)
     }
 }
 
-TaskType EqualityTask::GetTaskType()
+void EqualityTask::ConfigFromFile(libconfig::Config& confObj)
 {
-    return TaskType::Equality;
+    const libconfig::Setting& root = confObj.getRoot();
+    const libconfig::Setting& tasks = root["tasks"];
+
+    for (int i = 0; i < tasks.getLength(); ++i) {
+
+        auto& task = tasks[i];
+
+        std::string name;
+        ctb::SetParam(task, name, "name");
+
+        if (ID_ == name) {
+
+            taskParameter_.ConfigureFromFile(task);
+            std::cout << "DEBUG taskparam: " << ID_ << ", " << taskParameter_ << std::endl;
+        }
+    }
+    initializedTaskParameter_ = true;
 }
 
 void EqualityTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }

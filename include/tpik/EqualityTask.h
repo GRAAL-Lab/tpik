@@ -44,12 +44,12 @@ public:
      * @brief Method setting the TaskEquality Parameter.
 	 * @param[in] taskParameter tpik::TaskParameter struct.
 	 */
-    void SetTaskParameter(TaskParameter taskParameter) override;
+    void SetTaskParameter(TaskParameter taskParameter);
     /**
      * @brief Method setting the gain Parameter.
      * @param[in] gain taskParameter.
      */
-    void SetTaskParameter(double gain) override;
+    void SetTaskParameter(double gain);
     /**
      * @brief  Method used to check the initialization, hence that all the task parameters have been initializated before updating the task.\n
      * Such meethod must be called in the Update() method before any other method.
@@ -61,8 +61,10 @@ public:
 	 * @returns tpik::TaskParameter
 	 */
     TaskParameter GetTaskParameter();
-
-    TaskType GetTaskType() override;
+    /**
+   * @brief Method to config from file the task
+   */
+    void ConfigFromFile(libconfig::Config& confObj) override;
 
     /**
 	 * @brief Overload of the cout operator.
@@ -100,6 +102,7 @@ protected:
     void UpdateInternalActivationFunction() override;
 
     bool initializedTaskParameter_{ false }; //!< The boolean used to check whether the task parameter have been initialized.
+    TaskParameter taskParameter_{ 0, 0, 0 }; //!< The tpik::TaskParameter.
 };
 }
 

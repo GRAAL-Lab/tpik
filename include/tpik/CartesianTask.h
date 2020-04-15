@@ -50,12 +50,12 @@ public:
      * @brief Method to set the task parameters.
      * @param taskParameters.
      */
-    void SetTaskParameter(TaskParameter taskParameters) override;
+    void SetTaskParameter(TaskParameter taskParameters);
     /**
      * @brief Method to set the gain parameter.
      * @param double gain.
      */
-    void SetTaskParameter(double gain) override;
+    void SetTaskParameter(double gain);
     /**
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
@@ -67,43 +67,10 @@ public:
      */
     const TaskParameter& GetTaskParameter();
     /**
-     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or
-     * decreasing).
-     * @param bellShapedParameter struct.
+     * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error
+     * direction.
      */
-    void SetBellShapedParameter(BellShapedParameter bellShapedParameters);
-
-    /**
-     * @brief  Method used to set the bell shape parameter if the task is of type inequality (either increasing or
-     * decreasing).
-     * @param bellShapedParameter struct.
-     */
-    void SetBellShapedParameterInBetween(
-        BellShapedParameter increasingBellShapedParameters, BellShapedParameter decreasingBellShapedParameter);
-    /**
-     * @brief Method setting the scalar bell shape when the task must be activate and deactivate by looking at the error
-     * norm
-     * @param bellShapedParameters
-     */
-    void SetBellShapedParameterScalar(double bellShapedParametersXmin, double bellShapedParametersXmax);
-
-    /**
-     * @brief Method setting the scalar bell shape when the task must be activate and deactivate by looking at the error
-     * norm
-     * @param bellShapedParameters
-     */
-    void SetBellShapedParameterInBetweenScalar(double increasingBellShapedParametersXmin,
-        double increasingbellShapedParametersXmax, double decreasingBellShapedParametersXmin, double decreasingBellShapedParametersXmax);
-    /**
-     * @brief Method returning the bell shape parameter.
-     * @return  BellShapedParameter struct of the task.
-     */
-    const BellShapedParameter& GetBellShapedParameter();
-    /**
-     * @brief MEthod returning the bell shape decreasing parameter when dealing with a in between task
-     * @return
-     */
-    const BellShapedParameter& GetInBetweenDecreasingBellShapedParameter();
+    void SetActivetedOnNorm();
 
     /**
      * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error
@@ -138,7 +105,11 @@ public:
 
     Eigen::VectorXd GetControlVariableReference();
 
-    TaskType GetTaskType() override;
+    /**
+   * @brief Method to config from file the task
+   */
+    void ConfigFromFile(libconfig::Config& confObj) override;
+
     /**
      * @brief Overload of the cout operator.
      */
@@ -167,22 +138,6 @@ public:
            << "\033[1;37m"
            << "Use Error Norm  \n"
            << "\033[0m" << cartesianTask.useErrorNorm_ << "\n";
-
-        // if (cartesianTask.taskType_ == CartesianTaskType::InequalityDecreasing) {
-        //    os << "\033[1;37m"
-        //       << "DECREASING bell shape parameters\n"
-        //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
-        //}
-        // if (cartesianTask.taskType_ == CartesianTaskType::InequalityIncreasing) {
-        //    os << "\033[1;37m"
-        //       << "INCREASING bell shape parameters\n"
-        //       << "\033[0m" << cartesianTask.bellShapeParameter_ << "\n";
-        //}
-        // if (cartesianTask.taskType_ == CartesianTaskType::Equality) {
-        //    os << "\033[1;37m"
-        //       << "EQUALITY control reference value \n"
-        //       << "\033[0m" << cartesianTask.xReference_ << "\n";
-        //}
         return os;
     }
 
@@ -236,8 +191,8 @@ protected:
     void UpdateProjector();
 
     // Eigen::MatrixXd JObserver_;//!< The observer jacobian wrt to inertial frame
-    BellShapedParameter bellShapeParameter_; //!< The bell shape struct
-    BellShapedParameter inequalityDecreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
+    BellShapedParameter increasingBellShapeParameter_; //!< The bell shape struct
+    BellShapedParameter decreasingBellShapeParameter_; //!< The bell shape struct when the task type is inequality in between
 
     bool useErrorNorm_{ false }; //!< Boolean stating whether project the jacobian along the error direction
     bool initializedTaskParameter_{ false }; //!< Boolean stating whether the task parameter have been initialized
@@ -254,5 +209,6 @@ protected:
 private:
     Eigen::VectorXd x_; //!< The control vector
     Eigen::VectorXd xReference_; //!< The control vector reference
+    TaskParameter taskParameter_{ 0, 0, 0 }; //!< The tpik::TaskParameter.
 };
 }

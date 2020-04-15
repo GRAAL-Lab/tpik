@@ -25,8 +25,7 @@ std::string PriorityLevel::GetID() const { return ID_; }
 void PriorityLevel::UpdateJacobian()
 {
     J_ = level_.at(0)->GetJacobian();
-    for (auto& task :
-        std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
+    for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
         J_ = rml::UnderJuxtapose(J_, task->GetJacobian());
     }
 }
@@ -44,12 +43,8 @@ void PriorityLevel::UpdateInternalActivationFunction()
             } else {
                 ANewTask = Eigen::MatrixXd::Zero(task->GetTaskSpace(), task->GetTaskSpace());
             }
-            Eigen::MatrixXd Anew = rml::RightJuxtapose(
-                Ai_, Eigen::MatrixXd::Zero(Ai_.rows(), ANewTask.cols()));
-            Ai_ = rml::UnderJuxtapose(
-                Anew,
-                rml::RightJuxtapose(
-                    Eigen::MatrixXd::Zero(ANewTask.rows(), Ai_.cols()), ANewTask));
+            Eigen::MatrixXd Anew = rml::RightJuxtapose(Ai_, Eigen::MatrixXd::Zero(Ai_.rows(), ANewTask.cols()));
+            Ai_ = rml::UnderJuxtapose(Anew, rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows(), Ai_.cols()), ANewTask));
 
         } else {
             if (task->GetIsActive()) {
@@ -67,10 +62,10 @@ void PriorityLevel::UpdateInternalActivationFunction()
 void PriorityLevel::UpdateReference()
 {
     x_dot_ = level_.at(0)->GetReference();
-    for (auto& task :
-        std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
+    for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
         x_dot_ = rml::UnderJuxtapose(x_dot_, task->GetReference());
     }
+    std::cout << "SDEBUG  x_dot" << x_dot_ << std::endl;
 }
 
 void PriorityLevel::SetDeltaY(Eigen::VectorXd deltaY) { deltaY_ = deltaY; }
@@ -89,8 +84,7 @@ void PriorityLevel::SetActionTransitionActivation(double ActionTransitionA)
     actionTransitionA_ = ActionTransitionA;
 }
 
-void PriorityLevel::SetRegularizationData(
-    rml::RegularizationData regularizationData)
+void PriorityLevel::SetRegularizationData(rml::RegularizationData regularizationData)
 {
     regularizationData_ = regularizationData;
 }
@@ -107,8 +101,7 @@ Eigen::MatrixXd PriorityLevel::GetActivationFunction()
     for (auto& task : level_) {
         taskSpacei = task->GetTaskSpace();
         AexternalBloc = task->GetExternalActivationFunction();
-        Aextern_.block(priorityLevelSpace_ - lastTaskSpace, priorityLevelSpace_ - lastTaskSpace, taskSpacei, taskSpacei)
-            = AexternalBloc;
+        Aextern_.block(priorityLevelSpace_ - lastTaskSpace, priorityLevelSpace_ - lastTaskSpace, taskSpacei, taskSpacei) = AexternalBloc;
         lastTaskSpace -= taskSpacei;
     }
 

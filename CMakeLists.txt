@@ -24,7 +24,7 @@ add_library(tpik SHARED
 	src/CoordinationArmVehicleSolver.cpp
         src/CartesianTask.cpp
 )
-target_link_libraries(tpik rml)
+target_link_libraries(tpik rml config++)
 set_target_properties(tpik PROPERTIES LINKER_LANGUAGE CXX)
 # Define headers for this library. PUBLIC headers are used for
 # compiling the library, and will be added to consumers' build

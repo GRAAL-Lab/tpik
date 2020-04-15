@@ -12,8 +12,7 @@ iCAT::iCAT(int DoF)
 
 iCAT::~iCAT() {}
 
-void iCAT::ComputeYSingleLevel(
-    Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot, rml::RegularizationData regularizationData)
+void iCAT::ComputeYSingleLevel(Eigen::MatrixXd J, Eigen::MatrixXd A, Eigen::VectorXd xdot, rml::RegularizationData regularizationData)
 {
     if (!A.isZero()) {
 
@@ -67,8 +66,8 @@ void iCAT::Saturate()
         deltaY_(i) = deltaY_(i) * min_factor;
         double newMax = saturationMax_(i) - deltaY_(i);
         double newMin = saturationMin_(i) - deltaY_(i);
-        saturationMax_(i) = std::max(newMax, 0.1*originalSaturationMax_(i)); //saturationMax_(i) - deltaY_(i);
-        saturationMin_(i) = std::min(newMin, 0.1*originalSaturationMin_(i)); //saturationMin_(i) - deltaY_(i);
+        saturationMax_(i) = std::max(newMax, 0.1 * originalSaturationMax_(i)); //saturationMax_(i) - deltaY_(i);
+        saturationMin_(i) = std::min(newMin, 0.1 * originalSaturationMin_(i)); //saturationMin_(i) - deltaY_(i);
     }
 }
 }

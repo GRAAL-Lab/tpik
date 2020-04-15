@@ -114,13 +114,48 @@ void InequalityTask::SaturateReferenceComponentWise()
     }
 }
 
-TaskType InequalityTask::GetTaskType()
+void InequalityTask::ConfigFromFile(libconfig::Config& confObj)
 {
-    if (inequalityType_ == InequalityTaskType::Decreasing)
-        return TaskType::InequalityDecreasing;
-    else if (inequalityType_ == InequalityTaskType::Increasing)
-        return TaskType::InequalityIncreasing;
+    const libconfig::Setting& root = confObj.getRoot();
+    const libconfig::Setting& tasks = root["tasks"];
 
-    return TaskType::InequalityInBetween;
+    for (int i = 0; i < tasks.getLength(); ++i) {
+
+        const libconfig::Setting& task = tasks[i];
+
+        std::string name;
+        ctb::SetParam(task, name, "name");
+
+        if (ID_ == name) {
+
+            taskParameter_.ConfigureFromFile(task);
+            initializedTaskParameter_ = true;
+
+            if (inequalityType_ == InequalityTaskType::Decreasing) {
+
+                const libconfig::Setting& bellShapedParam = task["decreasingBellShaped"];
+                decreasingBellShape_.ConfigureFromFile(bellShapedParam);
+                initializedDecreasingBellShapeParameter_ = true;
+                std::cout
+                    << "DEBUG decreasing:" << decreasingBellShape_ << std::endl;
+
+            } else if (inequalityType_ == InequalityTaskType::Increasing) {
+
+                const libconfig::Setting& bellShapedParam = task["increasingBellShap"];
+                increasingBellShape_.ConfigureFromFile(bellShapedParam);
+                initializedIncreasingBellShapeParameter_ = true;
+            } else {
+                //inequality in between
+                const libconfig::Setting& increasingBellShapedParam = task["increasingBellShap"];
+                increasingBellShape_.ConfigureFromFile(increasingBellShapedParam);
+                initializedIncreasingBellShapeParameter_ = true;
+
+                const libconfig::Setting& decreasingBellShapedParam = task["decreasingBellShap"];
+                decreasingBellShape_.ConfigureFromFile(decreasingBellShapedParam);
+                initializedDecreasingBellShapeParameter_ = true;
+            }
+            std::cout << "DEBUG taskparam: " << ID_ << ", " << taskParameter_ << std::endl;
+        }
+    }
 }
 }
