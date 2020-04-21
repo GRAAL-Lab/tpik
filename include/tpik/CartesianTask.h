@@ -50,11 +50,6 @@ public:
      * @brief Method to set the task parameters.
      * @param taskParameters.
      */
-    void SetTaskParameter(TaskParameter taskParameters);
-    /**
-     * @brief Method to set the gain parameter.
-     * @param double gain.
-     */
     void SetTaskParameter(double gain);
     /**
      * @brief  Method used to set the control vector reference in case of equality tasks.
@@ -66,17 +61,7 @@ public:
      * @return  task parameter.
      */
     const TaskParameter& GetTaskParameter();
-    /**
-     * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error
-     * direction.
-     */
-    void SetActivetedOnNorm();
 
-    /**
-     * @brief  Method used in order to make the task one dimensional, i.e. project the jacobian along the error
-     * direction.
-     */
-    void SetOneDimensional();
     /**
     * @brief Method returning the task control variable.
     * @return Orientation error expressed wrt to the robot frame .

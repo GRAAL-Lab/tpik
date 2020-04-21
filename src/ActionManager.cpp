@@ -18,7 +18,6 @@ ActionManager::ActionManager()
 
 void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
 {
-    // hierarchy_.push_back(std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID)));
     priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID))));
 }
 
@@ -27,12 +26,10 @@ void ActionManager::AddPriorityLevelWithRegularization(const std::string priorit
     auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
     pl->SetRegularizationData(regularizationData);
     priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, pl));
-    // hierarchy_.push_back(pl);
 }
 
 void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
 {
-    // std::shared_ptr<PriorityLevel> pl = GetPriorityLevel(priorityLevelID);
     auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
 }
@@ -56,13 +53,13 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
 }
 
 void ActionManager::SetAction(std::string newAction, bool transition)
-
 {
     oldAction_ = currentAction_;
     currentAction_ = GetAction(newAction);
     time_ = GetTime();
     transitionInBetweenActions_ = transition;
 }
+
 const std::string ActionManager::GetCurrentAction()
 {
     return currentAction_->GetID();

@@ -33,15 +33,6 @@ struct BellShapedParameter {
         ctb::SetParamVector(confObj, xmin, "xmin");
         ctb::SetParamVector(confObj, xmax, "xmax");
     }
-
-    void resize(int size)
-    {
-        if (size < 0)
-            assert("ERROR: RESIZE FOR BELLSHAPEDPARAM IS NEVATIVE");
-
-        xmin.resize(size);
-        xmax.resize(size);
-    }
 };
 
 /**

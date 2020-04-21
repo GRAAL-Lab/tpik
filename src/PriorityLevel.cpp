@@ -65,7 +65,6 @@ void PriorityLevel::UpdateReference()
     for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
         x_dot_ = rml::UnderJuxtapose(x_dot_, task->GetReference());
     }
-    std::cout << "SDEBUG  x_dot" << x_dot_ << std::endl;
 }
 
 void PriorityLevel::SetDeltaY(Eigen::VectorXd deltaY) { deltaY_ = deltaY; }
