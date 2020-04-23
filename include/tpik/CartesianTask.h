@@ -9,11 +9,11 @@ namespace tpik {
 
 /**
  * @brief The CartesianTask pure virtual class.
- * @details The class is aimed to implement the basic common methods needed by a cartesian task. \n
- * It allows to decide whether implement the three  or the one dimensional task when instantiating the obect.  \n
+ * @details The class is aimed to implement the basic common methods needed by a cartesian task.
+ * It allows to decide whether implement the three  or the one dimensional task when instantiating the obect.
  * The task is by default a three dimensional task, in order to have a one dimensional task, hence projecting the
- * jacobian along the error direction, one must call the method SetOneDimensional().\n
- * When instantiating the object the user can decide to create one of the following task:\n
+ * jacobian along the error direction, one must call the method SetOneDimensional().
+ * When instantiating the object the user can decide to create one of the following task:
  * * Equality task: The task tries to drive the control variabel towards the reference value. If no reference value is
  * setted via the dedicated method SetControlVectorReference() , the default value 0 is used;
  *
@@ -28,7 +28,7 @@ namespace tpik {
  * the task activation function is a decreasing bell shape function wrt the control variable;
  *
  * When instantiating the object, the user must also set the taskParameter by using the dedicated method
- * SetTaskParameter().\n
+ * SetTaskParameter().
  * The tasks aimed to implement a cartesian control (e.g. position, velocity... ) can derive from the cartesianTask
  * class and implement the pure virtual methods Update() and UpdateJacobian().
  */

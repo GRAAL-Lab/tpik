@@ -16,7 +16,7 @@ void PriorityLevel::AddTask(std::shared_ptr<Task> task)
 {
     level_.push_back(task);
     taskNumber_ = level_.size();
-    priorityLevelSpace_ += task->GetTaskSpace();
+    priorityLevelSpace_ += task->TaskSpace();
     Aextern_ = Eigen::MatrixXd::Zero(priorityLevelSpace_, priorityLevelSpace_);
 }
 
@@ -24,9 +24,9 @@ std::string PriorityLevel::GetID() const { return ID_; }
 
 void PriorityLevel::UpdateJacobian()
 {
-    J_ = level_.at(0)->GetJacobian();
+    J_ = level_.at(0)->Jacobian();
     for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
-        J_ = rml::UnderJuxtapose(J_, task->GetJacobian());
+        J_ = rml::UnderJuxtapose(J_, task->Jacobian());
     }
 }
 
@@ -37,33 +37,33 @@ void PriorityLevel::UpdateInternalActivationFunction()
         if (isAiInitialized) {
             Eigen::MatrixXd ANewTask;
 
-            if (task->GetIsActive()) {
-                ANewTask = task->GetInternalActivationFunction();
+            if (task->IsActive()) {
+                ANewTask = task->InternalActivationFunction();
 
             } else {
-                ANewTask = Eigen::MatrixXd::Zero(task->GetTaskSpace(), task->GetTaskSpace());
+                ANewTask = Eigen::MatrixXd::Zero(task->TaskSpace(), task->TaskSpace());
             }
             Eigen::MatrixXd Anew = rml::RightJuxtapose(Ai_, Eigen::MatrixXd::Zero(Ai_.rows(), ANewTask.cols()));
             Ai_ = rml::UnderJuxtapose(Anew, rml::RightJuxtapose(Eigen::MatrixXd::Zero(ANewTask.rows(), Ai_.cols()), ANewTask));
 
         } else {
-            if (task->GetIsActive()) {
-                Ai_ = task->GetInternalActivationFunction();
+            if (task->IsActive()) {
+                Ai_ = task->InternalActivationFunction();
                 isAiInitialized = true;
 
             } else {
-                Ai_ = Eigen::MatrixXd::Zero(task->GetTaskSpace(), task->GetTaskSpace());
+                Ai_ = Eigen::MatrixXd::Zero(task->TaskSpace(), task->TaskSpace());
                 isAiInitialized = true;
             }
         }
     }
 }
 
-void PriorityLevel::UpdateReference()
+void PriorityLevel::UpdateReferenceRate()
 {
-    x_dot_ = level_.at(0)->GetReference();
+    x_dot_ = level_.at(0)->ReferenceRate();
     for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
-        x_dot_ = rml::UnderJuxtapose(x_dot_, task->GetReference());
+        x_dot_ = rml::UnderJuxtapose(x_dot_, task->ReferenceRate());
     }
 }
 
@@ -75,7 +75,7 @@ void PriorityLevel::Update()
 {
     UpdateJacobian();
     UpdateInternalActivationFunction();
-    UpdateReference();
+    UpdateReferenceRate();
 }
 
 void PriorityLevel::SetActionTransitionActivation(double ActionTransitionA)
@@ -98,8 +98,8 @@ Eigen::MatrixXd PriorityLevel::GetActivationFunction()
     Eigen::MatrixXd AexternalBloc;
 
     for (auto& task : level_) {
-        taskSpacei = task->GetTaskSpace();
-        AexternalBloc = task->GetExternalActivationFunction();
+        taskSpacei = task->TaskSpace();
+        AexternalBloc = task->ExternalActivationFunction();
         Aextern_.block(priorityLevelSpace_ - lastTaskSpace, priorityLevelSpace_ - lastTaskSpace, taskSpacei, taskSpacei) = AexternalBloc;
         lastTaskSpace -= taskSpacei;
     }

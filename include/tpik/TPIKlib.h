@@ -15,4 +15,6 @@
 #include "CoordinationArmVehicleSolver.h"
 #include "TPIKExceptions.h"
 #include "CartesianTask.h"
+#include "NonReactiveTask.h"
+#include "ReactiveTask.h"
 #endif

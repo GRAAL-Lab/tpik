@@ -95,7 +95,7 @@ void CartesianTask::UseErrorNormJacobian()
 {
     if (useErrorNorm_) {
         if (x_.norm() == 0.0) {
-            J_.resize(1, DoF_);
+            J_.resize(1, dof_);
             J_.setZero();
         } else {
             J_ = (x_.transpose() / x_.norm()) * J_;
@@ -264,6 +264,11 @@ void CartesianTask::ConfigFromFile(libconfig::Config& confObj)
             if (task.lookupValue("useErrorNorm", useErrorNorm_)) {
 
                 taskSpace_ = 1;
+                Ai_.setZero(taskSpace_, taskSpace_);
+                x_dot_.setZero(taskSpace_);
+                J_.setZero(taskSpace_, dof_);
+                Aexternal_.setZero(taskSpace_, taskSpace_);
+                Aexternal_ = Eigen::VectorXd::Ones(taskSpace_).asDiagonal();
             }
         }
     }

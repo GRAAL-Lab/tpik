@@ -42,6 +42,7 @@ struct TaskParameter {
     double gain; //!< The reference gain.
     bool taskEnable; //!< Boolean stating whether the task is active
     double saturation; //!< The reference saturation value.
+
     /**
 	 * @brief Overload of the cout operator.
 	 */
@@ -89,5 +90,12 @@ enum class ProjectorType { Default,
     OnPlane,
     OnLine };
 }
+
+enum class TaskType {
+    Equality,
+    InequalityGreaterThan,
+    InequalityLessThan,
+    InequalityInBetween
+};
 
 #endif
