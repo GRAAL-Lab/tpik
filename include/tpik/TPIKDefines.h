@@ -89,13 +89,11 @@ enum class InequalityTaskType { Increasing,
 enum class ProjectorType { Default,
     OnPlane,
     OnLine };
-}
 
 enum class TaskType {
     Equality,
-    InequalityGreaterThan,
-    InequalityLessThan,
-    InequalityInBetween
+    Inequality
 };
+}
 
 #endif

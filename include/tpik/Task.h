@@ -122,6 +122,11 @@ protected:
     virtual void UpdateInternalActivationFunction() = 0;
     /**
    * @brief Pure Virtual Method to be implemented by the derived classes to
+   * update the task reference rate.
+   */
+    virtual void UpdateReferenceRate() = 0;
+    /**
+   * @brief Pure Virtual Method to be implemented by the derived classes to
    * update the task reference.
    */
     virtual void UpdateReference() = 0;

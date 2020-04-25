@@ -8,14 +8,14 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
     , initializedTaskParameter_{ false }
     , taskParameter_{ 0.0, false, 0.0 }
-    , isReferenceSet_(false)
+    , saturareRateComponentWise_{ false }
 {
     xReference_.setZero(taskSpace_);
 }
 
 NonReactiveTask::~NonReactiveTask(){};
 
-void NonReactiveTask::CheckInitialization() throw(ExceptionWithHow)
+void NonReactiveTask::CheckInitialization() noexcept(false)
 {
     if (!initializedTaskParameter_) {
         NotInitialziedTaskParameterException notInitializedTaskParameter;
@@ -44,17 +44,21 @@ void NonReactiveTask::ConfigFromFile(libconfig::Config& confObj)
     }
     initializedTaskParameter_ = true;
 }
-void NonReactiveTask::SaturateReference() { rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_); }
 
-void NonReactiveTask::SaturateReferenceComponentWise()
+void NonReactiveTask::SaturateReferenceRate()
 {
-    for (int i = 0; i < taskSpace_; i++) {
-
-        rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
+    if (saturareRateComponentWise_) {
+        for (int i = 0; i < taskSpace_; i++) {
+            rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
+        }
+    } else {
+        rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
     }
 }
 
 void NonReactiveTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }
 
-void NonReactiveTask::UpdateReference() { x_dot_ = xReference_; }
+void NonReactiveTask::UpdateReferenceRate() { x_dot_ = xReference_; }
+
+void NonReactiveTask::UpdateReference() {}
 }

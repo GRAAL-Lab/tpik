@@ -14,7 +14,6 @@ CartesianTask::CartesianTask(const std::string ID, int DoF, CartesianTaskType ta
     , projectorType_(projectorType)
     , useErrorNorm_(false)
     , activateOnNorm_(false)
-
 {
 }
 

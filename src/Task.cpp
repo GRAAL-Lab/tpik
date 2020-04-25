@@ -22,5 +22,6 @@ void Task::Update()
     UpdateInternalActivationFunction();
     UpdateJacobian();
     UpdateReference();
+    UpdateReferenceRate();
 }
 } // namespace tpik

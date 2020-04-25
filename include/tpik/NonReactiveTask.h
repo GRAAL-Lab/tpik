@@ -41,11 +41,7 @@ public:
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
      */
-    auto Reference() -> Eigen::VectorXd&
-    {
-        isReferenceSet_ = true;
-        return xReference_;
-    }
+    auto Reference() -> Eigen::VectorXd& { return xReference_; }
     auto Reference() const -> const Eigen::VectorXd& { return xReference_; }
     /**
    * @brief Method to config from file the task
@@ -70,7 +66,7 @@ protected:
      * Such meethod must be called in the Update() method before any other method.
      * @note An exception is thrown if the task parameter has not been initialized yet.
      */
-    void CheckInitialization() throw(ExceptionWithHow);
+    virtual void CheckInitialization() noexcept(false);
     /*
      * @brief  Implementation of the pure virtual method of the base class Task used to update the internal activation function.
        Such method must be called in the Update method. For non reactive tasks there is no need to use an activaction function.
@@ -78,22 +74,23 @@ protected:
     */
     void UpdateInternalActivationFunction() override;
     /**
-     * @brief Implementation of the pure virtual method of the base class Task used to update the task reference.
+     * @brief Implementation of the pure virtual method of the base class Task used to update the task reference rate.
      * Such method must be called in the Update method.
+     */
+    void UpdateReferenceRate() override;
+    /**
+     * @brief Implementation of the pure virtual method of the base class Task used to update the task reference.
+     * For a non reactive task the reference is given for outside.
      */
     void UpdateReference() override;
     /**
      * @brief  Method used to saturate the reference, such method must be called in the Update() method after the UpdateReference method.
      */
-    void SaturateReference();
-    /**
-     * @brief Method saturating reference component wise  i.e. saturating each element of the vector individually.
-     */
-    void SaturateReferenceComponentWise();
+    void SaturateReferenceRate();
 
     bool initializedTaskParameter_; // The boolean used to check whether the task parameter have been initialized.
     struct TaskParameter taskParameter_; // The tpik::TaskParameter.
     Eigen::VectorXd xReference_; // The control vector reference
-    bool isReferenceSet_; //flag to check is the reference has been setted
+    bool saturareRateComponentWise_; //flag to check if the refarence rate must be saturete as vector or component by component
 };
 }

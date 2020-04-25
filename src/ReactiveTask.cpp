@@ -5,62 +5,82 @@ namespace tpik {
 
 // public
 
-ReactiveTask::ReactiveTask(const std::string ID, int DoF, TaskType taskType)
-    : Task(ID, 3, DoF)
+ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, TaskType taskType)
+    : Task(ID, taskSpace, DoF)
     , taskParameter_{ 0.0, false, 0.0 }
-    , taskType_(taskType)
-    , initializedTaskParameter_(false)
-    , initializedBellShapeParameter_(false)
+    , taskType_{ taskType }
+    , initializedTaskParameter_{ false }
+    , initializedBellShapeParameter_{ false }
+    , useErrorNorm_{ false }
+    , useActiveOnNorm_{ false }
+    , saturareRateComponentWise_{ false }
 {
     xReference_.setZero(taskSpace_);
     x_.setZero(taskSpace_);
+    decreasingBellShapeParameter_.xmax.setZero(taskSpace_);
+    decreasingBellShapeParameter_.xmin.setZero(taskSpace_);
+    increasingBellShapeParameter_.xmax.setZero(taskSpace_);
+    increasingBellShapeParameter_.xmin.setZero(taskSpace_);
+    Amin_.setZero(taskSpace_, taskSpace_);
+    Amax_.setZero(taskSpace_, taskSpace_);
 }
 
 ReactiveTask::~ReactiveTask() {}
 
-void ReactiveTask::CheckInitialization() throw(ExceptionWithHow)
+void ReactiveTask::CheckInitialization() noexcept(false)
 {
     if (!initializedTaskParameter_) {
-        NotInitialziedTaskParameterException notInitializedTaskParameter;
+        NotInitialziedTaskParameterException e;
         std::string how = "[ReactiveTask] Not initialized taskParameter struct, use SetTaskParameter() for task " + ID_;
-        notInitializedTaskParameter.SetHow(how);
-        throw(notInitializedTaskParameter);
+        e.SetHow(how);
+        throw(e);
     }
-    if (taskType_ == TaskType::InequalityLessThan || taskType_ == TaskType::InequalityGreaterThan || taskType_ == TaskType::InequalityInBetween) {
+    if (taskType_ == TaskType::Inequality) {
         if (!initializedBellShapeParameter_) {
-            NotInitialziedTaskParameterException notInitializedBellShapeIncreasing;
+            NotInitialziedTaskParameterException e;
             std::string how = "[ReactiveTask] Not initialized incresingBellShape struct" + ID_;
-            notInitializedBellShapeIncreasing.SetHow(how);
-            throw(notInitializedBellShapeIncreasing);
+            e.SetHow(how);
+            throw(e);
         }
 
-        if ((taskType_ == TaskType::InequalityGreaterThan && increasingBellShapeParameter_.xmax.size() != taskSpace_)
-            || (taskType_ == TaskType::InequalityLessThan && decreasingBellShapeParameter_.xmax.size() != taskSpace_)
-            || (taskType_ == TaskType::InequalityInBetween && decreasingBellShapeParameter_.xmax.size() != taskSpace_ && increasingBellShapeParameter_.xmax.size() != taskSpace_)) {
+        if ((taskType_ == TaskType::Inequality && increasingBellShapeParameter_.xmax.size() != taskSpace_)
+            || (taskType_ == TaskType::Inequality && decreasingBellShapeParameter_.xmax.size() != taskSpace_)) {
 
-            NotInitialziedTaskParameterException wrongBellShapeIcreasingSize;
+            NotInitialziedTaskParameterException e;
             std::string how = "[ReactiveTask] Wrong size incresingBellShape struct, expectedSize = " + std::to_string(taskSpace_) + " task " + ID_;
-            wrongBellShapeIcreasingSize.SetHow(how);
-            throw(wrongBellShapeIcreasingSize);
+            e.SetHow(how);
+            throw(e);
         }
     }
 }
 
+void ReactiveTask::Update()
+{
+    Task::Update();
+    SaturateReferenceRate();
+}
+
 void ReactiveTask::UpdateInternalActivationFunction()
 {
-    if (taskType_ == TaskType::InequalityGreaterThan) {
-        for (int i = 0; i < taskSpace_; i++) {
-            Ai_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
+    if (taskType_ == TaskType::Inequality) {
+        if (useActiveOnNorm_) {
+            Amax_ = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(0), increasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())) * Amax_.setIdentity();
+            Amin_ = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(0), decreasingBellShapeParameter_.xmax(0), 0.0, 1.0, (x_.norm())) * Amin_.setIdentity();
+
+        } else if (useErrorNorm_) {
+            for (int i = 0; i < taskSpace_; i++) {
+                Amax_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_.norm()));
+                Amin_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_.norm()));
+            }
+
+        } else {
+            for (int i = 0; i < taskSpace_; i++) {
+                Amax_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
+                Amin_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
+            }
         }
-    } else if (taskType_ == TaskType::InequalityLessThan) {
-        for (int i = 0; i < taskSpace_; i++) {
-            Ai_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
-        }
-    } else if (taskType_ == TaskType::InequalityInBetween) {
-        for (int i = 0; i < taskSpace_; i++) {
-            Ai_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)))
-                + rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
-        }
+        Ai_ = Amin_ + Amax_;
+
     } else if (taskType_ == TaskType::Equality) {
         Ai_.setIdentity();
     }
@@ -68,30 +88,52 @@ void ReactiveTask::UpdateInternalActivationFunction()
 
 void ReactiveTask::UpdateReference()
 {
-    if (taskType_ == TaskType::InequalityLessThan) {
-        x_dot_ = taskParameter_.gain * (decreasingBellShapeParameter_.xmax - x_);
-
-    } else if (taskType_ == TaskType::InequalityGreaterThan) {
-        x_dot_ = taskParameter_.gain * (increasingBellShapeParameter_.xmin - x_);
-
-    } else if (taskType_ == TaskType::InequalityInBetween) {
-        Eigen::VectorXd desired = ((increasingBellShapeParameter_.xmax - decreasingBellShapeParameter_.xmax) / 2) + decreasingBellShapeParameter_.xmax;
-        x_dot_ = taskParameter_.gain * (desired - x_);
-
-    } else if (taskType_ == TaskType::Equality) {
-        x_dot_ = taskParameter_.gain * (xReference_ - x_);
+    if (taskType_ == TaskType::Inequality) {
+        for (int i = 0; i < taskSpace_; i++) {
+            if (Amin_(i) > 0) {
+                xReference_(i) = decreasingBellShapeParameter_.xmax(i);
+            } else if (Amax_(i) > 0) {
+                xReference_(i) = increasingBellShapeParameter_.xmin(i);
+            }
+        }
     }
 }
 
-void ReactiveTask::SaturateReference() { rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_); }
-
-void ReactiveTask::SaturateReferenceComponentWise()
+void ReactiveTask::UpdateReferenceRate()
 {
     for (int i = 0; i < taskSpace_; i++) {
-        Eigen::VectorXd x_dot_element(1);
-        x_dot_element(0) = x_dot_(i);
-        rml::SaturateScalar(taskParameter_.saturation, x_dot_element(0));
-        x_dot_(i) = x_dot_element(0);
+        if (Ai_.diagonal()(i) > 0) {
+            if (useErrorNorm_) {
+                x_dot_(i) = taskParameter_.gain * (xReference_(i) - x_.norm());
+            } else {
+                x_dot_(i) = taskParameter_.gain * (xReference_(i) - x_(i));
+            }
+        } else {
+            x_dot_(i) = 0;
+        }
+    }
+}
+
+void ReactiveTask::UpdateJacobian()
+{
+    if (useErrorNorm_) {
+        if (x_.norm() == 0.0) {
+            J_.resize(1, dof_);
+            J_.setZero();
+        } else {
+            J_ = (x_.transpose() / x_.norm()) * J_;
+        }
+    }
+}
+
+void ReactiveTask::SaturateReferenceRate()
+{
+    if (saturareRateComponentWise_) {
+        for (int i = 0; i < taskSpace_; i++) {
+            rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
+        }
+    } else {
+        rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
     }
 }
 
@@ -112,28 +154,29 @@ void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
             taskParameter_.ConfigureFromFile(task);
             initializedTaskParameter_ = true;
 
-            if (taskType_ == TaskType::InequalityLessThan) {
+            if (taskType_ == TaskType::Inequality) {
 
-                const libconfig::Setting& bellShapedParam = task["decreasingBellShaped"];
-                decreasingBellShapeParameter_.ConfigureFromFile(bellShapedParam);
-                initializedBellShapeParameter_ = true;
+                const libconfig::Setting& decbellShapedParam = task["decreasingBellShaped"];
+                decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
 
-            } else if (taskType_ == TaskType::InequalityGreaterThan) {
+                const libconfig::Setting& incbellShapedParam = task["increasingBellShaped"];
+                increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
 
-                const libconfig::Setting& bellShapedParam = task["increasingBellShaped"];
-                increasingBellShapeParameter_.ConfigureFromFile(bellShapedParam);
-                initializedBellShapeParameter_ = true;
-
-            } else if (taskType_ == TaskType::InequalityInBetween) {
-
-                const libconfig::Setting& increasingBellShapedParam = task["increasingBellShaped"];
-                increasingBellShapeParameter_.ConfigureFromFile(increasingBellShapedParam);
-
-                const libconfig::Setting& decreasingBellShapedParam = task["decreasingBellShaped"];
-                decreasingBellShapeParameter_.ConfigureFromFile(decreasingBellShapedParam);
                 initializedBellShapeParameter_ = true;
             }
-            std::cout << "DEBUG taskparam: " << ID_ << ", " << taskParameter_ << std::endl;
+
+            if (task.lookupValue("useActiveOnNorm", useActiveOnNorm_)) {
+            }
+            if (task.lookupValue("useErrorNorm", useErrorNorm_)) {
+
+                taskSpace_ = 1;
+                Ai_.resize(taskSpace_, taskSpace_);
+                x_dot_.resize(taskSpace_);
+                J_.resize(taskSpace_, dof_);
+                Aexternal_.resize(taskSpace_, taskSpace_);
+                Aexternal_ = Eigen::VectorXd::Ones(taskSpace_).asDiagonal();
+                xReference_.resize(taskSpace_);
+            }
         }
     }
 }

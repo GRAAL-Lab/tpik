@@ -65,7 +65,7 @@ const std::string ActionManager::GetCurrentAction()
     return currentAction_->GetID();
 }
 
-void ActionManager::ComputeActionTransitionActivation() throw(ExceptionWithHow)
+void ActionManager::ComputeActionTransitionActivation() noexcept(false)
 {
     if (hierarchy_.empty()) {
         ActionManagerException nullHierarchyExcpetion;
@@ -113,7 +113,7 @@ void ActionManager::ComputeActionTransitionActivation() throw(ExceptionWithHow)
     }
 }
 
-const Hierarchy& ActionManager::GetHierarchy() const throw(ExceptionWithHow)
+const Hierarchy& ActionManager::GetHierarchy() const noexcept(false)
 {
     if (hierarchy_.empty()) {
         ActionManagerException nullHierarchyExcpetion;
@@ -127,7 +127,7 @@ const Hierarchy& ActionManager::GetHierarchy() const throw(ExceptionWithHow)
     return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) throw(ExceptionWithHow)
+std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) noexcept(false)
 {
     for (auto& act : actions_) {
         if (act->GetID() == actionID) {

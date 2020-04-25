@@ -48,16 +48,16 @@ install(EXPORT tpikConfig DESTINATION share/tpik/cmake)
 # This makes the project importable from the build directory
 export(TARGETS tpik FILE tpikConfig.cmake)
 
-if(BUILD_TESTS)
-    # Every library has unit tests, of course
-   add_executable(tpik_test
-   test/tpikTest.cpp
-   test/TestTask.cpp 
-)
-target_link_libraries(tpik_test tpik)
+#if(BUILD_TESTS)
+#    # Every library has unit tests, of course
+#   add_executable(tpik_test
+#   test/tpikTest.cpp
+#   test/TestTask.cpp
+#)
+#target_link_libraries(tpik_test tpik)
     
-add_test(tpik_test tpik_test)
-endif(BUILD_TESTS)
+#add_test(tpik_test tpik_test)
+#endif(BUILD_TESTS)
 
 
 
