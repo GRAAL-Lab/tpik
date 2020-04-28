@@ -44,8 +44,8 @@ public:
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
      */
-    auto Reference() -> Eigen::VectorXd& { return xReference_; }
-    auto Reference() const -> const Eigen::VectorXd& { return xReference_; }
+    auto Reference() -> Eigen::VectorXd& { return x_bar_; }
+    auto Reference() const -> const Eigen::VectorXd& { return x_bar_; }
     /*
      * @brief Method to config from file the task
     */
@@ -112,16 +112,16 @@ protected:
     virtual void CheckInitialization() noexcept(false);
 
     Eigen::VectorXd x_; // The control vector
-    Eigen::VectorXd xReference_; // The control vector reference
+    Eigen::VectorXd x_bar_; // The control vector reference
     struct TaskParameter taskParameter_; // The tpik::TaskParameter.
     BellShapedParameter increasingBellShapeParameter_; // The bell shape struct
     BellShapedParameter decreasingBellShapeParameter_; // The bell shape struct when the task type is inequality in between
     TaskType taskType_; // Enum stating whether the task type is either inequality greather then, inequality less then, inequality in beteeen or equality
     bool initializedTaskParameter_; // Boolean stating whether the task parameter have been initialized
-    bool initializedBellShapeParameter_; // Boolean stating whether the bell shaped parameters have been initialized
+    bool isLessThanParamsInizialized, isGreaterThanParamsInizialized; // Boolean stating whether the bell shaped parameters have been initialized
     bool useErrorNorm_; //flag to set true if we have a monodimential task with the control variable the norm of the variable.
     bool useActiveOnNorm_; //flag to activate a full taskSpace task with activetion on the norm
     bool saturareRateComponentWise_; // flag to check if the refarence rate must be saturete as vector or component by component
-    Eigen::MatrixXd Amin_, Amax_; // matrix containing the Activation value for the less than and greater than control objetive
+    Eigen::MatrixXd AgreaterThan_, AlessThan_; // matrix containing the Activation value for the less than and greater than control objetive
 };
 }

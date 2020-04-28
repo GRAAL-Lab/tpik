@@ -10,7 +10,7 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     , taskParameter_{ 0.0, false, 0.0 }
     , saturareRateComponentWise_{ false }
 {
-    xReference_.setZero(taskSpace_);
+    x_bar_.setZero(taskSpace_);
 }
 
 NonReactiveTask::~NonReactiveTask(){};
@@ -58,7 +58,7 @@ void NonReactiveTask::SaturateReferenceRate()
 
 void NonReactiveTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }
 
-void NonReactiveTask::UpdateReferenceRate() { x_dot_ = xReference_; }
+void NonReactiveTask::UpdateReferenceRate() { x_dot_ = x_bar_; }
 
 void NonReactiveTask::UpdateReference() {}
 }

@@ -41,8 +41,8 @@ public:
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
      */
-    auto Reference() -> Eigen::VectorXd& { return xReference_; }
-    auto Reference() const -> const Eigen::VectorXd& { return xReference_; }
+    auto Reference() -> Eigen::VectorXd& { return x_bar_; }
+    auto Reference() const -> const Eigen::VectorXd& { return x_bar_; }
     /**
    * @brief Method to config from file the task
    */
@@ -57,7 +57,7 @@ public:
                   << "TaskParameter\n"
                   << "\033[0m" << nonReactive.taskParameter_ << "\n"
                   << "Reference\n"
-                  << "\033[0m" << nonReactive.xReference_ << "\n";
+                  << "\033[0m" << nonReactive.x_bar_ << "\n";
     }
 
 protected:
@@ -90,7 +90,7 @@ protected:
 
     bool initializedTaskParameter_; // The boolean used to check whether the task parameter have been initialized.
     struct TaskParameter taskParameter_; // The tpik::TaskParameter.
-    Eigen::VectorXd xReference_; // The control vector reference
+    Eigen::VectorXd x_bar_; // The control vector reference
     bool saturareRateComponentWise_; //flag to check if the refarence rate must be saturete as vector or component by component
 };
 }
