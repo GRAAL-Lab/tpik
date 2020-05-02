@@ -10,11 +10,8 @@
 #include "TPIK.h"
 #include "TPIKDefines.h"
 #include "TPIKExceptions.h"
-#include "InequalityTask.h"
-#include "EqualityTask.h"
 #include "CoordinationArmVehicleSolver.h"
 #include "TPIKExceptions.h"
-#include "CartesianTask.h"
 #include "NonReactiveTask.h"
 #include "ReactiveTask.h"
 #endif

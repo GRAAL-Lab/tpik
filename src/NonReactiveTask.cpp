@@ -10,7 +10,7 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     , taskParameter_{ 0.0, false, 0.0 }
     , saturareRateComponentWise_{ false }
 {
-    x_bar_.setZero(taskSpace_);
+    x_bar_.Eigen::VectorXd::Zero(taskSpace_);
 }
 
 NonReactiveTask::~NonReactiveTask(){};
@@ -30,18 +30,9 @@ void NonReactiveTask::ConfigFromFile(libconfig::Config& confObj)
     const libconfig::Setting& root = confObj.getRoot();
     const libconfig::Setting& tasks = root["tasks"];
 
-    for (int i = 0; i < tasks.getLength(); ++i) {
+    const libconfig::Setting& task = tasks.lookup(ID_);
 
-        auto& task = tasks[i];
-
-        std::string name;
-        ctb::SetParam(task, name, "name");
-
-        if (ID_ == name) {
-
-            taskParameter_.ConfigureFromFile(task);
-        }
-    }
+    taskParameter_.ConfigureFromFile(task);
     initializedTaskParameter_ = true;
 }
 

@@ -19,7 +19,7 @@ public:
      * @param DoF degrees of freedom
      * @param taskType task type stating whether the class is equality, inequality greather then, inequality less the or inequality in between.
      */
-    ReactiveTask(const std::string ID, int taskSpace, int DoF, TaskType taskType);
+    ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption);
     /*
      * @brief  ~ReactiveTask default deconstructor.
     */
@@ -28,7 +28,11 @@ public:
      * @brief  Method returning and setting the task parameter.
      * @return  task parameter.
      */
-    auto TaskParameter() -> TaskParameter& { return taskParameter_; }
+    auto TaskParameter() -> TaskParameter&
+    {
+        initializedTaskParameter_ = true;
+        return taskParameter_;
+    }
     auto TaskParameter() const -> const struct TaskParameter& { return taskParameter_; }
     /**
     * @brief Method returning the task control variable.
@@ -39,7 +43,39 @@ public:
     * @brief Method returning the task type.
     * @return task type.
     */
+    auto Type() -> TaskType& { return taskType_; }
     auto Type() const -> const TaskType& { return taskType_; }
+    /**
+    * @brief Method setting and returning the task Option.
+    */
+    auto Option(const TaskOption taskOption) -> TaskOption
+    {
+        taskOption_ = taskOption;
+        if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
+            taskSpace_ = 1;
+        }
+    }
+    auto Option() const -> const TaskOption& { return taskOption_; }
+    /**
+    * @brief Method setting and returning the greaternThan params.
+    * @return task type.
+    */
+    auto GreaterThanParams() -> tpik::BellShapedParameter&
+    {
+        isGreaterThanParamsInizialized_ = true;
+        return decreasingBellShapeParameter_;
+    }
+    auto GreaterThanParams() const -> const BellShapedParameter& { return decreasingBellShapeParameter_; }
+    /**
+    * @brief Method setting and returning the lessThan params.
+    * @return task type.
+    */
+    auto LessThanParams() -> tpik::BellShapedParameter&
+    {
+        isLessThanParamsInizialized_ = true;
+        return increasingBellShapeParameter_;
+    }
+    auto LessThanParams() const -> const BellShapedParameter& { return increasingBellShapeParameter_; }
     /**
      * @brief  Method used to set the control vector reference in case of equality tasks.
      * @param xReference control vector reference.
@@ -61,7 +97,7 @@ public:
     {
         os << "\033[1;37m"
            << dynamic_cast<const Task&>(reactiveTask) << "\n";
-        if (reactiveTask.useErrorNorm_) {
+        if (reactiveTask.taskOption_ == tpik::TaskOption::ActiveOnNorm || reactiveTask.taskOption_ == tpik::TaskOption::UseErrorNorm) {
             os << "x_ \n"
                << "\033[0m" << reactiveTask.x_.norm() << "\n";
         } else {
@@ -118,9 +154,8 @@ protected:
     BellShapedParameter decreasingBellShapeParameter_; // The bell shape struct when the task type is inequality in between
     TaskType taskType_; // Enum stating whether the task type is either inequality greather then, inequality less then, inequality in beteeen or equality
     bool initializedTaskParameter_; // Boolean stating whether the task parameter have been initialized
-    bool isLessThanParamsInizialized, isGreaterThanParamsInizialized; // Boolean stating whether the bell shaped parameters have been initialized
-    bool useErrorNorm_; //flag to set true if we have a monodimential task with the control variable the norm of the variable.
-    bool useActiveOnNorm_; //flag to activate a full taskSpace task with activetion on the norm
+    bool isLessThanParamsInizialized_, isGreaterThanParamsInizialized_; // Boolean stating whether the bell shaped parameters have been initialized
+    TaskOption taskOption_; // use ActivateOnNorm or ErrorNorm
     bool saturareRateComponentWise_; // flag to check if the refarence rate must be saturete as vector or component by component
     Eigen::MatrixXd AgreaterThan_, AlessThan_; // matrix containing the Activation value for the less than and greater than control objetive
 };

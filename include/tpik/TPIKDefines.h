@@ -67,33 +67,26 @@ struct TaskParameter {
         ctb::SetParam(confObj, saturation, "saturation");
     }
 };
-
-/**
- * @brief The TaskType enum to state whether the task is equality or inequality
- */
-enum class CartesianTaskType { Equality,
-    InequalityDecreasing,
-    InequalityIncreasing,
-    InequalityInBetween };
-
-/**
- * @brief The InequalityType enum to state wheether an inequality task is increasing decreasing in beteween or none of the aformentioned
- */
-enum class InequalityTaskType { Increasing,
-    Decreasing,
-    Inbetween };
-
 /**
  * @brief The ProjectorType enum definig the projector type
  */
-enum class ProjectorType { Default,
+enum class ProjectorType {
     OnPlane,
-    OnLine };
+    OnLine,
+    Default
+};
 
 enum class TaskType {
     Equality,
     Inequality
 };
+
+enum class TaskOption {
+    ActiveOnNorm,
+    UseErrorNorm,
+    Default
+};
+
 }
 
 #endif

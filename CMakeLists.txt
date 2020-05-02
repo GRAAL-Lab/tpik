@@ -12,9 +12,7 @@ project (tpik)
 #include_directories(include)
 set (CMAKE_CXX_STANDARD 11)
 add_library(tpik SHARED
-	src/Task.cpp
-	src/EqualityTask.cpp
-	src/InequalityTask.cpp
+        src/Task.cpp
 	src/PriorityLevel.cpp
 	src/TPIK.cpp
 	src/ActionManager.cpp
@@ -22,7 +20,6 @@ add_library(tpik SHARED
 	src/Action.cpp
 	src/iCAT.cpp
 	src/CoordinationArmVehicleSolver.cpp
-        src/CartesianTask.cpp
         src/NonReactiveTask.cpp
         src/ReactiveTask.cpp
 )

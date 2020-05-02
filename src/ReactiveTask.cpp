@@ -4,26 +4,30 @@
 namespace tpik {
 
 // public
-
-ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, TaskType taskType)
+ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption)
     : Task(ID, taskSpace, DoF)
     , taskParameter_{ 0.0, false, 0.0 }
-    , taskType_{ taskType }
     , initializedTaskParameter_{ false }
-    , isLessThanParamsInizialized{ false }
-    , isGreaterThanParamsInizialized{ false }
-    , useErrorNorm_{ false }
-    , useActiveOnNorm_{ false }
+    , isLessThanParamsInizialized_{ false }
+    , isGreaterThanParamsInizialized_{ false }
+    , taskOption_{ taskOption }
     , saturareRateComponentWise_{ false }
 {
-    x_bar_.setZero(taskSpace_);
-    x_.setZero(taskSpace_);
-    decreasingBellShapeParameter_.xmax.setZero(taskSpace_);
-    decreasingBellShapeParameter_.xmin.setZero(taskSpace_);
-    increasingBellShapeParameter_.xmax.setZero(taskSpace_);
-    increasingBellShapeParameter_.xmin.setZero(taskSpace_);
-    AgreaterThan_.setZero(taskSpace_, taskSpace_);
-    AlessThan_.setZero(taskSpace_, taskSpace_);
+    if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
+        taskSpace_ = 1;
+        x_dot_.conservativeResize(taskSpace_);
+        Ai_.conservativeResize(taskSpace_, taskSpace_);
+        Aexternal_.conservativeResize(taskSpace_, taskSpace_);
+    }
+
+    x_bar_ = Eigen::VectorXd::Zero(taskSpace_);
+    x_ = Eigen::VectorXd::Zero(taskSpace);
+    decreasingBellShapeParameter_.xmax = Eigen::VectorXd::Zero(taskSpace_);
+    decreasingBellShapeParameter_.xmin = Eigen::VectorXd::Zero(taskSpace_);
+    increasingBellShapeParameter_.xmax = Eigen::VectorXd::Zero(taskSpace_);
+    increasingBellShapeParameter_.xmin = Eigen::VectorXd::Zero(taskSpace_);
+    AgreaterThan_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
+    AlessThan_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
 }
 
 ReactiveTask::~ReactiveTask() {}
@@ -32,12 +36,12 @@ void ReactiveTask::CheckInitialization() noexcept(false)
 {
     if (!initializedTaskParameter_) {
         NotInitialziedTaskParameterException e;
-        std::string how = "[ReactiveTask] Not initialized taskParameter struct, use SetTaskParameter() for task " + ID_;
+        std::string how = "[ReactiveTask] Not initialized taskParameter struct, use TaskParameter() for task " + ID_;
         e.SetHow(how);
         throw(e);
     }
     if (taskType_ == TaskType::Inequality) {
-        if (!isLessThanParamsInizialized || !isGreaterThanParamsInizialized) {
+        if (!isLessThanParamsInizialized_ || !isGreaterThanParamsInizialized_) {
             NotInitialziedTaskParameterException e;
             std::string how = "[ReactiveTask] Not initialized incresingBellShape struct" + ID_;
             e.SetHow(how);
@@ -64,27 +68,27 @@ void ReactiveTask::Update()
 void ReactiveTask::UpdateInternalActivationFunction()
 {
     if (taskType_ == TaskType::Inequality) {
-        if (useActiveOnNorm_) {
-            if (isLessThanParamsInizialized)
+        if (taskOption_ == tpik::TaskOption::ActiveOnNorm) {
+            if (isLessThanParamsInizialized_)
                 AlessThan_ = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(0), increasingBellShapeParameter_.xmax(0), 0.0, 1.0, ((x_bar_ - x_).norm())) * AlessThan_.setIdentity();
 
-            if (isGreaterThanParamsInizialized)
+            if (isGreaterThanParamsInizialized_)
                 AgreaterThan_ = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(0), decreasingBellShapeParameter_.xmax(0), 0.0, 1.0, ((x_bar_ - x_).norm())) * AgreaterThan_.setIdentity();
 
-        } else if (useErrorNorm_) {
+        } else if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
             for (int i = 0; i < taskSpace_; i++) {
-                if (isLessThanParamsInizialized)
+                if (isLessThanParamsInizialized_)
                     AlessThan_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_.norm()));
 
-                if (isGreaterThanParamsInizialized)
+                if (isGreaterThanParamsInizialized_)
                     AgreaterThan_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_.norm()));
             }
         } else {
             for (int i = 0; i < taskSpace_; i++) {
-                if (isLessThanParamsInizialized)
+                if (isLessThanParamsInizialized_)
                     AlessThan_(i, i) = rml::IncreasingBellShapedFunction(increasingBellShapeParameter_.xmin(i), increasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
 
-                if (isGreaterThanParamsInizialized)
+                if (isGreaterThanParamsInizialized_)
                     AgreaterThan_(i, i) = rml::DecreasingBellShapedFunction(decreasingBellShapeParameter_.xmin(i), decreasingBellShapeParameter_.xmax(i), 0.0, 1.0, (x_(i)));
             }
         }
@@ -112,7 +116,7 @@ void ReactiveTask::UpdateReferenceRate()
 {
     for (int i = 0; i < taskSpace_; i++) {
         if (Ai_.diagonal()(i) > 0) {
-            if (useErrorNorm_) {
+            if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
                 x_dot_(i) = taskParameter_.gain * (x_bar_(i) - x_.norm());
             } else {
                 x_dot_(i) = taskParameter_.gain * (x_bar_(i) - x_(i));
@@ -125,12 +129,14 @@ void ReactiveTask::UpdateReferenceRate()
 
 void ReactiveTask::UpdateJacobian()
 {
-    if (useErrorNorm_) {
+    if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
         if (x_.norm() == 0.0) {
             J_.resize(1, dof_);
             J_.setZero();
         } else {
-            J_ = (x_.transpose() / x_.norm()) * J_;
+            Eigen::MatrixXd Jtmp = J_;
+            J_.resize(1, dof_);
+            J_ = (x_.transpose() / x_.norm()) * Jtmp;
         }
     }
 }
@@ -151,39 +157,27 @@ void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
     const libconfig::Setting& root = confObj.getRoot();
     const libconfig::Setting& tasks = root["tasks"];
 
-    for (int i = 0; i < tasks.getLength(); ++i) {
+    const libconfig::Setting& task = tasks.lookup(ID_);
 
-        const libconfig::Setting& task = tasks[i];
+    taskParameter_.ConfigureFromFile(task);
+    initializedTaskParameter_ = true;
 
-        std::string name;
-        ctb::SetParam(task, name, "name");
+    int tmpType;
+    ctb::SetParam(task, tmpType, "type");
+    taskType_ = static_cast<tpik::TaskType>(tmpType);
 
-        if (ID_ == name) {
+    if (taskType_ == TaskType::Inequality) {
 
-            taskParameter_.ConfigureFromFile(task);
-            initializedTaskParameter_ = true;
+        if (task.lookup("greaterThanParams")) {
+            const libconfig::Setting& decbellShapedParam = task.lookup("greaterThanParams");
+            decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
+            isGreaterThanParamsInizialized_ = true;
+        }
 
-            if (taskType_ == TaskType::Inequality) {
-
-                const libconfig::Setting& decbellShapedParam = task["decreasingBellShaped"];
-                decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
-
-                const libconfig::Setting& incbellShapedParam = task["increasingBellShaped"];
-                increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
-            }
-
-            if (task.lookupValue("useActiveOnNorm", useActiveOnNorm_)) {
-            }
-            if (task.lookupValue("useErrorNorm", useErrorNorm_)) {
-
-                taskSpace_ = 1;
-                Ai_.resize(taskSpace_, taskSpace_);
-                x_dot_.resize(taskSpace_);
-                J_.resize(taskSpace_, dof_);
-                Aexternal_.resize(taskSpace_, taskSpace_);
-                Aexternal_ = Eigen::VectorXd::Ones(taskSpace_).asDiagonal();
-                x_bar_.resize(taskSpace_);
-            }
+        if (task.lookup("lessThanParams")) {
+            const libconfig::Setting& incbellShapedParam = task.lookup("lessThanParams");
+            increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
+            isLessThanParamsInizialized_ = true;
         }
     }
 }

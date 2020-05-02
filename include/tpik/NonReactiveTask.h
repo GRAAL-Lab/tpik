@@ -19,9 +19,6 @@ public:
     /**
      * @brief Constructor of NonReactiveTask Class.
      * @details Initialization of the class variables:
-     * Jacobian (taskSpace x DoF)
-     * Internal Activation Function eye(taskSpace x taskSpace)
-     * Reference (taskSpace x 1)
      * @param[in] ID task ID
      * @param[in] taskSpace
      * @param[in] DoF
@@ -44,12 +41,17 @@ public:
     auto Reference() -> Eigen::VectorXd& { return x_bar_; }
     auto Reference() const -> const Eigen::VectorXd& { return x_bar_; }
     /**
+     * @brief  Method used to set and get id the reference rate must be saturete by component
+     */
+    auto SaturateReferenceRateComponentWise() -> bool { return saturareRateComponentWise_; }
+    auto SaturateReferenceRateComponentWise() const -> bool { return saturareRateComponentWise_; }
+    /**
    * @brief Method to config from file the task
    */
     void ConfigFromFile(libconfig::Config& confObj) override;
     /**
-         * @brief Overload of the cout operator.
-         */
+     * @brief Overload of the cout operator.
+     */
     friend std::ostream& operator<<(std::ostream& os, NonReactiveTask const& nonReactive)
     {
         return os << "\033[1;37m"
