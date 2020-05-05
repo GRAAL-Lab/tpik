@@ -40,27 +40,28 @@ void ReactiveTask::CheckInitialization() noexcept(false)
         e.SetHow(how);
         throw(e);
     }
-    if (taskType_ == TaskType::Inequality) {
-        if (!isLessThanParamsInizialized_ || !isGreaterThanParamsInizialized_) {
-            NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Not initialized incresingBellShape struct" + ID_;
-            e.SetHow(how);
-            throw(e);
-        }
+    //    if (taskType_ == TaskType::Inequality) {
+    //        if (!isLessThanParamsInizialized_ || !isGreaterThanParamsInizialized_) {
+    //            NotInitialziedTaskParameterException e;
+    //            std::string how = "[ReactiveTask] Not initialized incresingBellShape struct" + ID_;
+    //            e.SetHow(how);
+    //            throw(e);
+    //        }
 
-        if ((taskType_ == TaskType::Inequality && increasingBellShapeParameter_.xmax.size() != taskSpace_)
-            || (taskType_ == TaskType::Inequality && decreasingBellShapeParameter_.xmax.size() != taskSpace_)) {
+    //        if ((taskType_ == TaskType::Inequality && increasingBellShapeParameter_.xmax.size() != taskSpace_)
+    //            || (taskType_ == TaskType::Inequality && decreasingBellShapeParameter_.xmax.size() != taskSpace_)) {
 
-            NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Wrong size incresingBellShape struct, expectedSize = " + std::to_string(taskSpace_) + " task " + ID_;
-            e.SetHow(how);
-            throw(e);
-        }
-    }
+    //            NotInitialziedTaskParameterException e;
+    //            std::string how = "[ReactiveTask] Wrong size incresingBellShape struct, expectedSize = " + std::to_string(taskSpace_) + " task " + ID_;
+    //            e.SetHow(how);
+    //            throw(e);
+    //        }
+    //    }
 }
 
 void ReactiveTask::Update()
 {
+    UpdateReference();
     Task::Update();
     SaturateReferenceRate();
 }
@@ -134,9 +135,7 @@ void ReactiveTask::UpdateJacobian()
             J_.resize(1, dof_);
             J_.setZero();
         } else {
-            Eigen::MatrixXd Jtmp = J_;
-            J_.resize(1, dof_);
-            J_ = (x_.transpose() / x_.norm()) * Jtmp;
+            J_ = (x_.transpose() / x_.norm()) * J_;
         }
     }
 }
@@ -168,13 +167,13 @@ void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
 
     if (taskType_ == TaskType::Inequality) {
 
-        if (task.lookup("greaterThanParams")) {
+        if (task.exists("greaterThanParams")) {
             const libconfig::Setting& decbellShapedParam = task.lookup("greaterThanParams");
             decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
             isGreaterThanParamsInizialized_ = true;
         }
 
-        if (task.lookup("lessThanParams")) {
+        if (task.exists("lessThanParams")) {
             const libconfig::Setting& incbellShapedParam = task.lookup("lessThanParams");
             increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
             isLessThanParamsInizialized_ = true;

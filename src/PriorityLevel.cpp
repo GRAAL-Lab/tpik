@@ -92,7 +92,6 @@ const Eigen::MatrixXd& PriorityLevel::GetJacobian() const { return J_; }
 
 Eigen::MatrixXd PriorityLevel::GetActivationFunction()
 {
-
     int taskSpacei = 0;
     int lastTaskSpace = priorityLevelSpace_;
     Eigen::MatrixXd AexternalBloc;

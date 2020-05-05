@@ -34,6 +34,7 @@ public:
         return taskParameter_;
     }
     auto TaskParameter() const -> const struct TaskParameter& { return taskParameter_; }
+    auto TaskParameterGain(double x) -> void { taskParameter_.gain = x; }
     /**
     * @brief Method returning the task control variable.
     * @return Orientation error expressed wrt to the robot frame .

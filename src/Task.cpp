@@ -10,8 +10,8 @@ Task::Task(const std::string ID, int taskSpace, int dof)
 
 {
     Ai_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
-    x_dot_ = Eigen::VectorXd::Zero(taskSpace_, taskSpace_);
-    Aexternal_ = Eigen::MatrixXd::Ones(taskSpace_, taskSpace_);
+    x_dot_ = Eigen::VectorXd::Zero(taskSpace_);
+    Aexternal_ = Eigen::MatrixXd::Identity(taskSpace_, taskSpace_);
     J_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
 }
 
