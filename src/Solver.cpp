@@ -1,48 +1,48 @@
 #include "tpik/Solver.h"
 namespace tpik {
 
-Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<TPIK> tpik)
-    : actionManager_(actionManager)
-    , tpik_(tpik)
+Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<iCAT> iCat)
+    : actionManager_(std::move(actionManager))
+    , iCat_(std::move(iCat))
 {
     hierarchy_ = actionManager_->GetHierarchy();
 }
 
-void Solver::SetTPIK(std::shared_ptr<TPIK> tpik) { tpik_ = tpik; }
-
-void Solver::SetAction(std::string action, bool transition) { actionManager_->SetAction(action, transition); }
+void Solver::SetAction(const std::string action, bool transition) { actionManager_->SetAction(action, transition); }
 
 const Eigen::VectorXd Solver::ComputeVelocities()
 {
     actionManager_->ComputeActionTransitionActivation();
-    tpik_->Reset();
-    delta_y.erase(delta_y.begin(), delta_y.end());
+    iCat_->Reset();
+    delta_y_.erase(delta_y_.begin(), delta_y_.end());
     Eigen::MatrixXd JMinimization;
     Eigen::MatrixXd AMinimization;
     Eigen::VectorXd XMinimization;
     rml::RegularizationData regularizationDataMinimization;
 
-    AMinimization.Identity(tpik_->GetDoF(), tpik_->GetDoF());
-    JMinimization.Identity(tpik_->GetDoF(), tpik_->GetDoF());
-    XMinimization.Zero(tpik_->GetDoF());
+    AMinimization.Identity(iCat_->Dof(), iCat_->Dof());
+    JMinimization.Identity(iCat_->Dof(), iCat_->Dof());
+    XMinimization.Zero(iCat_->Dof());
     regularizationDataMinimization.params.lambda = 0.0;
     regularizationDataMinimization.params.threshold = 0.0;
 
     for (auto& priorityLevel : hierarchy_) {
         priorityLevel->Update();
-        Eigen::MatrixXd J = priorityLevel->GetJacobian();
-        Eigen::MatrixXd A = priorityLevel->GetActivationFunction();
-        Eigen::MatrixXd x_dot = priorityLevel->GetReference();
-        rml::RegularizationData regularizationData = priorityLevel->GetRegularizationData();
-        tpik_->ComputeYSingleLevel(J, A, x_dot, regularizationData);
-        priorityLevel->SetDeltaY(tpik_->GetDeltaY());
-        delta_y.push_back(tpik_->GetDeltaY());
+        std::cout << priorityLevel->ID() << std::endl;
+        Eigen::MatrixXd J = priorityLevel->Jacobian();
+        Eigen::MatrixXd A = priorityLevel->ActivationFunction();
+        Eigen::VectorXd x_dot = priorityLevel->ReferenceRate();
+        rml::RegularizationData regularizationData = priorityLevel->RegularizationData();
+        iCat_->ComputeVelocities(J, A, x_dot, regularizationData);
+        priorityLevel->DeltaY() = iCat_->DeltaY();
+        delta_y_.push_back(iCat_->DeltaY());
     }
-    tpik_->ComputeYSingleLevel(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
+    iCat_->ComputeVelocities(JMinimization, AMinimization, XMinimization, regularizationDataMinimization);
     Eigen::VectorXd saturationMin;
     Eigen::VectorXd saturationMax;
-    Eigen::VectorXd y = tpik_->GetY();
-    tpik_->GetSaturation(saturationMax, saturationMin);
+    Eigen::VectorXd y = iCat_->Velocities();
+    iCat_->GetSaturation(saturationMin, saturationMax);
+    std::cout << "here" << std::endl;
 
     double min_factor = 1.0;
     for (int i = 0; i < y.size(); i++) {
@@ -67,5 +67,4 @@ const Eigen::VectorXd Solver::ComputeVelocities()
 
     return y;
 }
-std::vector<Eigen::VectorXd> Solver::GetDeltaYs() { return delta_y; }
 }

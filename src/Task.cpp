@@ -3,7 +3,7 @@
 namespace tpik {
 
 Task::Task(const std::string ID, int taskSpace, int dof)
-    : ID_(ID)
+    : ID_(std::move(ID))
     , taskSpace_(taskSpace)
     , isActive_(true)
     , dof_(dof)

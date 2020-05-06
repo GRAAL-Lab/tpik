@@ -6,24 +6,18 @@ Action::Action() {}
 
 Action::~Action() {}
 
-void Action::SetID(std::string ID) { ID_ = ID; }
-
-bool Action::FindPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel)
+bool Action::FindPriorityLevel(const std::shared_ptr<PriorityLevel>& priorityLevel)
 {
     for (auto& priorityLevelHierarhcy : priorityLevels_) {
-        if (priorityLevelHierarhcy->GetID() == (priorityLevel->GetID())) {
+        if (priorityLevelHierarhcy->ID() == (priorityLevel->ID())) {
             return true;
         }
     }
     return false;
 }
 
-void Action::AddPriorityLevel(std::shared_ptr<PriorityLevel> priorityLevel)
+void Action::AddPriorityLevel(const std::shared_ptr<PriorityLevel> priorityLevel)
 {
     priorityLevels_.push_back(priorityLevel);
 }
-
-const Hierarchy& Action::GetPriorityLevels() const { return priorityLevels_; }
-
-std::string Action::GetID() { return ID_; }
 }

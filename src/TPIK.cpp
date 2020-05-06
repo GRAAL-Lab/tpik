@@ -12,8 +12,6 @@ TPIK::TPIK(int DoF)
 
 TPIK::~TPIK() {}
 
-const Eigen::VectorXd& TPIK::GetY() const { return y_; }
-
 void TPIK::Reset()
 {
     y_.setZero();
@@ -22,18 +20,16 @@ void TPIK::Reset()
     saturationMax_ = originalSaturationMax_;
     saturationMin_ = originalSaturationMin_;
 }
-void TPIK::SetSaturation(Eigen::VectorXd saturationMax, Eigen::VectorXd saturationMin)
+void TPIK::SetSaturation(const Eigen::VectorXd saturationMin, const Eigen::VectorXd saturationMax)
 {
-    saturationMax_ = saturationMax;
-    originalSaturationMax_ = saturationMax;
-    saturationMin_ = saturationMin;
-    originalSaturationMin_ = saturationMin;
+    saturationMax_ = std::move(saturationMax);
+    originalSaturationMax_ = std::move(saturationMax);
+    saturationMin_ = std::move(saturationMin);
+    originalSaturationMin_ = std::move(saturationMin);
 }
-void TPIK::GetSaturation(Eigen::VectorXd& saturationMax, Eigen::VectorXd& saturationMin)
+void TPIK::GetSaturation(Eigen::VectorXd& saturationMax, Eigen::VectorXd& saturationMin) const
 {
     saturationMax = originalSaturationMax_;
     saturationMin = originalSaturationMin_;
 }
-int TPIK::GetDoF() { return DoF_; }
-Eigen::VectorXd TPIK::GetDeltaY() { return deltaY_; }
 }

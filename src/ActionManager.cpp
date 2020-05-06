@@ -7,7 +7,7 @@ ActionManager::ActionManager()
     : isSimulated_(false)
 {
     auto defaultAct = std::make_shared<Action>(Action());
-    defaultAct->SetID("DEFAULT_ACTION");
+    defaultAct->ID() = "DEFAULT_ACTION";
     oldAction_ = defaultAct;
     currentAction_ = defaultAct;
     actions_.push_back(oldAction_);
@@ -21,23 +21,23 @@ void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
     priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID))));
 }
 
-void ActionManager::AddPriorityLevelWithRegularization(const std::string priorityLevelID, rml::RegularizationData regularizationData)
+void ActionManager::AddPriorityLevelWithRegularization(const std::string priorityLevelID, const rml::RegularizationData regularizationData)
 {
     auto pl = std::make_shared<PriorityLevel>(PriorityLevel(priorityLevelID));
-    pl->SetRegularizationData(regularizationData);
+    pl->RegularizationData() = regularizationData;
     priorityLevelIDMap_.insert(std::make_pair(priorityLevelID, pl));
 }
 
-void ActionManager::AddTaskToPriorityLevel(std::shared_ptr<Task> task, const std::string priorityLevelID)
+void ActionManager::AddTaskToPriorityLevel(const std::shared_ptr<Task> task, const std::string priorityLevelID)
 {
     auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
 }
 
-void ActionManager::AddAction(std::string actionID, std::vector<std::string> priorityLevelsID)
+void ActionManager::AddAction(const std::string actionID, const std::vector<std::string> priorityLevelsID)
 {
     auto newAction = std::make_shared<Action>(Action());
-    newAction->SetID(actionID);
+    newAction->ID() = actionID;
     for (auto& pl : priorityLevelsID) {
         std::shared_ptr<PriorityLevel> plToAdd = priorityLevelIDMap_.at(pl);
         newAction->AddPriorityLevel(plToAdd);
@@ -52,17 +52,12 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
     }
 }
 
-void ActionManager::SetAction(std::string newAction, bool transition)
+void ActionManager::SetAction(const std::string newAction, bool transition)
 {
     oldAction_ = currentAction_;
     currentAction_ = GetAction(newAction);
-    time_ = GetTime();
+    time_ = Time();
     transitionInBetweenActions_ = transition;
-}
-
-const std::string ActionManager::GetCurrentAction()
-{
-    return currentAction_->GetID();
 }
 
 void ActionManager::ComputeActionTransitionActivation() noexcept(false)
@@ -89,7 +84,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
             if (transitionInBetweenActions_) {
                 // The PL must be activated: increasing.
 
-                std::chrono::duration<double, std::milli> diff = GetTime() - time_;
+                std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // In 500 ms the PL is completely active.
                 actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
             } else {
@@ -98,7 +93,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
         } else if (isInOldAction && !isInNewAction) {
             // PL must be deactivated
             if (transitionInBetweenActions_) {
-                std::chrono::duration<double, std::milli> diff = GetTime() - time_;
+                std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // The PL must be deactivated: decreasing.
                 actionTransitionA_ = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
 
@@ -109,7 +104,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
             actionTransitionA_ = 0.0;
             // The PL is already deactivated:zeros.
         }
-        priorityLevel->SetActionTransitionActivation(actionTransitionA_);
+        priorityLevel->ActionTransitionActivation(actionTransitionA_);
     }
 }
 
@@ -127,10 +122,10 @@ const Hierarchy& ActionManager::GetHierarchy() const noexcept(false)
     return hierarchy_;
 }
 
-std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) noexcept(false)
+const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actionID) noexcept(false)
 {
     for (auto& act : actions_) {
-        if (act->GetID() == actionID) {
+        if (act->ID() == actionID) {
             return act;
         }
     }
@@ -140,29 +135,12 @@ std::shared_ptr<Action> ActionManager::GetAction(std::string actionID) noexcept(
     throw(nullAction);
 }
 
-std::shared_ptr<PriorityLevel> ActionManager::GetPriorityLevel(std::string priorityLevelID)
-{
-    return priorityLevelIDMap_.at(priorityLevelID);
-}
-
-void ActionManager::SetIsSimulation(bool isSimulated)
-{
-    isSimulated_ = isSimulated;
-}
-
-void ActionManager::SetTime(long simulationTime)
-{
-    auto t = std::chrono::milliseconds(simulationTime);
-    simulationTime_ = simulationBegin_ + t;
-}
-
-std::chrono::system_clock::time_point ActionManager::GetTime()
+const std::chrono::system_clock::time_point ActionManager::Time()
 {
     if (isSimulated_) {
         return simulationTime_;
     } else {
-        return std::chrono::time_point_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now());
+        return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
     }
 }
 } // namespace tpik
