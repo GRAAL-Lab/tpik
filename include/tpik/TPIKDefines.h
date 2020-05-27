@@ -71,9 +71,9 @@ struct TaskParameter {
  * @brief The ProjectorType enum definig the projector type
  */
 enum class ProjectorType {
-    OnPlane,
+    Default,
     OnLine,
-    Default
+    OnPlane,
 };
 
 enum class TaskType {
@@ -82,11 +82,10 @@ enum class TaskType {
 };
 
 enum class TaskOption {
-    ActiveOnNorm,
+    Default,
     UseErrorNorm,
-    Default
+    ActiveOnNorm,
 };
-
 }
 
 #endif

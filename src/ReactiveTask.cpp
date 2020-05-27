@@ -3,13 +3,13 @@
 
 namespace tpik {
 
-// public
 ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption)
     : Task(ID, taskSpace, DoF)
     , taskParameter_{ 0.0, false, 0.0 }
     , initializedTaskParameter_{ false }
     , isLessThanParamsInizialized_{ false }
     , isGreaterThanParamsInizialized_{ false }
+    , isTaskTypeSet_{ false }
     , taskOption_{ taskOption }
     , saturareRateComponentWise_{ false }
 {
@@ -36,27 +36,44 @@ void ReactiveTask::CheckInitialization() noexcept(false)
 {
     if (!initializedTaskParameter_) {
         NotInitialziedTaskParameterException e;
-        std::string how = "[ReactiveTask] Not initialized taskParameter struct, use TaskParameter() for task " + ID_;
+        std::string how = "[ReactiveTask] Not initialized taskParameter struct, use TaskParameter() for task ";
+        how.append(ID_);
         e.SetHow(how);
         throw(e);
     }
-    //    if (taskType_ == TaskType::Inequality) {
-    //        if (!isLessThanParamsInizialized_ || !isGreaterThanParamsInizialized_) {
-    //            NotInitialziedTaskParameterException e;
-    //            std::string how = "[ReactiveTask] Not initialized incresingBellShape struct" + ID_;
-    //            e.SetHow(how);
-    //            throw(e);
-    //        }
+    if (!isTaskTypeSet_) {
+        NotInitialziedTaskParameterException e;
+        std::string how = "[ReactiveTask] Not set the task type, use Type() for task ";
+        how.append(ID_);
+        e.SetHow(how);
+        throw(e);
+    }
 
-    //        if ((taskType_ == TaskType::Inequality && increasingBellShapeParameter_.xmax.size() != taskSpace_)
-    //            || (taskType_ == TaskType::Inequality && decreasingBellShapeParameter_.xmax.size() != taskSpace_)) {
+    if (taskType_ == TaskType::Inequality) {
+        if (!isLessThanParamsInizialized_ && !isGreaterThanParamsInizialized_) {
+            NotInitialziedTaskParameterException e;
+            std::string how = "[ReactiveTask] Not greater/less than params init, use GreaterThanParams()/LessThanParams() for task";
+            how.append(ID_);
+            e.SetHow(how);
+            throw(e);
+        }
 
-    //            NotInitialziedTaskParameterException e;
-    //            std::string how = "[ReactiveTask] Wrong size incresingBellShape struct, expectedSize = " + std::to_string(taskSpace_) + " task " + ID_;
-    //            e.SetHow(how);
-    //            throw(e);
-    //        }
-    //    }
+        if (taskType_ == TaskType::Inequality && isLessThanParamsInizialized_ && increasingBellShapeParameter_.xmax.size() != taskSpace_) {
+            NotInitialziedTaskParameterException e;
+            std::string how = "[ReactiveTask] Wrong size greater than param, expectedSize = ";
+            how.append(std::to_string(taskSpace_)).append(" task ").append(ID_);
+            e.SetHow(how);
+            throw(e);
+        }
+
+        if (taskType_ == TaskType::Inequality && isGreaterThanParamsInizialized_ && decreasingBellShapeParameter_.xmax.size() != taskSpace_) {
+            NotInitialziedTaskParameterException e;
+            std::string how = "[ReactiveTask] Wrong size less than params, expectedSize = ";
+            how.append(std::to_string(taskSpace_)).append(" task ").append(ID_);
+            e.SetHow(how);
+            throw(e);
+        }
+    }
 }
 
 void ReactiveTask::Update()
@@ -135,7 +152,7 @@ void ReactiveTask::UpdateJacobian()
             J_.resize(1, dof_);
             J_.setZero();
         } else {
-            J_ = (x_.transpose() / x_.norm()) * J_;
+            J_ = x_.normalized().transpose() * J_;
         }
     }
 }
@@ -164,6 +181,7 @@ void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
     int tmpType;
     ctb::SetParam(task, tmpType, "type");
     taskType_ = static_cast<tpik::TaskType>(tmpType);
+    isTaskTypeSet_ = true;
 
     if (taskType_ == TaskType::Inequality) {
 

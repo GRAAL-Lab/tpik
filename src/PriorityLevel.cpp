@@ -3,9 +3,10 @@
 namespace tpik {
 
 PriorityLevel::PriorityLevel(const std::string ID)
-    : ID_(std::move(ID))
-    , actionTransitionA_(0)
-    , priorityLevelSpace_(0)
+    : level_{ nullptr }
+    , ID_{ std::move(ID) }
+    , actionTransitionA_{ 0.0 }
+    , priorityLevelSpace_{ 0 }
 {
 }
 
@@ -55,7 +56,6 @@ void PriorityLevel::UpdateReferenceRate()
     x_dot_ = level_.at(0)->ReferenceRate();
 
     for (auto& task : std::vector<std::shared_ptr<Task>>(level_.begin() + 1, level_.end())) {
-        std::cout << task->ID();
         x_dot_ = rml::UnderJuxtapose(x_dot_, task->ReferenceRate());
     }
 }

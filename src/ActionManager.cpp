@@ -4,7 +4,7 @@
 namespace tpik {
 
 ActionManager::ActionManager()
-    : isSimulated_(false)
+    : isSimulated_{ false }
 {
     auto defaultAct = std::make_shared<Action>(Action());
     defaultAct->ID() = "DEFAULT_ACTION";
@@ -37,7 +37,7 @@ void ActionManager::AddTaskToPriorityLevel(const std::shared_ptr<Task> task, con
 void ActionManager::AddAction(const std::string actionID, const std::vector<std::string> priorityLevelsID)
 {
     auto newAction = std::make_shared<Action>(Action());
-    newAction->ID() = actionID;
+    newAction->ID() = std::move(actionID);
     for (auto& pl : priorityLevelsID) {
         std::shared_ptr<PriorityLevel> plToAdd = priorityLevelIDMap_.at(pl);
         newAction->AddPriorityLevel(plToAdd);

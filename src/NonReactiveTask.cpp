@@ -8,7 +8,7 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
     , initializedTaskParameter_{ false }
     , taskParameter_{ 0.0, false, 0.0 }
-    , saturareRateComponentWise_{ false }
+    , saturateRaferenceRateComponentWise_{ false }
 {
     x_bar_.Eigen::VectorXd::Zero(taskSpace_);
 }
@@ -34,11 +34,15 @@ void NonReactiveTask::ConfigFromFile(libconfig::Config& confObj)
 
     taskParameter_.ConfigureFromFile(task);
     initializedTaskParameter_ = true;
+
+    if (task.exists("saturateRaferenceRateComponentWise")) {
+        task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
+    }
 }
 
 void NonReactiveTask::SaturateReferenceRate()
 {
-    if (saturareRateComponentWise_) {
+    if (saturateRaferenceRateComponentWise_) {
         for (int i = 0; i < taskSpace_; i++) {
             rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
         }

@@ -8,7 +8,10 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<iCA
     hierarchy_ = actionManager_->GetHierarchy();
 }
 
-void Solver::SetAction(const std::string action, bool transition) { actionManager_->SetAction(action, transition); }
+void Solver::SetAction(const std::string action, bool transition)
+{
+    actionManager_->SetAction(action, transition);
+}
 
 const Eigen::VectorXd Solver::ComputeVelocities()
 {
@@ -28,7 +31,6 @@ const Eigen::VectorXd Solver::ComputeVelocities()
 
     for (auto& priorityLevel : hierarchy_) {
         priorityLevel->Update();
-        std::cout << priorityLevel->ID() << std::endl;
         Eigen::MatrixXd J = priorityLevel->Jacobian();
         Eigen::MatrixXd A = priorityLevel->ActivationFunction();
         Eigen::VectorXd x_dot = priorityLevel->ReferenceRate();
@@ -42,7 +44,6 @@ const Eigen::VectorXd Solver::ComputeVelocities()
     Eigen::VectorXd saturationMax;
     Eigen::VectorXd y = iCat_->Velocities();
     iCat_->GetSaturation(saturationMin, saturationMax);
-    std::cout << "here" << std::endl;
 
     double min_factor = 1.0;
     for (int i = 0; i < y.size(); i++) {

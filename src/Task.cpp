@@ -24,4 +24,4 @@ void Task::Update()
     UpdateReference();
     UpdateReferenceRate();
 }
-} // namespace tpik
+}
