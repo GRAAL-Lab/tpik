@@ -3,8 +3,7 @@
 namespace tpik {
 
 PriorityLevel::PriorityLevel(const std::string ID)
-    : level_{ nullptr }
-    , ID_{ std::move(ID) }
+    : ID_{ std::move(ID) }
     , actionTransitionA_{ 0.0 }
     , priorityLevelSpace_{ 0 }
 {
