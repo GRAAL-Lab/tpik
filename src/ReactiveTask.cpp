@@ -164,7 +164,7 @@ void ReactiveTask::SaturateReferenceRate()
             rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
         }
     } else {
-        rml::SaturateVector(taskSpace_, taskParameter_.saturation, x_dot_);
+        rml::SaturateVector(taskParameter_.saturation, x_dot_);
     }
 }
 
