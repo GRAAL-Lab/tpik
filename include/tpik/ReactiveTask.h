@@ -94,7 +94,7 @@ public:
     /*
     * @brief Method to config from file the task
     */
-    void ConfigFromFile(libconfig::Config& confObj) override;
+    bool ConfigFromFile(libconfig::Config& confObj) noexcept(false) override;
     /*
     * @brief Added the saturation on the reference rate on  the update
     */

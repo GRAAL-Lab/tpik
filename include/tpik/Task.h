@@ -96,7 +96,7 @@ public:
     * @brief Pure Virtual Method to config from file the task
     * @details This method allows to read the task params form file using libconfig formalism. Alternately, it can be used the setting methods of the derived classes to acquired the params
     */
-    virtual void ConfigFromFile(libconfig::Config& confObj) = 0;
+    virtual bool ConfigFromFile(libconfig::Config& confObj) noexcept(false) = 0;
     /*
     * @brief Overload of the cout operator.
     */

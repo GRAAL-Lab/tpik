@@ -49,7 +49,7 @@ public:
     * @param[in] saturationMax maximum value
     * @param[in] saturationMin minimum value
     */
-    void SetSaturation(const Eigen::VectorXd saturationMin, const Eigen::VectorXd saturationMax);
+    void SetSaturation(const Eigen::VectorXd &saturationMin, const Eigen::VectorXd &saturationMax);
     /*
     * @brief Method getting the saturation values for each dof
     * @param[out] saturationMax maximum value
@@ -86,6 +86,7 @@ protected:
     Eigen::VectorXd originalSaturationMin_; // vector containing the initial min value for saturation.
     Eigen::VectorXd saturationMax_; // vector containing the max value for saturation.
     Eigen::VectorXd saturationMin_; // vector containing the min value for saturation.
+    bool isSaturationSet_; //bool to check if the saturation has been set
 };
 }
 

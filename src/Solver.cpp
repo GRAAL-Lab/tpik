@@ -43,6 +43,7 @@ const Eigen::VectorXd Solver::ComputeVelocities()
     Eigen::VectorXd saturationMin;
     Eigen::VectorXd saturationMax;
     Eigen::VectorXd y = iCat_->Velocities();
+
     iCat_->GetSaturation(saturationMin, saturationMax);
 
     double min_factor = 1.0;

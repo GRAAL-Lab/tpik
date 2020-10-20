@@ -60,7 +60,7 @@ public:
     /*
     * @brief Method to config from file the task.
     */
-    void ConfigFromFile(libconfig::Config& confObj) override;
+    bool ConfigFromFile(libconfig::Config& confObj) noexcept(false) override;
     /*
     * @brief Overload of the cout operator.
     */

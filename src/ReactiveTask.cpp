@@ -5,13 +5,13 @@ namespace tpik {
 
 ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption)
     : Task(ID, taskSpace, DoF)
-    , taskParameter_{ 0.0, false, 0.0 }
-    , initializedTaskParameter_{ false }
-    , isLessThanParamsInizialized_{ false }
-    , isGreaterThanParamsInizialized_{ false }
-    , isTaskTypeSet_{ false }
-    , taskOption_{ taskOption }
-    , saturareRateComponentWise_{ false }
+    , taskParameter_ { 0.0, false, 0.0 }
+    , initializedTaskParameter_ { false }
+    , isLessThanParamsInizialized_ { false }
+    , isGreaterThanParamsInizialized_ { false }
+    , isTaskTypeSet_ { false }
+    , taskOption_ { taskOption }
+    , saturareRateComponentWise_ { false }
 {
     if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
         taskSpace_ = 1;
@@ -30,7 +30,7 @@ ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::T
     AlessThan_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
 }
 
-ReactiveTask::~ReactiveTask() {}
+ReactiveTask::~ReactiveTask() { }
 
 void ReactiveTask::CheckInitialization() noexcept(false)
 {
@@ -168,15 +168,21 @@ void ReactiveTask::SaturateReferenceRate()
     }
 }
 
-void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
+bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
 {
     const libconfig::Setting& root = confObj.getRoot();
     const libconfig::Setting& tasks = root["tasks"];
 
-    const libconfig::Setting& task = tasks.lookup(ID_);
+    //Check if the task name exist in the conf file.
+    assert(tasks.exists(ID_));
 
-    taskParameter_.ConfigureFromFile(task);
-    initializedTaskParameter_ = true;
+    const libconfig::Setting& task = tasks.lookup(ID_);
+    if (taskParameter_.ConfigureFromFile(task)) {
+        initializedTaskParameter_ = true;
+    } else {
+        std::cerr << ID_ << ": Task Parameters loading fails" << std::endl;
+        initializedTaskParameter_ = false;
+    }
 
     int tmpType;
     ctb::SetParam(task, tmpType, "type");
@@ -197,5 +203,7 @@ void ReactiveTask::ConfigFromFile(libconfig::Config& confObj)
             isLessThanParamsInizialized_ = true;
         }
     }
+
+    return true;
 }
 }

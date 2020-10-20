@@ -6,38 +6,47 @@ namespace tpik {
 
 NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
-    , initializedTaskParameter_{ false }
-    , taskParameter_{ 0.0, false, 0.0 }
-    , saturateRaferenceRateComponentWise_{ false }
+    , initializedTaskParameter_ { false }
+    , taskParameter_ { 0.0, false, 0.0 }
+    , saturateRaferenceRateComponentWise_ { false }
 {
     x_bar_.Eigen::VectorXd::Zero(taskSpace_);
 }
 
-NonReactiveTask::~NonReactiveTask(){};
+NonReactiveTask::~NonReactiveTask() {};
 
 void NonReactiveTask::CheckInitialization() noexcept(false)
 {
     if (!initializedTaskParameter_) {
         NotInitialziedTaskParameterException notInitializedTaskParameter;
-        std::string how = "[NonReactiveTask] Not initialized taskParameter struct, use SetTaskParameter() for task " + ID_;
+        std::string how = "[NonReactiveTask] Not initialized taskParameter struct, use TaskParameter() for task " + ID_;
         notInitializedTaskParameter.SetHow(how);
         throw(notInitializedTaskParameter);
     }
 }
 
-void NonReactiveTask::ConfigFromFile(libconfig::Config& confObj)
+bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
 {
     const libconfig::Setting& root = confObj.getRoot();
     const libconfig::Setting& tasks = root["tasks"];
 
+    //Check if the task name exist in the conf file.
+    assert(tasks.exists(ID_));
+
     const libconfig::Setting& task = tasks.lookup(ID_);
 
-    taskParameter_.ConfigureFromFile(task);
-    initializedTaskParameter_ = true;
+    if (taskParameter_.ConfigureFromFile(task)) {
+        initializedTaskParameter_ = true;
+    } else {
+        std::cerr << ID_ << ": Task Parameters loading fails" << std::endl;
+        initializedTaskParameter_ = false;
+    }
 
     if (task.exists("saturateRaferenceRateComponentWise")) {
         task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
     }
+
+    return true;
 }
 
 void NonReactiveTask::SaturateReferenceRate()
@@ -55,5 +64,5 @@ void NonReactiveTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }
 
 void NonReactiveTask::UpdateReferenceRate() { x_dot_ = x_bar_; }
 
-void NonReactiveTask::UpdateReference() {}
+void NonReactiveTask::UpdateReference() { }
 }
