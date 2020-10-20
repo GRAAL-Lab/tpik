@@ -52,7 +52,7 @@ void ReactiveTask::CheckInitialization() noexcept(false)
     if (taskType_ == TaskType::Inequality) {
         if (!isLessThanParamsInizialized_ && !isGreaterThanParamsInizialized_) {
             NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Not greater/less than params init, use GreaterThanParams()/LessThanParams() for task";
+            std::string how = "[ReactiveTask] Not greater/less than params init, use GreaterThanParams()/LessThanParams() for task ";
             how.append(ID_);
             e.SetHow(how);
             throw(e);
