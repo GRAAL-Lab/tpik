@@ -167,7 +167,7 @@ protected:
     bool isLessThanParamsInizialized_, isGreaterThanParamsInizialized_; // Boolean stating whether the bell shaped parameters have been initialized
     bool isTaskTypeSet_; //  Boolean stating whether the task type has been set
     TaskOption taskOption_; // use ActivateOnNorm or ErrorNorm
-    bool saturareRateComponentWise_; // flag to check if the refarence rate must be saturete as vector or component by component
+    bool saturateRaferenceRateComponentWise_; //flag to check if the refarence rate must be saturete as vector or component by component; // flag to check if the refarence rate must be saturete as vector or component by component
     Eigen::MatrixXd AgreaterThan_, AlessThan_; // matrix containing the Activation value for the less than and greater than control objetive
 };
 }

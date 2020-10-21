@@ -5,7 +5,7 @@
 
 namespace tpik {
 /*
- * @brief Non reactive Task class, derived from the abstract class tpik::Task
+ * @brief Non Reactive Task class, derived from the abstract class tpik::Task
  * @details Implementation of the Non Reactive tasks provided with an internal activation function equal to 1 and the TaskParameter struct
  * aimed to store the saturation value, the gain alway equal to 1 and a boolean stating whether the task is active.
  * The derived classes must implement the following pure virtual methods:

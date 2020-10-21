@@ -11,7 +11,7 @@ ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::T
     , isGreaterThanParamsInizialized_ { false }
     , isTaskTypeSet_ { false }
     , taskOption_ { taskOption }
-    , saturareRateComponentWise_ { false }
+    , saturateRaferenceRateComponentWise_ { false }
 {
     if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
         taskSpace_ = 1;
@@ -159,7 +159,7 @@ void ReactiveTask::UpdateJacobian()
 
 void ReactiveTask::SaturateReferenceRate()
 {
-    if (saturareRateComponentWise_) {
+    if (saturateRaferenceRateComponentWise_) {
         for (int i = 0; i < taskSpace_; i++) {
             rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
         }
@@ -187,9 +187,11 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     }
 
     int tmpType;
-    ctb::SetParam(task, tmpType, "type");
-    taskType_ = static_cast<tpik::TaskType>(tmpType);
-    isTaskTypeSet_ = true;
+    if (task.exists("type")) {
+        ctb::SetParam(task, tmpType, "type");
+        taskType_ = static_cast<tpik::TaskType>(tmpType);
+        isTaskTypeSet_ = true;
+    }
 
     if (taskType_ == TaskType::Inequality) {
 
@@ -204,6 +206,10 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
             increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
             isLessThanParamsInizialized_ = true;
         }
+    }
+
+    if (task.exists("saturateRaferenceRateComponentWise")) {
+        task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
     }
 
     return true;
