@@ -176,6 +176,8 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     //Check if the task name exist in the conf file.
     assert(tasks.exists(ID_));
 
+    std::cout << ID_ << std::endl;
+
     const libconfig::Setting& task = tasks.lookup(ID_);
     if (taskParameter_.ConfigureFromFile(task)) {
         initializedTaskParameter_ = true;
