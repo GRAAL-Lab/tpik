@@ -37,13 +37,11 @@ bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
 
     if (taskParameter_.ConfigureFromFile(task)) {
         initializedTaskParameter_ = true;
-    } else {
-        std::cerr << ID_ << ": Task Parameters loading fails" << std::endl;
-        initializedTaskParameter_ = false;
     }
 
     if (task.exists("saturateRaferenceRateComponentWise")) {
-        task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
+        if (ctb::SetParam(task, saturateRaferenceRateComponentWise_, "saturateRaferenceRateComponentWise"))
+            return false;
     }
 
     return true;

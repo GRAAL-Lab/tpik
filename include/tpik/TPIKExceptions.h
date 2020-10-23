@@ -28,6 +28,14 @@ class NotInitialziedTaskParameterException : public ExceptionWithHow {
     }
 };
 
+class NotInitialziedVirtualFrameParameterException : public ExceptionWithHow {
+
+    virtual const char* what() const noexcept
+    {
+        return "Cannot update the task, either not initialzed or wrong virtual frame parameters (check how())";
+    }
+};
+
 class ActionManagerException : public ExceptionWithHow {
 
     virtual const char* what() const noexcept

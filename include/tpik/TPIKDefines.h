@@ -28,10 +28,16 @@ struct BellShapedParameter {
     }
 
     template <typename T>
-    void ConfigureFromFile(T& confObj) noexcept(false)
+    bool ConfigureFromFile(T& confObj) noexcept(false)
     {
-        ctb::SetParamVector(confObj, xmin, "xmin");
-        ctb::SetParamVector(confObj, xmax, "xmax");
+        if (!ctb::SetParamVector(confObj, xmin, "xmin")) {
+            return false;
+        }
+        if (!ctb::SetParamVector(confObj, xmax, "xmax")) {
+            return false;
+        }
+
+        return true;
     }
 };
 
@@ -61,23 +67,13 @@ struct TaskParameter {
 
     bool ConfigureFromFile(const libconfig::Setting& confObj) noexcept(false)
     {
-        if (confObj.exists("gain")) {
-            ctb::SetParam(confObj, gain, "gain");
-        } else {
-            std::cerr << "No parameter gain " << std::endl;
+        if (!ctb::SetParam(confObj, gain, "gain")) {
             return false;
         }
-        if (confObj.exists("enable")) {
-            ctb::SetParam(confObj, taskEnable, "enable");
-        } else {
-            std::cerr << "No parameter enable " << std::endl;
+        if (!ctb::SetParam(confObj, taskEnable, "enable")) {
             return false;
         }
-        if (confObj.exists("saturation")) {
-
-            ctb::SetParam(confObj, saturation, "saturation");
-        } else {
-            std::cerr << "No parameter saturation " << std::endl;
+        if (!ctb::SetParam(confObj, saturation, "saturation")) {
             return false;
         }
         return true;

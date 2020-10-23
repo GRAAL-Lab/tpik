@@ -52,7 +52,7 @@ void ReactiveTask::CheckInitialization() noexcept(false)
     if (taskType_ == TaskType::Inequality) {
         if (!isLessThanParamsInizialized_ && !isGreaterThanParamsInizialized_) {
             NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Not greater/less than params init, use GreaterThanParams()/LessThanParams() for task ";
+            std::string how = "[ReactiveTask] Not greater/less than params init for Inequality task, use GreaterThanParams()/LessThanParams() for task ";
             how.append(ID_);
             e.SetHow(how);
             throw(e);
@@ -176,19 +176,14 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     //Check if the task name exist in the conf file.
     assert(tasks.exists(ID_));
 
-    std::cout << ID_ << std::endl;
-
     const libconfig::Setting& task = tasks.lookup(ID_);
     if (taskParameter_.ConfigureFromFile(task)) {
         initializedTaskParameter_ = true;
-    } else {
-        std::cerr << ID_ << ": Task Parameters loading fails" << std::endl;
-        initializedTaskParameter_ = false;
     }
 
     int tmpType;
-    if (task.exists("type")) {
-        ctb::SetParam(task, tmpType, "type");
+
+    if (ctb::SetParam(task, tmpType, "type")) {
         taskType_ = static_cast<tpik::TaskType>(tmpType);
         isTaskTypeSet_ = true;
     }
