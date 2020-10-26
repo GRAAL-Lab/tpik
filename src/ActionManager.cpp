@@ -4,7 +4,7 @@
 namespace tpik {
 
 ActionManager::ActionManager()
-    : isSimulated_{ false }
+    : isSimulated_ { false }
 {
     auto defaultAct = std::make_shared<Action>(Action());
     defaultAct->ID() = "DEFAULT_ACTION";
@@ -74,16 +74,15 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
     for (auto& priorityLevel : hierarchy_) {
         bool isInOldAction = oldAction_->FindPriorityLevel(priorityLevel);
         bool isInNewAction = currentAction_->FindPriorityLevel(priorityLevel);
+
         double actionTransitionA_;
         if (isInOldAction && isInNewAction) {
-
             // The PL is already active :identity.
             actionTransitionA_ = 1.0;
         } else if (!isInOldAction && isInNewAction) {
             // PL must be activated
             if (transitionInBetweenActions_) {
                 // The PL must be activated: increasing.
-
                 std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // In 500 ms the PL is completely active.
                 actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());

@@ -3,13 +3,13 @@
 namespace tpik {
 
 PriorityLevel::PriorityLevel(const std::string ID)
-    : ID_{ std::move(ID) }
-    , actionTransitionA_{ 0.0 }
-    , priorityLevelSpace_{ 0 }
+    : ID_ { std::move(ID) }
+    , actionTransitionA_ { 0.0 }
+    , priorityLevelSpace_ { 0 }
 {
 }
 
-PriorityLevel::~PriorityLevel() {}
+PriorityLevel::~PriorityLevel() { }
 
 void PriorityLevel::AddTask(const std::shared_ptr<Task> task)
 {
@@ -37,8 +37,14 @@ void PriorityLevel::UpdateActivationFunction()
     for (auto& task : level_) {
         taskSpacei = task->TaskSpace();
 
-        AexternalBloc = task->ExternalActivationFunction();
-        AinternalBlock = task->InternalActivationFunction();
+        if (task->IsActive()) {
+            AexternalBloc = task->ExternalActivationFunction();
+            AinternalBlock = task->InternalActivationFunction();
+
+        } else {
+            AexternalBloc = Eigen::MatrixXd::Zero(task->TaskSpace(), task->TaskSpace());
+            AinternalBlock = Eigen::MatrixXd::Zero(task->TaskSpace(), task->TaskSpace());
+        }
 
         Aextern_.block(priorityLevelSpace_ - lastTaskSpace, priorityLevelSpace_ - lastTaskSpace, taskSpacei, taskSpacei) = AexternalBloc;
 
