@@ -3,11 +3,11 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image:
-    name: graalunige/xenial-testbench
-    username: $DOCKER_HUB_USERNAME_CARLOTTAS
-    password: $DOCKER_HUB_PASSWORD_CARLOTTAS
-    email: $DOCKER_HUB_EMAIL_CARLOTTAS
+image: 
+  name: graalunige/devel-testbench
+  username: $DOCKER_HUB_USERNAME_WANDERFRA
+  password: $DOCKER_HUB_PASSWORD_WANDERFRA
+  email: $DOCKER_HUB_EMAIL_WANDERFRA
 
 pipelines:
   default:
@@ -17,7 +17,6 @@ pipelines:
           - cd dependencies
           - git clone git@bitbucket.org:isme_robotics/rml.git
           - cd rml
-          - git checkout devel
           - cmake .
           - make install
           - cd ../..
