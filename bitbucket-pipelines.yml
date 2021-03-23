@@ -13,10 +13,17 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
+          - sudo apt install -y libgeographic-dev
+          - sudo apt install -y libconfig++-dev
           - mkdir dependencies
           - cd dependencies
-          - git clone git@bitbucket.org:isme_robotics/rml.git
+          - git clone git@bitbucket.org:isme_robotics/rml.git 
           - cd rml
+          - cmake .
+          - make install
+          - cd ..
+          - git clone git@bitbucket.org:isme_robotics/ctrl_toolbox.git
+          - cd ctrl_toolbox          
           - cmake .
           - make install
           - cd ../..
