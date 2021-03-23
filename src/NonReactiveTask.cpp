@@ -11,6 +11,7 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     , saturateRaferenceRateComponentWise_ { false }
 {
     x_bar_.Eigen::VectorXd::Zero(taskSpace_);
+    x_dot_.Eigen::VectorXd::Zero(taskSpace_);
 }
 
 NonReactiveTask::~NonReactiveTask() {};

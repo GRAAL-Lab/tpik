@@ -15,19 +15,20 @@ ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::T
 {
     if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
         taskSpace_ = 1;
-        x_dot_.conservativeResize(taskSpace_);
-        Ai_.conservativeResize(taskSpace_, taskSpace_);
-        Aexternal_.conservativeResize(taskSpace_, taskSpace_);
     }
 
+    x_ = Eigen::VectorXd::Zero(taskSpace_);
+    x_dot_ = Eigen::VectorXd::Zero(taskSpace_);
     x_bar_ = Eigen::VectorXd::Zero(taskSpace_);
-    x_ = Eigen::VectorXd::Zero(taskSpace);
     decreasingBellShapeParameter_.xmax = Eigen::VectorXd::Zero(taskSpace_);
     decreasingBellShapeParameter_.xmin = Eigen::VectorXd::Zero(taskSpace_);
     increasingBellShapeParameter_.xmax = Eigen::VectorXd::Zero(taskSpace_);
     increasingBellShapeParameter_.xmin = Eigen::VectorXd::Zero(taskSpace_);
     AgreaterThan_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
     AlessThan_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
+    Ai_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
+
+    Aexternal_ = Eigen::MatrixXd::Identity(taskSpace_, taskSpace_);
 }
 
 ReactiveTask::~ReactiveTask() { }
