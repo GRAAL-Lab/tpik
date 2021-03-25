@@ -66,7 +66,7 @@ public:
     * @brief Method returning the Task Reference rate
     * @return task Reference rate.
     */
-    auto ReferenceRate() const -> const Eigen::VectorXd& { return x_dot_; }
+    auto ReferenceRate() const -> const Eigen::VectorXd& { return x_dot_bar_; }
     /*
     * @brief Method returning the Task Degrees of Freedom.
     * @return Degrees of Freedom.
@@ -113,7 +113,7 @@ public:
                   << "\033[0m" << task.J_ << "\n"
                   << "\033[1;37m"
                   << "Reference Rate \n"
-                  << "\033[0m" << task.x_dot_ << "\n";
+                  << "\033[0m" << task.x_dot_bar_ << "\n";
     }
 
 protected:
@@ -125,10 +125,12 @@ protected:
     * @brief Pure Virtual Method to be implemented by the derived classes to update the task reference rate.
     */
     virtual void UpdateReferenceRate() = 0;
+
     /*
     * @brief Pure Virtual Method to be implemented by the derived classes to update the task reference.
     */
-    virtual void UpdateReference() = 0;
+    //virtual void UpdateReference() = 0;
+
     /*
     * @brief Pure Virtual Method to be implemented by the derived classes to update the task Jacobian.
     */
@@ -138,7 +140,7 @@ protected:
     Eigen::MatrixXd Ai_; // The internal activation function.
     Eigen::MatrixXd Aexternal_; // The activation function set externely to modify customly the Ai
     Eigen::MatrixXd J_; // The jacobian.
-    Eigen::VectorXd x_dot_; // reference rate.
+    Eigen::VectorXd x_dot_bar_; // reference rate. --> CHECK TODO x_dot_bar
     int taskSpace_; // The task Space.
     bool isActive_; // The flag stating whether the task is active.
     int dof_; // The degrees of freedom.

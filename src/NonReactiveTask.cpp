@@ -10,10 +10,10 @@ NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     , taskParameter_ { 0.0, false, 0.0 }
     , saturateRaferenceRateComponentWise_ { false }
 {
-    x_bar_ = Eigen::VectorXd::Zero(taskSpace_);
+    x_dot_bar_ = Eigen::VectorXd::Zero(taskSpace_);
 }
 
-NonReactiveTask::~NonReactiveTask() {};
+NonReactiveTask::~NonReactiveTask() {}
 
 void NonReactiveTask::CheckInitialization() noexcept(false)
 {
@@ -51,16 +51,15 @@ void NonReactiveTask::SaturateReferenceRate()
 {
     if (saturateRaferenceRateComponentWise_) {
         for (int i = 0; i < taskSpace_; i++) {
-            rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
+            rml::SaturateScalar(taskParameter_.saturation, x_dot_bar_(i));
         }
     } else {
-        rml::SaturateVector(taskParameter_.saturation, x_dot_);
+        rml::SaturateVector(taskParameter_.saturation, x_dot_bar_);
     }
 }
 
 void NonReactiveTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }
 
-void NonReactiveTask::UpdateReferenceRate() { x_dot_ = x_bar_; }
+void NonReactiveTask::UpdateReferenceRate() { }
 
-void NonReactiveTask::UpdateReference() { }
 }

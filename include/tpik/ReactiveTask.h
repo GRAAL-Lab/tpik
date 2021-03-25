@@ -139,7 +139,7 @@ protected:
     /*
     * @brief Method updating the reference for reactive task.
     */
-    void UpdateReference() override;
+    virtual void UpdateReference() = 0;
     /*
     * @brief Method updating the Jacobian.
     * Implementation of the pure virtual method of the base class tpik::Task.

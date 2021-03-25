@@ -10,7 +10,7 @@ Task::Task(const std::string ID, int taskSpace, int dof)
 
 {
     Ai_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
-    x_dot_ = Eigen::VectorXd::Zero(taskSpace_);
+    x_dot_bar_ = Eigen::VectorXd::Zero(taskSpace_);
     Aexternal_ = Eigen::MatrixXd::Identity(taskSpace_, taskSpace_);
     J_ = Eigen::MatrixXd::Zero(taskSpace_, taskSpace_);
 }
@@ -21,7 +21,7 @@ void Task::Update()
 {
     UpdateInternalActivationFunction();
     UpdateJacobian();
-    UpdateReference();
+    //UpdateReference();  //<- Solo nel Reactive, togliere da classe base e overridare con questa nella classe base Reactive <- TODO
     UpdateReferenceRate();
 }
 }

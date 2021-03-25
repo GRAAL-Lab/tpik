@@ -18,7 +18,7 @@ ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::T
     }
 
     x_ = Eigen::VectorXd::Zero(taskSpace_);
-    x_dot_ = Eigen::VectorXd::Zero(taskSpace_);
+    x_dot_bar_ = Eigen::VectorXd::Zero(taskSpace_);
     x_bar_ = Eigen::VectorXd::Zero(taskSpace_);
     decreasingBellShapeParameter_.xmax = Eigen::VectorXd::Zero(taskSpace_);
     decreasingBellShapeParameter_.xmin = Eigen::VectorXd::Zero(taskSpace_);
@@ -136,12 +136,12 @@ void ReactiveTask::UpdateReferenceRate()
     for (int i = 0; i < taskSpace_; i++) {
         if (Ai_.diagonal()(i) > 0) {
             if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
-                x_dot_(i) = taskParameter_.gain * (x_bar_(i) - x_.norm());
+                x_dot_bar_(i) = taskParameter_.gain * (x_bar_(i) - x_.norm());
             } else {
-                x_dot_(i) = taskParameter_.gain * (x_bar_(i) - x_(i));
+                x_dot_bar_(i) = taskParameter_.gain * (x_bar_(i) - x_(i));
             }
         } else {
-            x_dot_(i) = 0;
+            x_dot_bar_(i) = 0;
         }
     }
 }
@@ -162,10 +162,10 @@ void ReactiveTask::SaturateReferenceRate()
 {
     if (saturateRaferenceRateComponentWise_) {
         for (int i = 0; i < taskSpace_; i++) {
-            rml::SaturateScalar(taskParameter_.saturation, x_dot_(i));
+            rml::SaturateScalar(taskParameter_.saturation, x_dot_bar_(i));
         }
     } else {
-        rml::SaturateVector(taskParameter_.saturation, x_dot_);
+        rml::SaturateVector(taskParameter_.saturation, x_dot_bar_);
     }
 }
 
