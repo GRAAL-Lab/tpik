@@ -132,14 +132,14 @@ protected:
     */
     void UpdateInternalActivationFunction() override;
     /*
+    * @brief Method updating the reference for reactive task.
+    */
+    virtual void UpdateReference();
+    /*
     * @brief Implementation of the pure virtual method of the base class Task used to update the task reference rate.
     * Such method must be called in the Update method.
     */
     void UpdateReferenceRate() override;
-    /*
-    * @brief Method updating the reference for reactive task.
-    */
-    virtual void UpdateReference() = 0;
     /*
     * @brief Method updating the Jacobian.
     * Implementation of the pure virtual method of the base class tpik::Task.
