@@ -45,7 +45,8 @@ struct BellShapedParameter {
  * @brief Task Parameter, used both in the equality and inequality task
  */
 struct TaskParameter {
-    double gain; //!< The reference gain.
+    double gain; //!< The reference gain used in calculation.
+    double conf_gain;  //!< A backup variable for reference gain loaded from the configuration file.
     bool taskEnable; //!< Boolean stating whether the task is active
     double saturation; //!< The reference saturation value.
 
@@ -70,6 +71,7 @@ struct TaskParameter {
         if (!ctb::SetParam(confObj, gain, "gain")) {
             return false;
         }
+        conf_gain = gain;
         if (!ctb::SetParam(confObj, taskEnable, "enable")) {
             return false;
         }
