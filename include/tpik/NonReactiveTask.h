@@ -40,12 +40,6 @@ public:
      * @return Task parameter.
      */
     auto TaskParameter() const -> const struct TaskParameter& { return taskParameter_; }
-
-    /*
-    * @brief Method getting the control vector reference in case of equality tasks.
-    * @return task reference x_dot_bar in body frame.
-    */
-    auto ReferenceRate() const -> const Eigen::VectorXd& { return x_dot_bar_; }
     /*
     * @brief Method to flag the possibility to saturete the reference component by component
     */
@@ -98,7 +92,6 @@ protected:
 
     bool initializedTaskParameter_; // The boolean used to check whether the task parameter have been initialized.
     struct TaskParameter taskParameter_; // The tpik::TaskParameter.
-    Eigen::VectorXd x_dot_bar_; // The control vector reference
     bool saturateRaferenceRateComponentWise_; //flag to check if the refarence rate must be saturete as vector or component by component
 };
 }

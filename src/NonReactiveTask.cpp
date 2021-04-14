@@ -60,6 +60,8 @@ void NonReactiveTask::SaturateReferenceRate()
 
 void NonReactiveTask::UpdateInternalActivationFunction() { Ai_.setIdentity(); }
 
-void NonReactiveTask::UpdateReferenceRate() { }
+void NonReactiveTask::UpdateReferenceRate() {
+
+}
 
 }
