@@ -30,10 +30,10 @@ struct BellShapedParameter {
     template <typename T>
     bool ConfigureFromFile(T& confObj) noexcept(false)
     {
-        if (!ctb::SetParamVector(confObj, xmin, "xmin")) {
+        if (!ctb::GetParamVector(confObj, xmin, "xmin")) {
             return false;
         }
-        if (!ctb::SetParamVector(confObj, xmax, "xmax")) {
+        if (!ctb::GetParamVector(confObj, xmax, "xmax")) {
             return false;
         }
 
@@ -68,14 +68,14 @@ struct TaskParameter {
 
     bool ConfigureFromFile(const libconfig::Setting& confObj) noexcept(false)
     {
-        if (!ctb::SetParam(confObj, gain, "gain")) {
+        if (!ctb::GetParam(confObj, gain, "gain")) {
             return false;
         }
         conf_gain = gain;
-        if (!ctb::SetParam(confObj, taskEnable, "enable")) {
+        if (!ctb::GetParam(confObj, taskEnable, "enable")) {
             return false;
         }
-        if (!ctb::SetParam(confObj, saturation, "saturation")) {
+        if (!ctb::GetParam(confObj, saturation, "saturation")) {
             return false;
         }
         return true;

@@ -40,7 +40,7 @@ bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     }
 
     if (task.exists("saturateRaferenceRateComponentWise")) {
-        if (ctb::SetParam(task, saturateRaferenceRateComponentWise_, "saturateRaferenceRateComponentWise"))
+        if (ctb::GetParam(task, saturateRaferenceRateComponentWise_, "saturateRaferenceRateComponentWise"))
             return false;
     }
 
