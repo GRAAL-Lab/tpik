@@ -6,7 +6,7 @@ project (tpik)
 
 #include_directories(src)
 #include_directories(include)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 add_library(tpik SHARED
         src/Task.cpp
 	src/PriorityLevel.cpp

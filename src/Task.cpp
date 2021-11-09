@@ -5,7 +5,7 @@ namespace tpik {
 Task::Task(const std::string ID, int taskSpace, int dof)
     : ID_(std::move(ID))
     , taskSpace_(taskSpace)
-    , isActive_(true)
+    , enabled_(true)
     , dof_(dof)
 
 {
@@ -24,4 +24,5 @@ void Task::Update()
     //UpdateReference();  //<- Solo nel Reactive, togliere da classe base e overridare con questa nella classe base Reactive <- TODO
     UpdateReferenceRate();
 }
+
 }

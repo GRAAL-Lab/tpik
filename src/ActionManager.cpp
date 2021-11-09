@@ -14,6 +14,7 @@ ActionManager::ActionManager()
     simulationBegin_ = std::chrono::system_clock::now();
     simulationTime_ = simulationBegin_;
     transitionInBetweenActions_ = true;
+    SetTransitionDuration(500.0);
 }
 
 void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
@@ -32,6 +33,11 @@ void ActionManager::AddTaskToPriorityLevel(const std::shared_ptr<Task> task, con
 {
     auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
+
+    // While filling the priority levels we populate the map containing the list
+    // of the map that will contain the information about the presence of a task
+    // in the current action.
+    taskInCurrentActionMap_.insert(std::pair<std::string, bool>(task->ID(), false));
 }
 
 void ActionManager::AddAction(const std::string actionID, const std::vector<std::string> priorityLevelsID)
@@ -44,6 +50,7 @@ void ActionManager::AddAction(const std::string actionID, const std::vector<std:
     }
     actions_.push_back(newAction);
 }
+
 void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy)
 {
     hierarchy_.clear();
@@ -58,6 +65,23 @@ void ActionManager::SetAction(const std::string newAction, bool transition)
     currentAction_ = GetAction(newAction);
     time_ = Time();
     transitionInBetweenActions_ = transition;
+
+
+    // Set to false all the taskInCurrentActionMap_
+    for (auto &inCurrentAction : taskInCurrentActionMap_)
+    {
+        inCurrentAction.second = false;
+    }
+
+    // Set to true the inCurrentAction variable only for the tasks in the current action
+    tpik::Hierarchy hierarchy = currentAction_->PriorityLevels();
+    for (auto& priorityLevel : hierarchy) {
+        std::vector<std::shared_ptr<tpik::Task>> tasks = priorityLevel->Level();
+        for(auto& task : tasks){
+            taskInCurrentActionMap_.at(task->ID()) = true;
+        }
+    }
+
 }
 
 void ActionManager::ComputeActionTransitionActivation() noexcept(false)
@@ -85,7 +109,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
                 // The PL must be activated: increasing.
                 std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // In 500 ms the PL is completely active.
-                actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
+                actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, transitionDurationMs_, 0, 1, diff.count());
             } else {
                 actionTransitionA_ = 1.0;
             }
@@ -94,7 +118,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
             if (transitionInBetweenActions_) {
                 std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // The PL must be deactivated: decreasing.
-                actionTransitionA_ = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
+                actionTransitionA_ = rml::DecreasingBellShapedFunction(0.00, transitionDurationMs_, 0, 1, diff.count());
 
             } else {
                 actionTransitionA_ = 0.0;
@@ -119,6 +143,11 @@ const Hierarchy& ActionManager::GetHierarchy() const noexcept(false)
         throw(nullHierarchyExcpetion);
     }
     return hierarchy_;
+}
+
+bool ActionManager::IsTaskInCurrentAction(const std::string &task_id)
+{
+    return taskInCurrentActionMap_.at(task_id);
 }
 
 const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actionID) noexcept(false)

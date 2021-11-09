@@ -37,7 +37,7 @@ void PriorityLevel::UpdateActivationFunction()
     for (auto& task : level_) {
         taskSpacei = task->TaskSpace();
 
-        if (task->IsActive()) {
+        if (task->Enabled()) {
             AexternalBloc = task->ExternalActivationFunction();
             AinternalBlock = task->InternalActivationFunction();
 
