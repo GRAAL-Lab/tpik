@@ -71,7 +71,7 @@ struct TaskParameter {
         if (!ctb::GetParam(confObj, gain, "gain")) {
             return false;
         }
-        conf_gain = gain;
+        conf_gain = gain; // Backup value in case of online value changes
         if (!ctb::GetParam(confObj, taskEnable, "enable")) {
             return false;
         }

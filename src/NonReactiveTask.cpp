@@ -37,6 +37,7 @@ bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
 
     if (taskParameter_.ConfigureFromFile(task)) {
         initializedTaskParameter_ = true;
+        enabled_ = taskParameter_.taskEnable;
     }
 
     if (task.exists("saturateRaferenceRateComponentWise")) {
