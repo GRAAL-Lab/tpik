@@ -31,7 +31,7 @@ public:
     * @param[in] action current action ID.
     * @param[in] transiction true if transiction in between action, false otherwise
     */
-    void SetAction(const std::string action, bool transition);
+    bool SetAction(const std::string action, bool transition);
     /*
     * @brief Method which implements the kinematic control by computing and returning the desired velocities.
     * @return Computed Velocity Vector.

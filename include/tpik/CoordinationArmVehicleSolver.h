@@ -34,10 +34,10 @@ public:
     /**
 	 * @brief Method setting the current tpik::Action.
 	 * @param[in] action current action ID.
-     * @param[in] transaaction true if transaction false otherwise
+     * @param[in] transaaction true if transition false otherwise
 	 */
 
-    void SetAction(const std::string action, bool transition);
+    bool SetAction(const std::string action, bool transition);
     /**
 	 * @brief Method that computes the optimized velocities for the whole system through two different optimization. One for the vehicle and
 	 * on for the arms.

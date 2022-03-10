@@ -59,15 +59,20 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
     }
 }
 
-void ActionManager::SetAction(const std::string newAction, bool transition)
+bool ActionManager::SetAction(const std::string newAction, bool transition)
 {
-    oldAction_ = currentAction_;
+    std::shared_ptr<Action> tmpAction;
 
     try {
-        currentAction_ = GetAction(newAction);
+        tmpAction = GetAction(newAction);
     } catch (tpik::ActionManagerException &e) {
         std::cerr << e.how() << std::endl;
+        std::cerr << "[ActionManager::SetAction] FAIL - Kept previous action: " << currentAction_->ID() << std::endl;
+        return false;
     }
+
+    oldAction_ = currentAction_;
+    currentAction_ = tmpAction;
 
     time_ = Time();
     transitionInBetweenActions_ = transition;
@@ -88,6 +93,7 @@ void ActionManager::SetAction(const std::string newAction, bool transition)
         }
     }
 
+    return true;
 }
 
 void ActionManager::ComputeActionTransitionActivation() noexcept(false)

@@ -63,9 +63,9 @@ public:
     /*
     * @brief Method that sets the current Action.
     * @param[in] newAction new current action ID.
-    * @note An exception is thrown if the action set is not present in the action list (via getAction exception).
+    * @param[out] bool Action changed: true, Action not changed: false
     */
-    void SetAction(const std::string newAction, bool transition);
+    bool SetAction(const std::string newAction, bool transition);
     /*
     * @brief Method returning the current Action ID.
     * @return current action id

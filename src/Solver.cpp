@@ -8,9 +8,9 @@ Solver::Solver(std::shared_ptr<ActionManager> actionManager, std::shared_ptr<iCA
     hierarchy_ = actionManager_->GetHierarchy();
 }
 
-void Solver::SetAction(const std::string action, bool transition)
+bool Solver::SetAction(const std::string action, bool transition)
 {
-    actionManager_->SetAction(action, transition);
+    return actionManager_->SetAction(action, transition);
 }
 
 const Eigen::VectorXd Solver::ComputeVelocities()
