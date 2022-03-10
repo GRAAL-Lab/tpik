@@ -62,7 +62,13 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
 void ActionManager::SetAction(const std::string newAction, bool transition)
 {
     oldAction_ = currentAction_;
-    currentAction_ = GetAction(newAction);
+
+    try {
+        currentAction_ = GetAction(newAction);
+    } catch (tpik::ActionManagerException &e) {
+        std::cerr << e.how() << std::endl;
+    }
+
     time_ = Time();
     transitionInBetweenActions_ = transition;
 
@@ -158,7 +164,7 @@ const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actio
         }
     }
     ActionManagerException nullAction;
-    std::string how = "Asking a not existing action " + actionID;
+    std::string how = "Asking a non-existing action " + actionID;
     nullAction.SetHow(how);
     throw(nullAction);
 }
