@@ -122,9 +122,9 @@ void ReactiveTask::UpdateReference()
 {
     if (taskType_ == TaskType::Inequality) {
         for (int i = 0; i < taskSpace_; i++) {
-            if (AgreaterThan_(i) > 0) {
+            if (AgreaterThan_(i, i) > 0) {
                 x_bar_(i) = decreasingBellShapeParameter_.xmax(i);
-            } else if (AlessThan_(i) > 0) {
+            } else if (AlessThan_(i, i) > 0) {
                 x_bar_(i) = increasingBellShapeParameter_.xmin(i);
             }
         }
