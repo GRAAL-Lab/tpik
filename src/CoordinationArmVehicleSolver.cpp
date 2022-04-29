@@ -13,9 +13,9 @@ CoordinationArmVehicleSolver::CoordinationArmVehicleSolver(const std::shared_ptr
     hierarchyArm_.insert(hierarchyArm_.end(), hierarchy_.begin(), hierarchy_.end());
 }
 
-void CoordinationArmVehicleSolver::SetAction(const std::string action, bool transition)
+bool CoordinationArmVehicleSolver::SetAction(const std::string action, bool transition)
 {
-    actionManager_->SetAction(action, transition);
+    return actionManager_->SetAction(action, transition);
 }
 
 const Eigen::VectorXd CoordinationArmVehicleSolver::ComputeDecoupledVelocities()

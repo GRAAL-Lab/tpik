@@ -14,6 +14,7 @@ ActionManager::ActionManager()
     simulationBegin_ = std::chrono::system_clock::now();
     simulationTime_ = simulationBegin_;
     transitionInBetweenActions_ = true;
+    SetTransitionDuration(500.0);
 }
 
 void ActionManager::AddPriorityLevel(const std::string priorityLevelID)
@@ -32,6 +33,11 @@ void ActionManager::AddTaskToPriorityLevel(const std::shared_ptr<Task> task, con
 {
     auto pl = priorityLevelIDMap_.at(priorityLevelID);
     pl->AddTask(task);
+
+    // While filling the priority levels we populate the map containing the list
+    // of the map that will contain the information about the presence of a task
+    // in the current action.
+    taskInCurrentActionMap_.insert(std::pair<std::string, bool>(task->ID(), false));
 }
 
 void ActionManager::AddAction(const std::string actionID, const std::vector<std::string> priorityLevelsID)
@@ -44,6 +50,7 @@ void ActionManager::AddAction(const std::string actionID, const std::vector<std:
     }
     actions_.push_back(newAction);
 }
+
 void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarchy)
 {
     hierarchy_.clear();
@@ -52,12 +59,41 @@ void ActionManager::SetUnifiedHierarchy(std::vector<std::string> unifiedHierarch
     }
 }
 
-void ActionManager::SetAction(const std::string newAction, bool transition)
+bool ActionManager::SetAction(const std::string newAction, bool transition)
 {
+    std::shared_ptr<Action> tmpAction;
+
+    try {
+        tmpAction = GetAction(newAction);
+    } catch (tpik::ActionManagerException &e) {
+        std::cerr << e.how() << std::endl;
+        std::cerr << "[ActionManager::SetAction] FAIL - Kept previous action: " << currentAction_->ID() << std::endl;
+        return false;
+    }
+
     oldAction_ = currentAction_;
-    currentAction_ = GetAction(newAction);
+    currentAction_ = tmpAction;
+
     time_ = Time();
     transitionInBetweenActions_ = transition;
+
+
+    // Set to false all the taskInCurrentActionMap_
+    for (auto &inCurrentAction : taskInCurrentActionMap_)
+    {
+        inCurrentAction.second = false;
+    }
+
+    // Set to true the inCurrentAction variable only for the tasks in the current action
+    tpik::Hierarchy hierarchy = currentAction_->PriorityLevels();
+    for (auto& priorityLevel : hierarchy) {
+        std::vector<std::shared_ptr<tpik::Task>> tasks = priorityLevel->Level();
+        for(auto& task : tasks){
+            taskInCurrentActionMap_.at(task->ID()) = true;
+        }
+    }
+
+    return true;
 }
 
 void ActionManager::ComputeActionTransitionActivation() noexcept(false)
@@ -85,7 +121,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
                 // The PL must be activated: increasing.
                 std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // In 500 ms the PL is completely active.
-                actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
+                actionTransitionA_ = rml::IncreasingBellShapedFunction(0.00, transitionDurationMs_, 0, 1, diff.count());
             } else {
                 actionTransitionA_ = 1.0;
             }
@@ -94,7 +130,7 @@ void ActionManager::ComputeActionTransitionActivation() noexcept(false)
             if (transitionInBetweenActions_) {
                 std::chrono::duration<double, std::milli> diff = Time() - time_;
                 // The PL must be deactivated: decreasing.
-                actionTransitionA_ = rml::DecreasingBellShapedFunction(0.00, 500.0, 0, 1, diff.count());
+                actionTransitionA_ = rml::DecreasingBellShapedFunction(0.00, transitionDurationMs_, 0, 1, diff.count());
 
             } else {
                 actionTransitionA_ = 0.0;
@@ -121,6 +157,11 @@ const Hierarchy& ActionManager::GetHierarchy() const noexcept(false)
     return hierarchy_;
 }
 
+bool ActionManager::IsTaskInCurrentAction(const std::string &task_id)
+{
+    return taskInCurrentActionMap_.at(task_id);
+}
+
 const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actionID) noexcept(false)
 {
     for (auto& act : actions_) {
@@ -129,7 +170,7 @@ const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actio
         }
     }
     ActionManagerException nullAction;
-    std::string how = "Asking a not existing action " + actionID;
+    std::string how = "Asking a non-existing action " + actionID;
     nullAction.SetHow(how);
     throw(nullAction);
 }

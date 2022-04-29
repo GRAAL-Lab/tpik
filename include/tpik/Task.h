@@ -79,10 +79,10 @@ public:
     auto TaskSpace() const -> int { return taskSpace_; }
     /*
     * @brief Method returning the task enable boolean.
-    * @return True if the task is active, false otherwise.
-    * @note If the task is inactive, the internal activation function is set to 0 in the tpik::PriorityLevel.
+    * @return True if the task is enabled, false otherwise.
+    * @note If the task is disabled, the internal activation function is set to 0 in the tpik::PriorityLevel.
     */
-    auto IsActive() const -> bool { return isActive_; }
+    auto Enabled() const -> bool { return enabled_; }
     /*
     * @brief Method returning the task ID.
     * @return task ID.
@@ -116,6 +116,8 @@ public:
                   << "\033[0m" << task.x_dot_bar_ << "\n";
     }
 
+
+
 protected:
     /*
     * @brief Pure Virtual Method to be implemented by the derived classes to update the task internal activation function.
@@ -142,7 +144,7 @@ protected:
     Eigen::MatrixXd J_; // The jacobian.
     Eigen::VectorXd x_dot_bar_; // reference rate. --> CHECK TODO x_dot_bar
     int taskSpace_; // The task Space.
-    bool isActive_; // The flag stating whether the task is active.
+    bool enabled_; // The flag stating whether the task is active.
     int dof_; // The degrees of freedom.
 };
 } // namespace tpik

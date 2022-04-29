@@ -180,6 +180,7 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     const libconfig::Setting& task = tasks.lookup(ID_);
     if (taskParameter_.ConfigureFromFile(task)) {
         initializedTaskParameter_ = true;
+        enabled_ = taskParameter_.taskEnable;
     }
 
     int tmpType;

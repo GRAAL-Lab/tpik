@@ -63,9 +63,9 @@ public:
     /*
     * @brief Method that sets the current Action.
     * @param[in] newAction new current action ID.
-    * @note An exception is thrown if the action set is not present in the action list (via getAction exception).
+    * @param[out] bool Action changed: true, Action not changed: false
     */
-    void SetAction(const std::string newAction, bool transition);
+    bool SetAction(const std::string newAction, bool transition);
     /*
     * @brief Method returning the current Action ID.
     * @return current action id
@@ -95,6 +95,18 @@ public:
     * @param[in] isSimulated true if it is simulated, false otherwise.
     */
     auto IsSimulation(bool isSimulated) -> void { isSimulated_ = isSimulated; }
+    /*
+     * @brief Method telling wether a task is present in the current action
+     */
+    bool IsTaskInCurrentAction(const std::string& task_id);
+    /*
+     * Method that set the transition duration, in milliseconds.
+    */
+    void SetTransitionDuration(double duration) { transitionDurationMs_ = duration; }
+    /*
+     * Method that gets the transition duration, in milliseconds.
+    */
+    auto GetTransitionDuration() const -> double { return transitionDurationMs_; }
     /*
     * @brief Method to set the time if the tpik::ActionManager is used in a simulation.
     * @param[in] simulationTime currentSimulationTime in ms.
@@ -128,11 +140,13 @@ public:
 
 protected:
     std::unordered_map<std::string, std::shared_ptr<tpik::PriorityLevel>> priorityLevelIDMap_; //map of priority levels
+    std::unordered_map<std::string, bool> taskInCurrentActionMap_; //map of task presence in action
     std::vector<std::shared_ptr<Action>> actions_; // The action list.
     Hierarchy hierarchy_; // The unified hierarchy.
     std::shared_ptr<Action> currentAction_; // The current action.
     std::shared_ptr<Action> oldAction_; // The previous action.
     std::chrono::system_clock::time_point time_; // The current time.
+    double transitionDurationMs_;
     bool isSimulated_; // The boolean stating whether the action manager is used in a simulation.
     std::chrono::system_clock::time_point simulationTime_; // The simulation time.
     std::chrono::system_clock::time_point simulationBegin_; // The time when the simulation begin.

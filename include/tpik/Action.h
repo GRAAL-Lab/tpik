@@ -29,11 +29,11 @@ public:
     */
     ~Action();
     /*
-    * @brief Methods setting and getting the Action ID.
+    * @brief Methods setting the Action ID.
     */
     auto ID() -> std::string& { return ID_; }
     /*
-    * @brief Methods getting and getting the Action ID.
+    * @brief Methods getting and the Action ID.
     */
     auto ID() const -> const std::string& { return ID_; }
     /*
