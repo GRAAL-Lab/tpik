@@ -4,9 +4,11 @@ include(GNUInstallDirs)
 option(BUILD_TESTS "Compile tests" ON)
 project (tpik)
 
+set(CMAKE_CXX_STANDARD 17)
+
 #include_directories(src)
 #include_directories(include)
-set (CMAKE_CXX_STANDARD 14)
+
 add_library(tpik SHARED
         src/Task.cpp
 	src/PriorityLevel.cpp
