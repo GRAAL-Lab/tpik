@@ -1,4 +1,5 @@
 #include "tpik/TPIK.h"
+
 namespace tpik {
 TPIK::TPIK(int DoF)
     : DoF_(DoF)

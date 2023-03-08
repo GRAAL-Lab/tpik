@@ -1,14 +1,15 @@
 #include "tpik/NonReactiveTask.h"
 #include "rml/RML.h"
 #include "tpik/TPIKExceptions.h"
+#include "tpik_internal/futils.h"
 
 namespace tpik {
 
 NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
-    , initializedTaskParameter_ { false }
-    , taskParameter_ { 0.0, 0.0, false, 0.0 }
-    , saturateRaferenceRateComponentWise_ { false }
+      , initializedTaskParameter_ { false }
+      , taskParameter_ { 0.0, 0.0, false, 0.0 }
+      , saturateRaferenceRateComponentWise_ { false }
 {
     x_dot_bar_ = Eigen::VectorXd::Zero(taskSpace_);
 }
@@ -31,19 +32,26 @@ bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     const libconfig::Setting& tasks = root["tasks"];
 
     //Check if the task name exist in the conf file.
-    assert(tasks.exists(ID_));
+    try
+    {
+        const libconfig::Setting& task = tasks.lookup(ID_);
 
-    const libconfig::Setting& task = tasks.lookup(ID_);
+        if (taskParameter_.ConfigureFromFile(task)) {
+            initializedTaskParameter_ = true;
+            enabled_ = taskParameter_.taskEnable;
+        }
 
-    if (taskParameter_.ConfigureFromFile(task)) {
-        initializedTaskParameter_ = true;
-        enabled_ = taskParameter_.taskEnable;
+        if (task.exists("saturateRaferenceRateComponentWise")) {
+            if (ctb::GetParam(task, saturateRaferenceRateComponentWise_, "saturateRaferenceRateComponentWise"))
+                return false;
+        }
+    }
+    catch(const libconfig::SettingNotFoundException &nfex)
+    {
+        std::cerr << tc::redL << "[tpik::SettingNotFoundException] -> " << nfex.getPath() << tc::none << std::endl;
+        exit(EXIT_FAILURE);
     }
 
-    if (task.exists("saturateRaferenceRateComponentWise")) {
-        if (ctb::GetParam(task, saturateRaferenceRateComponentWise_, "saturateRaferenceRateComponentWise"))
-            return false;
-    }
 
     return true;
 }

@@ -202,3 +202,5 @@ qtcreator-*
 CATKIN_IGNORE
 CMakeLists.txt.user
 
+*.autosave
+

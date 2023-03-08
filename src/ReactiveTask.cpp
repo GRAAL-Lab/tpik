@@ -1,17 +1,18 @@
 #include "tpik/ReactiveTask.h"
 #include "tpik/TPIKExceptions.h"
+#include "tpik_internal/futils.h"
 
 namespace tpik {
 
 ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption)
     : Task(ID, taskSpace, DoF)
-    , taskParameter_ { 0.0, 0.0, false, 0.0 }
-    , initializedTaskParameter_ { false }
-    , isLessThanParamsInizialized_ { false }
-    , isGreaterThanParamsInizialized_ { false }
-    , isTaskTypeSet_ { false }
-    , taskOption_ { taskOption }
-    , saturateRaferenceRateComponentWise_ { false }
+      , taskParameter_ { 0.0, 0.0, false, 0.0 }
+      , initializedTaskParameter_ { false }
+      , isLessThanParamsInizialized_ { false }
+      , isGreaterThanParamsInizialized_ { false }
+      , isTaskTypeSet_ { false }
+      , taskOption_ { taskOption }
+      , saturateRaferenceRateComponentWise_ { false }
 {
     if (taskOption_ == tpik::TaskOption::UseErrorNorm) {
         taskSpace_ = 1;
@@ -53,7 +54,7 @@ void ReactiveTask::CheckInitialization() noexcept(false)
     if (taskType_ == TaskType::Inequality) {
         if (!isLessThanParamsInizialized_ && !isGreaterThanParamsInizialized_) {
             NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Not greater/less than params init for Inequality task, use GreaterThanParams()/LessThanParams() for task ";
+            std::string how = "[ReactiveTask] No greater/less than params init for Inequality task, use GreaterThanParams()/LessThanParams() for task ";
             how.append(ID_);
             e.SetHow(how);
             throw(e);
@@ -61,16 +62,18 @@ void ReactiveTask::CheckInitialization() noexcept(false)
 
         if (taskType_ == TaskType::Inequality && isLessThanParamsInizialized_ && increasingBellShapeParameter_.xmax.size() != taskSpace_) {
             NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Wrong size greater than param, expectedSize = ";
-            how.append(std::to_string(taskSpace_)).append(" task ").append(ID_);
+            std::string how = "[ReactiveTask] " + ID_ + " Wrong size lessThanParams";
+            how = how + ", expectedSize = " + std::to_string(taskSpace_);
+            how = how + ", actualSize = " + std::to_string(increasingBellShapeParameter_.xmax.size());
             e.SetHow(how);
             throw(e);
         }
 
         if (taskType_ == TaskType::Inequality && isGreaterThanParamsInizialized_ && decreasingBellShapeParameter_.xmax.size() != taskSpace_) {
             NotInitialziedTaskParameterException e;
-            std::string how = "[ReactiveTask] Wrong size less than params, expectedSize = ";
-            how.append(std::to_string(taskSpace_)).append(" task ").append(ID_);
+            std::string how = "[ReactiveTask] " + ID_ + " Wrong size greaterThanParams";
+            how = how + ", expectedSize = " + std::to_string(taskSpace_);
+            how = how + ", actualSize = " + std::to_string(decreasingBellShapeParameter_.xmax.size());
             e.SetHow(how);
             throw(e);
         }
@@ -175,38 +178,49 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
     const libconfig::Setting& tasks = root["tasks"];
 
     //Check if the task name exist in the conf file.
-    assert(tasks.exists(ID_));
-
-    const libconfig::Setting& task = tasks.lookup(ID_);
-    if (taskParameter_.ConfigureFromFile(task)) {
-        initializedTaskParameter_ = true;
-        enabled_ = taskParameter_.taskEnable;
-    }
-
-    int tmpType;
-
-    if (ctb::GetParam(task, tmpType, "type")) {
-        taskType_ = static_cast<tpik::TaskType>(tmpType);
-        isTaskTypeSet_ = true;
-    }
-
-    if (taskType_ == TaskType::Inequality) {
-
-        if (task.exists("greaterThanParams")) {
-            const libconfig::Setting& decbellShapedParam = task.lookup("greaterThanParams");
-            decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
-            isGreaterThanParamsInizialized_ = true;
+    try
+    {
+        const libconfig::Setting& task = tasks.lookup(ID_);
+        if (taskParameter_.ConfigureFromFile(task)) {
+            initializedTaskParameter_ = true;
+            enabled_ = taskParameter_.taskEnable;
         }
 
-        if (task.exists("lessThanParams")) {
-            const libconfig::Setting& incbellShapedParam = task.lookup("lessThanParams");
-            increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
-            isLessThanParamsInizialized_ = true;
+        int tmpType;
+
+        if (ctb::GetParam(task, tmpType, "type")) {
+            taskType_ = static_cast<tpik::TaskType>(tmpType);
+            isTaskTypeSet_ = true;
+        }
+
+        if (taskType_ == TaskType::Inequality) {
+
+            if (task.exists("greaterThanParams")) {
+                const libconfig::Setting& decbellShapedParam = task.lookup("greaterThanParams");
+                decreasingBellShapeParameter_.ConfigureFromFile(decbellShapedParam);
+                isGreaterThanParamsInizialized_ = true;
+            }
+
+            if (task.exists("lessThanParams")) {
+                const libconfig::Setting& incbellShapedParam = task.lookup("lessThanParams");
+                increasingBellShapeParameter_.ConfigureFromFile(incbellShapedParam);
+                isLessThanParamsInizialized_ = true;
+            }
+        }
+
+        if (task.exists("saturateRaferenceRateComponentWise")) {
+            task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
         }
     }
-
-    if (task.exists("saturateRaferenceRateComponentWise")) {
-        task.lookupValue("saturateRaferenceRateComponentWise", saturateRaferenceRateComponentWise_);
+    catch(const libconfig::SettingNotFoundException &nfex)
+    {
+        std::cerr << tc::redL << "[tpik::SettingNotFoundException] -> " << nfex.getPath() << tc::none << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    catch(const libconfig::SettingTypeException &nfex)
+    {
+        std::cerr << tc::redL << "[tpik::SettingTypeException] -> " << nfex.getPath() << tc::none << std::endl;
+        exit(EXIT_FAILURE);
     }
 
     return true;

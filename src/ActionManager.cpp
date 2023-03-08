@@ -159,7 +159,12 @@ const Hierarchy& ActionManager::GetHierarchy() const noexcept(false)
 
 bool ActionManager::IsTaskInCurrentAction(const std::string &task_id)
 {
-    return taskInCurrentActionMap_.at(task_id);
+    bool found;
+
+    auto it = taskInCurrentActionMap_.find(task_id);
+    it != taskInCurrentActionMap_.end() ? found = true : found = false;
+
+    return found;
 }
 
 const std::shared_ptr<Action>& ActionManager::GetAction(const std::string& actionID) noexcept(false)

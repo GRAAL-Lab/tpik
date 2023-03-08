@@ -36,6 +36,8 @@ install(TARGETS tpik EXPORT tpikConfig
     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})  # This is for Windows
 install(DIRECTORY include/tpik DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(DIRECTORY include/tpik_internal DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 # This makes the project importable from the install directory
 # Put config file in per-project dir (name MUST match), can also
 # just go into 'cmake'.
