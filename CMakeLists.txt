@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.2)
-include(GNUInstallDirs)
+# TPIK: Task Priority Inverse Kinematics
 
-option(BUILD_TESTS "Compile tests" ON)
-project (tpik)
+cmake_minimum_required(VERSION 3.2)
+project (tpik VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+
+include(GNUInstallDirs)
+
+option(BUILD_TESTS "Compile tests" OFF)
 
 #include_directories(src)
 #include_directories(include)
