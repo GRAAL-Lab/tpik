@@ -9,8 +9,11 @@ include(GNUInstallDirs)
 
 option(BUILD_TESTS "Compile tests" OFF)
 
-#include_directories(src)
-#include_directories(include)
+# Add files in the tree of "Projects" view in QtCreator
+file(GLOB_RECURSE SOURCE_FILES
+    "include/*.h*"
+)
+add_custom_target(.Files. SOURCES ${SOURCE_FILES})
 
 add_library(tpik SHARED
         src/Task.cpp

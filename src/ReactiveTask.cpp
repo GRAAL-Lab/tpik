@@ -6,7 +6,7 @@ namespace tpik {
 
 ReactiveTask::ReactiveTask(const std::string ID, int taskSpace, int DoF, tpik::TaskOption taskOption)
     : Task(ID, taskSpace, DoF)
-      , taskParameter_ { 0.0, 0.0, false, 0.0 }
+      //, taskParameter_ { 0.0, 0.0, false, 0.0 }
       , initializedTaskParameter_ { false }
       , isLessThanParamsInizialized_ { false }
       , isGreaterThanParamsInizialized_ { false }

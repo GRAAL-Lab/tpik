@@ -45,10 +45,13 @@ struct BellShapedParameter {
  * @brief Task Parameter, used both in the equality and inequality task
  */
 struct TaskParameter {
-    double gain; //!< The reference gain used in calculation.
-    double conf_gain;  //!< A backup variable for reference gain loaded from the configuration file.
-    bool taskEnable; //!< Boolean stating whether the task is active
-    double saturation; //!< The reference saturation value.
+    bool taskEnable = false; //!< Boolean stating whether the task is active
+    
+    double gain = 0.0; //!< The reference gain used in calculation.
+    double conf_gain = 0.0;  //!< A backup variable for reference gain loaded from the configuration file.
+
+    double saturation = 0.0; //!< The reference saturation value.
+    double conf_saturation = 0.0;  //!< A backup variable for reference saturation loaded from the configuration file.
 
     /**
 	 * @brief Overload of the cout operator.
@@ -56,11 +59,10 @@ struct TaskParameter {
     friend std::ostream& operator<<(std::ostream& os, TaskParameter const& taskParam)
     {
         return os << "\033[1;37m"
+                  << "taskEnable \n"
+                  << "\033[0m" << taskParam.taskEnable << "\n"<< "\033[1;37m"
                   << "gain \n"
                   << "\033[0m" << taskParam.gain << "\n"
-                  << "\033[1;37m"
-                  << "taskEnable \n"
-                  << "\033[0m" << taskParam.taskEnable << "\n"
                   << "\033[1;37m"
                   << "saturation \n"
                   << "\033[0m" << taskParam.saturation;
@@ -68,16 +70,20 @@ struct TaskParameter {
 
     bool ConfigureFromFile(const libconfig::Setting& confObj) noexcept(false)
     {
-        if (!ctb::GetParam(confObj, gain, "gain")) {
-            return false;
-        }
-        conf_gain = gain; // Backup value in case of online value changes
         if (!ctb::GetParam(confObj, taskEnable, "enable")) {
             return false;
         }
+    
+        if (!ctb::GetParam(confObj, gain, "gain")) {
+            return false;
+        }
+        conf_gain = gain; // Backup value in case of online value changes        
+
         if (!ctb::GetParam(confObj, saturation, "saturation")) {
             return false;
         }
+        conf_saturation = saturation; // Backup value in case of online value changes
+        
         return true;
     }
 };

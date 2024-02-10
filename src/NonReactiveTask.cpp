@@ -8,7 +8,7 @@ namespace tpik {
 NonReactiveTask::NonReactiveTask(const std::string ID, int taskSpace, int DoF)
     : Task(ID, taskSpace, DoF)
       , initializedTaskParameter_ { false }
-      , taskParameter_ { 0.0, 0.0, false, 0.0 }
+      //, taskParameter_ { 0.0, 0.0, false, 0.0 }
       , saturateRaferenceRateComponentWise_ { false }
 {
     x_dot_bar_ = Eigen::VectorXd::Zero(taskSpace_);
