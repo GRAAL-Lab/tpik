@@ -3,9 +3,16 @@
 cmake_minimum_required(VERSION 3.2)
 project (tpik VERSION 1.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-
 include(GNUInstallDirs)
+
+# Default to C++17
+#if(NOT CMAKE_CXX_STANDARD)
+set(CMAKE_CXX_STANDARD 17)
+#endif()
+
+#if(NOT CMAKE_BUILD_TYPE)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+#endif()
 
 option(BUILD_TESTS "Compile tests" OFF)
 
