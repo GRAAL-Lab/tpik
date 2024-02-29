@@ -184,6 +184,9 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
         if (taskParameter_.ConfigureFromFile(task)) {
             initializedTaskParameter_ = true;
             enabled_ = taskParameter_.taskEnable;
+        } else {
+            std::cerr << tc::redL << "[ReactiveTask::" << ID_ << "] Error loading configuration for task!" << tc::none << std::endl;
+            return false;
         }
 
         int tmpType;

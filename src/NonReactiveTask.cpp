@@ -39,6 +39,9 @@ bool NonReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
         if (taskParameter_.ConfigureFromFile(task)) {
             initializedTaskParameter_ = true;
             enabled_ = taskParameter_.taskEnable;
+        } else {
+            std::cerr << tc::redL << "[NonReactiveTask::" << ID_ << "] Error loading configuration for task!" << tc::none << std::endl;
+            return false;
         }
 
         if (task.exists("saturateRaferenceRateComponentWise")) {
