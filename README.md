@@ -15,7 +15,7 @@ Once the tasks and the different required structures are defined (by using the a
 Before building the repository you will have to install the following dependencies:
 
 * Eigen 3 (`sudo apt install libeigen3-dev`)
-* rml (`https://bitbucket.org/isme_robotics/rml`)
+* rml ( https://bitbucket.org/isme_robotics/rml )
 
 ## Building and installing
 
