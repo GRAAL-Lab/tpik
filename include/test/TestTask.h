@@ -4,7 +4,7 @@
 #include <tpik/TPIKlib.h>
 #include <iostream>
 
-class TestTask: public tpik::EqualityTask
+class TestTask: public tpik::ReactiveTask
 {
 public:
 	TestTask(const std::string ID);

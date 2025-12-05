@@ -1,10 +1,11 @@
 #ifndef __TPIKDEFINES_H__
 #define __TPIKDEFINES_H__
 
-#include <ctrl_toolbox/HelperFunctions.h>
+//#include <ctrl_toolbox/HelperFunctions.h>
 #include <eigen3/Eigen/Dense>
 #include <libconfig.h++>
 #include <memory>
+#include "ConfHelpers.h"
 
 namespace tpik {
 /**
@@ -30,10 +31,10 @@ struct BellShapedParameter {
     template <typename T>
     bool ConfigureFromFile(T& confObj) noexcept(false)
     {
-        if (!ctb::GetParamVector(confObj, xmin, "xmin")) {
+        if (!GetParamVector(confObj, xmin, "xmin")) {
             return false;
         }
-        if (!ctb::GetParamVector(confObj, xmax, "xmax")) {
+        if (!GetParamVector(confObj, xmax, "xmax")) {
             return false;
         }
 
@@ -70,16 +71,16 @@ struct TaskParameter {
 
     bool ConfigureFromFile(const libconfig::Setting& confObj) noexcept(false)
     {
-        if (!ctb::GetParam(confObj, taskEnable, "enable")) {
+        if (!GetParam(confObj, taskEnable, "enable")) {
             return false;
         }
     
-        if (!ctb::GetParam(confObj, gain, "gain")) {
+        if (!GetParam(confObj, gain, "gain")) {
             return false;
         }
         conf_gain = gain; // Backup value in case of online value changes        
 
-        if (!ctb::GetParam(confObj, saturation, "saturation")) {
+        if (!GetParam(confObj, saturation, "saturation")) {
             return false;
         }
         conf_saturation = saturation; // Backup value in case of online value changes

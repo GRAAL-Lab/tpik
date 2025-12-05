@@ -191,7 +191,7 @@ bool ReactiveTask::ConfigFromFile(libconfig::Config& confObj) noexcept(false)
 
         int tmpType;
 
-        if (ctb::GetParam(task, tmpType, "type")) {
+        if (GetParam(task, tmpType, "type")) {
             taskType_ = static_cast<tpik::TaskType>(tmpType);
             isTaskTypeSet_ = true;
         }
