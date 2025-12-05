@@ -25,3 +25,7 @@ The build tool used for this project is CMake. To build and install the project 
     $ cd build
     $ cmake ..
     $ sudo make install
+
+### License
+
+The software is released under the MIT License, as reported in the [LICENSE.md](/LICENSE.md) file.
