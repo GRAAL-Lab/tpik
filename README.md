@@ -22,11 +22,33 @@ Before building the repository you will have to install the following dependenci
 
 The build tool used for this project is CMake. To build and install the project navigate to the root of the cloned repo and execute the following commands:
 
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ sudo make install
+´´´
+$ mkdir build
+$ cd build
+$ cmake ..
+$ sudo make install
+´´´
+
+## Citation
+
+If you find this project useful, please consider citing:
+
+´´´
+@article{simetti2018task,
+  title={Task priority control of underwater intervention systems: Theory and applications},
+  author={Simetti, E and Casalino, G and Wanderlingh, F and Aicardi, M},
+  journal={Ocean Engineering},
+  volume={164},
+  pages={40--54},
+  year={2018},
+  publisher={Elsevier}
+}
+´´´
 
 ### License
 
 The software is released under the MIT License, as reported in the [LICENSE.md](/LICENSE.md) file.
+
+### Maintainer
+
+This project is mantained by the [GRAAL Laboratory](https://www.graal.dibris.unige.it/), University of Genoa (Italy).
