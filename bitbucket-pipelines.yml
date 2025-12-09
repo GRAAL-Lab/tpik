@@ -8,7 +8,7 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - sudo apt install -y libgeographic-dev
+          #- sudo apt install -y libgeographic-dev
           - sudo apt install -y libconfig++-dev
           - mkdir dependencies
           - cd dependencies
