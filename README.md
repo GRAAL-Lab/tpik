@@ -1,6 +1,11 @@
 # TPIK: Task Priority Inverse Kinematic Library
 
+## Documentation
+
+Full doxygen-generated documentation can be found at: [TPIK Documentation](https://merosss.bitbucket.io/tpik).
+
 ## Description
+
 This library implements the task priority inverse kinematic thanks to the definition of the abstract class `tpik::Task`. The class deriving form the `tpik::Task` base class must implement the pure virtual methods in order to compute the task Jacobian, Activation Function and Reference.
   
 The abstract classes `tpik::ReactiveTask`, `tpik::NonReactiveTask` and `tpik::CartesianTask` are also provided. In such classes the task is described by more parameters and some virtual methods are implemented.
