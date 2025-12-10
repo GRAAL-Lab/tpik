@@ -17,11 +17,11 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 
-# This tag specifies the encoding used for all characters in the config file
-# that follow. The default is UTF-8 which is also the encoding used for all text
-# before the first occurrence of this tag. Doxygen uses libiconv (or the iconv
-# built into libc) for the transcoding. See http://www.gnu.org/software/libiconv
-# for the list of possible encodings.
+# This tag specifies the encoding used for all characters in the configuration
+# file that follow. The default is UTF-8 which is also the encoding used for all
+# text before the first occurrence of this tag. Doxygen uses libiconv (or the
+# iconv built into libc) for the transcoding. See
+# https://www.gnu.org/software/libiconv/ for the list of possible encodings.
 # The default value is: UTF-8.
 
 DOXYFILE_ENCODING      = UTF-8
@@ -32,19 +32,19 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "TPIKlib: Task Priority Inverse Kinematic Library"
+PROJECT_NAME           = "TPIK"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = v1.0
+PROJECT_NUMBER         = 1.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
-# for a project that appears at the top of each page and should give viewer a
+# for a project that appears at the top of each page and should give viewers a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = Stuff
+PROJECT_BRIEF          = "Task Priority Inverse Kinematics"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -118,17 +118,7 @@ REPEAT_BRIEF           = YES
 # the entity):The $name class, The $name widget, The $name file, is, provides,
 # specifies, contains, represents, a, an and the.
 
-ABBREVIATE_BRIEF       = "The $name class" \
-                         "The $name widget" \
-                         "The $name file" \
-                         is \
-                         provides \
-                         specifies \
-                         contains \
-                         represents \
-                         a \
-                         an \
-                         the
+ABBREVIATE_BRIEF       =
 
 # If the ALWAYS_DETAILED_SEC and REPEAT_BRIEF tags are both set to YES then
 # doxygen will generate a detailed section even if there is only a brief
@@ -150,7 +140,7 @@ INLINE_INHERITED_MEMB  = NO
 # shortest path that makes the file name unique will be used
 # The default value is: YES.
 
-FULL_PATH_NAMES        = YES
+FULL_PATH_NAMES        = NO
 
 # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
 # Stripping is only done if one of the specified strings matches the left-hand
@@ -313,10 +303,10 @@ AUTOLINK_SUPPORT       = YES
 
 # If you use STL classes (i.e. std::string, std::vector, etc.) but do not want
 # to include (a tag file for) the STL sources as input, then you should set this
-# tag to YES in order to let doxygen match functions declarations and
+# tag to YES in order to let Doxygen match functions declarations and
 # definitions whose arguments contain STL classes (e.g. func(std::string);
-# versus func(std::string) {}). This also make the inheritance and collaboration
-# diagrams that involve STL classes more complete and accurate.
+# versus func(std::string) {}). This also makes the inheritance and
+# collaboration diagrams that involve STL classes more complete and accurate.
 # The default value is: NO.
 
 BUILTIN_STL_SUPPORT    = NO
@@ -325,19 +315,19 @@ BUILTIN_STL_SUPPORT    = NO
 # enable parsing support.
 # The default value is: NO.
 
-CPP_CLI_SUPPORT        = YES
+CPP_CLI_SUPPORT        = NO
 
 # Set the SIP_SUPPORT tag to YES if your project consists of sip (see:
-# http://www.riverbankcomputing.co.uk/software/sip/intro) sources only. Doxygen
-# will parse them like normal C++ but will assume all classes use public instead
-# of private inheritance when no explicit protection keyword is present.
+# https://www.riverbankcomputing.com/software) sources only. Doxygen will parse
+# them like normal C++ but will assume all classes use public instead of private
+# inheritance when no explicit protection keyword is present.
 # The default value is: NO.
 
 SIP_SUPPORT            = NO
 
 # For Microsoft's IDL there are propget and propput attributes to indicate
 # getter and setter methods for a property. Setting this option to YES will make
-# doxygen to replace the get and set methods by a property in the documentation.
+# Doxygen to replace the get and set methods by a property in the documentation.
 # This will only work if the methods are indeed getting or setting a simple
 # type. If this is not the case, or you want to show the methods anyway, you
 # should set this option to NO.
@@ -346,12 +336,19 @@ SIP_SUPPORT            = NO
 IDL_PROPERTY_SUPPORT   = YES
 
 # If member grouping is used in the documentation and the DISTRIBUTE_GROUP_DOC
-# tag is set to YES then doxygen will reuse the documentation of the first
+# tag is set to YES then Doxygen will reuse the documentation of the first
 # member in the group (if any) for the other members of the group. By default
 # all members of a group must be documented explicitly.
 # The default value is: NO.
 
 DISTRIBUTE_GROUP_DOC   = NO
+
+# If one adds a struct or class to a group and this option is enabled, then also
+# any nested class or struct is added to the same group. By default this option
+# is disabled and one has to add nested compounds explicitly via \ingroup.
+# The default value is: NO.
+
+GROUP_NESTED_COMPOUNDS = NO
 
 # Set the SUBGROUPING tag to YES to allow class member groups of the same type
 # (for instance a group of public functions) to be put as a subgroup of that
@@ -397,11 +394,11 @@ TYPEDEF_HIDES_STRUCT   = NO
 # The size of the symbol lookup cache can be set using LOOKUP_CACHE_SIZE. This
 # cache is used to resolve symbols given their name and scope. Since this can be
 # an expensive process and often the same symbol appears multiple times in the
-# code, doxygen keeps a cache of pre-resolved symbols. If the cache is too small
-# doxygen will become slower. If the cache is too large, memory is wasted. The
+# code, Doxygen keeps a cache of pre-resolved symbols. If the cache is too small
+# Doxygen will become slower. If the cache is too large, memory is wasted. The
 # cache size is given by this formula: 2^(16+LOOKUP_CACHE_SIZE). The valid range
 # is 0..9, the default is 0, corresponding to a cache size of 2^16=65536
-# symbols. At the end of a run doxygen will report the cache usage and suggest
+# symbols. At the end of a run Doxygen will report the cache usage and suggest
 # the optimal cache size from a speed point of view.
 # Minimum value: 0, maximum value: 9, default value: 0.
 
@@ -411,7 +408,7 @@ LOOKUP_CACHE_SIZE      = 0
 # Build related configuration options
 #---------------------------------------------------------------------------
 
-# If the EXTRACT_ALL tag is set to YES, doxygen will assume all entities in
+# If the EXTRACT_ALL tag is set to YES, Doxygen will assume all entities in
 # documentation are documented, even if no documentation was available. Private
 # class members and static file members will be hidden unless the
 # EXTRACT_PRIVATE respectively EXTRACT_STATIC tags are set to YES.
@@ -419,13 +416,13 @@ LOOKUP_CACHE_SIZE      = 0
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = YES
+EXTRACT_ALL            = NO
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PRIVATE        = YES
+EXTRACT_PRIVATE        = NO
 
 # If the EXTRACT_PACKAGE tag is set to YES, all members with package or internal
 # scope will be included in the documentation.
@@ -470,7 +467,7 @@ EXTRACT_ANON_NSPACES   = NO
 # section is generated. This option has no effect if EXTRACT_ALL is enabled.
 # The default value is: NO.
 
-HIDE_UNDOC_MEMBERS     = NO
+HIDE_UNDOC_MEMBERS     = YES
 
 # If the HIDE_UNDOC_CLASSES tag is set to YES, doxygen will hide all
 # undocumented classes that are normally visible in the class hierarchy. If set
@@ -478,7 +475,7 @@ HIDE_UNDOC_MEMBERS     = NO
 # has no effect if EXTRACT_ALL is enabled.
 # The default value is: NO.
 
-HIDE_UNDOC_CLASSES     = NO
+HIDE_UNDOC_CLASSES     = YES
 
 # If the HIDE_FRIEND_COMPOUNDS tag is set to YES, doxygen will hide all friend
 # (class|struct|union) declarations. If set to NO, these declarations will be
@@ -508,7 +505,7 @@ INTERNAL_DOCS          = NO
 # and Mac users are advised to set this option to NO.
 # The default value is: system dependent.
 
-CASE_SENSE_NAMES       = NO
+CASE_SENSE_NAMES       = YES
 
 # If the HIDE_SCOPE_NAMES tag is set to NO then doxygen will show members with
 # their full class and namespace scopes in the documentation. If set to YES, the
@@ -724,7 +721,7 @@ WARNINGS               = YES
 # will automatically be disabled.
 # The default value is: YES.
 
-WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_UNDOCUMENTED   = NO
 
 # If the WARN_IF_DOC_ERROR tag is set to YES, doxygen will generate warnings for
 # potential errors in the documentation, such as not documenting some parameters
@@ -741,6 +738,12 @@ WARN_IF_DOC_ERROR      = YES
 # The default value is: NO.
 
 WARN_NO_PARAMDOC       = NO
+
+# If the WARN_AS_ERROR tag is set to YES then doxygen will immediately stop when
+# a warning is encountered.
+# The default value is: NO.
+
+WARN_AS_ERROR          = NO
 
 # The WARN_FORMAT tag determines the format of the warning messages that doxygen
 # can produce. The string should contain the $file, $line, and $text tags, which
@@ -765,10 +768,11 @@ WARN_LOGFILE           =
 # The INPUT tag is used to specify the files and/or directories that contain
 # documented source files. You may enter file names like myfile.cpp or
 # directories like /usr/src/myproject. Separate the files or directories with
-# spaces.
+# spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../../README.md ../../include/tpik
+INPUT                  = ../../include/rml \
+                         ../../README.md
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -781,55 +785,19 @@ INPUT_ENCODING         = UTF-8
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard patterns (like *.cpp and
-# *.h) to filter out the source-files in the directories. If left blank the
-# following patterns are tested:*.c, *.cc, *.cxx, *.cpp, *.c++, *.java, *.ii,
-# *.ixx, *.ipp, *.i++, *.inl, *.idl, *.ddl, *.odl, *.h, *.hh, *.hxx, *.hpp,
-# *.h++, *.cs, *.d, *.php, *.php4, *.php5, *.phtml, *.inc, *.m, *.markdown,
-# *.md, *.mm, *.dox, *.py, *.f90, *.f, *.for, *.tcl, *.vhd, *.vhdl, *.ucf,
-# *.qsf, *.as and *.js.
+# *.h) to filter out the source-files in the directories.
+#
+# Note that for custom extensions or not directly supported extensions you also
+# need to set EXTENSION_MAPPING for the extension otherwise the files are not
+# read by doxygen.
+#
+# If left blank the following patterns are tested:*.c, *.cc, *.cxx, *.cpp,
+# *.c++, *.java, *.ii, *.ixx, *.ipp, *.i++, *.inl, *.idl, *.ddl, *.odl, *.h,
+# *.hh, *.hxx, *.hpp, *.h++, *.cs, *.d, *.php, *.php4, *.php5, *.phtml, *.inc,
+# *.m, *.markdown, *.md, *.mm, *.dox, *.py, *.pyw, *.f90, *.f, *.for, *.tcl,
+# *.vhd, *.vhdl, *.ucf, *.qsf, *.as and *.js.
 
-FILE_PATTERNS          = *.c \
-                         *.cc \
-                         *.cxx \
-                         *.cpp \
-                         *.c++ \
-                         *.java \
-                         *.ii \
-                         *.ixx \
-                         *.ipp \
-                         *.i++ \
-                         *.inl \
-                         *.idl \
-                         *.ddl \
-                         *.odl \
-                         *.h \
-                         *.hh \
-                         *.hxx \
-                         *.hpp \
-                         *.h++ \
-                         *.cs \
-                         *.d \
-                         *.php \
-                         *.php4 \
-                         *.php5 \
-                         *.phtml \
-                         *.inc \
-                         *.m \
-                         *.markdown \
-                         *.md \
-                         *.mm \
-                         *.dox \
-                         *.py \
-                         *.f90 \
-                         *.f \
-                         *.for \
-                         *.tcl \
-                         *.vhd \
-                         *.vhdl \
-                         *.ucf \
-                         *.qsf \
-                         *.as \
-                         *.js
+FILE_PATTERNS          =
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -884,7 +852,7 @@ EXAMPLE_PATH           =
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *
+EXAMPLE_PATTERNS       =
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
@@ -913,6 +881,10 @@ IMAGE_PATH             =
 # Note that the filter must not add or remove lines; it is applied before the
 # code is scanned, but not when the output code is generated. If lines are added
 # or removed, the anchors will not be placed correctly.
+#
+# Note that for custom extensions or not directly supported extensions you also
+# need to set EXTENSION_MAPPING for the extension otherwise the files are not
+# properly processed by doxygen.
 
 INPUT_FILTER           =
 
@@ -922,6 +894,10 @@ INPUT_FILTER           =
 # (like *.cpp=my_cpp_filter). See INPUT_FILTER for further information on how
 # filters are used. If the FILTER_PATTERNS tag is empty or if none of the
 # patterns match the file name, INPUT_FILTER is applied.
+#
+# Note that for custom extensions or not directly supported extensions you also
+# need to set EXTENSION_MAPPING for the extension otherwise the files are not
+# properly processed by doxygen.
 
 FILTER_PATTERNS        =
 
@@ -1039,7 +1015,7 @@ VERBATIM_HEADERS       = YES
 # rich C++ code for which doxygen's built-in parser lacks the necessary type
 # information.
 # Note: The availability of this option depends on whether or not doxygen was
-# compiled with the --with-libclang option.
+# generated with the -Duse-libclang=ON option for CMake.
 # The default value is: NO.
 
 CLANG_ASSISTED_PARSING = NO
@@ -1068,7 +1044,7 @@ ALPHABETICAL_INDEX     = YES
 # Minimum value: 1, maximum value: 20, default value: 5.
 # This tag requires that the tag ALPHABETICAL_INDEX is set to YES.
 
-COLS_IN_ALPHA_INDEX    = 2
+COLS_IN_ALPHA_INDEX    = 5
 
 # In case all classes in a project start with a common prefix, all classes will
 # be put under the same header in the alphabetical index. The IGNORE_PREFIX tag
@@ -1120,7 +1096,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = doxy-bootstrapped/header.html
+HTML_HEADER            =
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1130,7 +1106,7 @@ HTML_HEADER            = doxy-bootstrapped/header.html
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            = doxy-bootstrapped/footer.html
+HTML_FOOTER            =
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1155,7 +1131,7 @@ HTML_STYLESHEET        =
 # list). For an example see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = doxy-bootstrapped/customdoxygen.css
+HTML_EXTRA_STYLESHEET  =
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1165,7 +1141,7 @@ HTML_EXTRA_STYLESHEET  = doxy-bootstrapped/customdoxygen.css
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = doxy-bootstrapped/doxy-boot.js
+HTML_EXTRA_FILES       =
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to
@@ -1204,7 +1180,7 @@ HTML_COLORSTYLE_GAMMA  = 80
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_TIMESTAMP         = YES
+HTML_TIMESTAMP         = NO
 
 # If the HTML_DYNAMIC_SECTIONS tag is set to YES then the generated HTML
 # documentation will contain sections that can be hidden and shown after the
@@ -1441,7 +1417,7 @@ DISABLE_INDEX          = NO
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-GENERATE_TREEVIEW      = NO
+GENERATE_TREEVIEW      = YES
 
 # The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values that
 # doxygen will group on one line in the generated HTML documentation.
@@ -1474,7 +1450,7 @@ EXT_LINKS_IN_WINDOW    = NO
 # Minimum value: 8, maximum value: 50, default value: 10.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-FORMULA_FONTSIZE       = 12
+FORMULA_FONTSIZE       = 10
 
 # Use the FORMULA_TRANPARENT tag to determine whether or not the images
 # generated for formulas are transparent PNGs. Transparent PNGs are not
@@ -1675,9 +1651,12 @@ COMPACT_LATEX          = NO
 PAPER_TYPE             = a4
 
 # The EXTRA_PACKAGES tag can be used to specify one or more LaTeX package names
-# that should be included in the LaTeX output. To get the times font for
-# instance you can specify
-# EXTRA_PACKAGES=times
+# that should be included in the LaTeX output. The package can be specified just
+# by its name or with the correct syntax as to be used with the LaTeX
+# \usepackage command. To get the times font for instance you can specify :
+# EXTRA_PACKAGES=times or EXTRA_PACKAGES={times}
+# To use the option intlimits with the amsmath package you can specify:
+# EXTRA_PACKAGES=[intlimits]{amsmath}
 # If left blank no extra packages will be included.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
@@ -1779,6 +1758,14 @@ LATEX_SOURCE_CODE      = NO
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
 LATEX_BIB_STYLE        = plain
+
+# If the LATEX_TIMESTAMP tag is set to YES then the footer of each generated
+# page will contain the date and time when the page was generated. Setting this
+# to NO can help when comparing the output of multiple runs.
+# The default value is: NO.
+# This tag requires that the tag GENERATE_LATEX is set to YES.
+
+LATEX_TIMESTAMP        = NO
 
 #---------------------------------------------------------------------------
 # Configuration options related to the RTF output
@@ -2278,7 +2265,8 @@ INCLUDED_BY_GRAPH      = YES
 #
 # Note that enabling this option will significantly increase the time of a run.
 # So in most cases it will be better to enable call graphs for selected
-# functions only using the \callgraph command.
+# functions only using the \callgraph command. Disabling a call graph can be
+# accomplished by means of the command \hidecallgraph.
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
@@ -2289,7 +2277,8 @@ CALL_GRAPH             = YES
 #
 # Note that enabling this option will significantly increase the time of a run.
 # So in most cases it will be better to enable caller graphs for selected
-# functions only using the \callergraph command.
+# functions only using the \callergraph command. Disabling a caller graph can be
+# accomplished by means of the command \hidecallergraph.
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
@@ -2312,13 +2301,17 @@ GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 
 # The DOT_IMAGE_FORMAT tag can be used to set the image format of the images
-# generated by dot.
+# generated by dot. For an explanation of the image formats see the section
+# output formats in the documentation of the dot tool (Graphviz (see:
+# http://www.graphviz.org/)).
 # Note: If you choose svg you need to set HTML_FILE_EXTENSION to xhtml in order
 # to make the SVG files visible in IE 9+ (other browsers do not have this
 # requirement).
 # Possible values are: png, png:cairo, png:cairo:cairo, png:cairo:gd, png:gd,
 # png:gd:gd, jpg, jpg:cairo, jpg:cairo:gd, jpg:gd, jpg:gd:gd, gif, gif:cairo,
-# gif:cairo:gd, gif:gd, gif:gd:gd and svg.
+# gif:cairo:gd, gif:gd, gif:gd:gd, svg, png:gd, png:gd:gd, png:cairo,
+# png:cairo:gd, png:cairo:cairo, png:cairo:gdiplus, png:gdiplus and
+# png:gdiplus:gdiplus.
 # The default value is: png.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
