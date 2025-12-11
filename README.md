@@ -1,5 +1,7 @@
 # TPIK: Task Priority Inverse Kinematic Library
 
+Implementation in C++ of the Task Priority Inverse Kinematic Algorithm. The library can be found in the [GRAAL Robotics Toolbox](https://bitbucket.org/isme_robotics/workspace/projects/RTB) repositories.
+
 ## Documentation
 
 Full doxygen-generated documentation can be found at: [TPIK Documentation](https://merosss.bitbucket.io/tpik).
@@ -17,6 +19,7 @@ In order to compute the inverse kinematic control for a single priority level on
 Once the tasks and the different required structures are defined (by using the action manager), thanks to the `tpik::Solver` class it is possible to compute the kinematic control in the priority framework by taking into account also the transiction in between different actions.
 
 ## Dependencies
+
 Before building the repository you will have to install the following dependencies:
 
 * Eigen 3: `sudo apt install libeigen3-dev`
