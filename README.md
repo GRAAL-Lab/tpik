@@ -10,7 +10,7 @@ Full doxygen-generated documentation can be found at: [TPIK Documentation](https
 
 This library implements the task priority inverse kinematic thanks to the definition of the abstract class `tpik::Task`. The class deriving form the `tpik::Task` base class must implement the pure virtual methods in order to compute the task Jacobian, Activation Function and Reference.
   
-The abstract classes `tpik::ReactiveTask`, `tpik::NonReactiveTask` and `tpik::CartesianTask` are also provided. In such classes the task is described by more parameters and some virtual methods are implemented.
+The abstract classes `tpik::ReactiveTask`, `tpik::NonReactiveTask` are also provided. In such classes the task is described by more parameters and some virtual methods are implemented.
  
 Thanks to the `tpik::ActionManager` it is possible to gather tasks sharing the same priority into priority levels, define a unified hierarchy which contains all the priority level ordered by priority and define a set of actions that the reference scenario requires.
 
