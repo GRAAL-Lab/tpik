@@ -34,7 +34,7 @@ public:
     /**
 	 * @brief Method setting the current tpik::Action.
 	 * @param[in] action current action ID.
-     * @param[in] transaaction true if transition false otherwise
+     * @param[in] transition true if transition false otherwise
 	 */
 
     bool SetAction(const std::string action, bool transition);

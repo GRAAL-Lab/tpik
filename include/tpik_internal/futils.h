@@ -49,9 +49,9 @@
 #endif
 
 /** Escape sequence
- *  \033[<code>m or \e[<code>m
+ *  \033[<color_code>m or \e[<color_code>m
  *
- *  color : \[\033[ <code>m\] \]
+ *  color : \[\033[ <color_code>m\] \]
  *
  *  e.g.
  *   bg=Blue, Bold, fg=Red

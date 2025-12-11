@@ -14,7 +14,7 @@ The abstract classes `tpik::ReactiveTask`, `tpik::NonReactiveTask` and `tpik::Ca
  
 Thanks to the `tpik::ActionManager` it is possible to gather tasks sharing the same priority into priority levels, define a unified hierarchy which contains all the priority level ordered by priority and define a set of actions that the reference scenario requires.
 
-In order to compute the inverse kinematic control for a single priority level one must implement the pure virtual method `ComputeYSingleLevel()` of the `tpik::TPIK` class. The Inequality Constraints Activation and Task algorithm to compute a single step is implemented in the `tpik::iCAT` class. 
+The Inequality Constraints Activation and Task algorithm to compute a single step is implemented in the `iCAT::ComputeVelocities` class (Inequality Constraints Activation and Task). 
  
 Once the tasks and the different required structures are defined (by using the action manager), thanks to the `tpik::Solver` class it is possible to compute the kinematic control in the priority framework by taking into account also the transiction in between different actions.
 
