@@ -4,7 +4,7 @@ Implementation in C++ of the Task Priority Inverse Kinematic Algorithm. The libr
 
 ## Documentation
 
-Full doxygen-generated documentation can be found at: [TPIK Documentation](https://merosss.bitbucket.io/tpik).
+Full doxygen-generated documentation can be found at: [TPIK Documentation](https://www.graal.dibris.unige.it/docs/tpik/).
 
 ## Description
 
