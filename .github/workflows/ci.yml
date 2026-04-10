@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out main repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libconfig++-dev
+
+      - name: Clone and install rml
+        run: |
+          mkdir -p dependencies
+          cd dependencies
+          git clone https://github.com/GRAAL-Lab/rml.git
+          cd rml
+          cmake .
+          sudo make install
+
+      - name: Configure
+        run: cmake .
+
+      - name: Build
+        run: make

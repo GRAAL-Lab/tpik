@@ -204,3 +204,4 @@ CMakeLists.txt.user
 
 *.autosave
 
+.vscode/

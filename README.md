@@ -1,6 +1,8 @@
+![CI](https://github.com/GRAAL-Lab/tpik/actions/workflows/ci.yml/badge.svg)
+
 # TPIK: Task Priority Inverse Kinematic Library
 
-Implementation in C++ of the Task Priority Inverse Kinematic Algorithm. The library can be found in the [GRAAL Robotics Toolbox](https://bitbucket.org/isme_robotics/workspace/projects/RTB) repositories.
+Implementation in C++ of the Task Priority Inverse Kinematic Algorithm. The library can be found in the [GRAAL Robotics Toolbox](https://github.com/topics/graal-robotics-toolbox) repositories.
 
 ## Documentation
 
