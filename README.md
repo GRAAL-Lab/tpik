@@ -41,15 +41,28 @@ $ sudo make install
 
 ## Usage Example
 
-The typical TPIK workflow is the following:
+The following example shows the typical TPIK workflow:
 
-  1. define one or more tasks,
-  2. assign them to priority levels,
-  3. group priority levels into actions,
-  4. create a solver with an inverse kinematics backend,
-  5. select an action and compute joint velocities.
+1. create one or more tasks,
+2. define how each task updates its Jacobian, activation, and reference,
+3. assign tasks to priority levels,
+4. group priority levels into actions,
+5. create a solver and compute joint velocities for the selected action.
 
-The following example code creates two tasks, assigns them to two priority levels, and then defines three actions that enable different subsets of the hierarchy. A `tpik::Solver` is then instantiated with an `iCAT` backend and used to compute velocity commands for the currently selected action. The active action can be changed at runtime with `SetAction(...)`, allowing the controller to switch behavior without rebuilding the whole hierarchy.
+In this example, `TestTask` is a simple reactive task derived from `tpik::ReactiveTask`. Its `Update()` method refreshes:
+
+* the internal activation matrix,
+* the Jacobian,
+* and the task reference.
+
+In particular, the reference is set inside `UpdateReference()` of the `TestTask` through:
+
+```cpp
+x_dot_bar_ = Eigen::VectorXd::Ones(6);
+```
+
+so each time `Update()` is called, the task target velocity reference is updated accordingly. An example usage of this class is the following:
+
 
 ```cpp
 #include "test/TestTask.h"
@@ -80,6 +93,7 @@ int main()
     auto task1 = std::make_shared<TestTask>(ID1);
     auto task2 = std::make_shared<TestTask>(ID2);
 
+    // Set task gains
     auto gain1 = std::make_shared<Eigen::MatrixXd>(
         Eigen::MatrixXd::Identity(taskSpace, DoF));
     auto gain2 = std::make_shared<Eigen::MatrixXd>(
@@ -88,6 +102,7 @@ int main()
     task1->SetGain(gain1);
     task2->SetGain(gain2);
 
+    // Update each task: activation, Jacobian, and reference are refreshed here
     task1->Update();
     task2->Update();
 
@@ -139,19 +154,18 @@ int main()
 }
 ```
 
-### Key classes
 
-* `TestTask`: example task implementation
-* `tpik::ActionManager`: manages tasks, priority levels, and actions
-* `tpik::iCAT`: inverse kinematics backend
-* `tpik::Solver`: computes the output velocities from the active action
+This example creates two reactive tasks and updates them before solving. In `TestTask`, the Jacobian is built from the assigned gain matrix, while the task reference is explicitly set in `UpdateReference()` through `x_dot_bar_`. This means that the desired task-space behavior is not passed directly in `main()`, but encapsulated inside the task implementation itself.
 
-### Notes
+The tasks are then assigned to two priority levels, and the priority levels are grouped into actions. The solver can switch between actions at runtime with `SetAction(...)`, making it possible to reuse the same hierarchy structure while enabling different control modes.
 
-* Call `Update()` on tasks after changing gains, Jacobians, references, or internal task data.
-* Use `SetUnifiedHierarchy(...)` to define the global task-priority structure.
-* Use `AddAction(...)` to expose reusable control modes built from selected priority levels.
-* Saturation limits can be configured on the IK backend before solving.
+### Key points
+
+* `Update()` should be called whenever task data changes.
+* The task reference is defined inside the task class through `UpdateReference()`.
+* The Jacobian can also be task-specific and is updated in `UpdateJacobian()`.
+* `ActionManager` organizes tasks into priority levels and actions.
+* `Solver` computes joint velocities from the currently active action.
 
 
 ## Citation
