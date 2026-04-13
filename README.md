@@ -61,7 +61,9 @@ In particular, the reference is set inside `UpdateReference()` of the `TestTask`
 x_dot_bar_ = Eigen::VectorXd::Ones(6);
 ```
 
-so each time `Update()` is called, the task target velocity reference is updated accordingly. An example usage of this class is the following:
+so each time `Update()` is called, the task target velocity reference is updated accordingly.
+
+An example usage of this class in context is the following:
 
 
 ```cpp
