@@ -1,21 +1,24 @@
 cff-version: 1.2.0
-title: "Task priority control of underwater intervention systems: Theory and applications"
+title: "tpik"
 message: "If you use this work, please cite it as follows."
-type: article
-authors:
-  - family-names: Simetti
-    given-names: E.
-  - family-names: Casalino
-    given-names: G.
-  - family-names: Wanderlingh
-    given-names: F.
-  - family-names: Aicardi
-    given-names: M.
-journal: "Ocean Engineering"
-volume: 164
-pages: "40-54"
-year: 2018
-date-released: 2018-09-15
-publisher: Elsevier
-doi: 10.1016/j.oceaneng.2018.06.026
-url: "https://doi.org/10.1016/j.oceaneng.2018.06.026"
+type: software
+preferred-citation:
+  type: article
+  title: "Task priority control of underwater intervention systems: Theory and applications"
+  authors:
+    - family-names: Simetti
+      given-names: E.
+    - family-names: Casalino
+      given-names: G.
+    - family-names: Wanderlingh
+      given-names: F.
+    - family-names: Aicardi
+      given-names: M.
+  journal: "Ocean Engineering"
+  volume: 164
+  pages: "40-54"
+  year: 2018
+  date-released: 2018-09-15
+  publisher: Elsevier
+  doi: 10.1016/j.oceaneng.2018.06.026
+  url: "https://doi.org/10.1016/j.oceaneng.2018.06.026"
