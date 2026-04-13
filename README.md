@@ -26,7 +26,7 @@ Before building the repository you will have to install the following dependenci
 
 * Eigen 3: `sudo apt install libeigen3-dev`
 * libconfig++ : `sudo apt install libconfig++-dev`
-* rml: https://bitbucket.org/isme_robotics/rml
+* rml: `git clone https://github.com/GRAAL-Lab/rml.git`
 
 ## Building and installing
 
